@@ -19,13 +19,25 @@ class HomeScreen extends StatelessWidget {
         title: const Text('Kaar e Kamal'),
       ),
       drawer: MainDrawer(),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            Navigator.pushNamed(context, RouteNames.testing);
-          },
-          child: const Text('Go to Testing Screen'),
-        ),
+      body: Column(
+        children: [
+          Center(
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, RouteNames.userHome);
+              },
+              child: const Text('Go To user home'),
+            ),
+          ),
+          Center(
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, RouteNames.userHome2);
+              },
+              child: const Text('Go To user home 2'),
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -31,12 +31,12 @@ class _MyAppState extends State<MyApp> {
 
   /// Function to toggle between light and dark themes
   void toggleTheme(bool value) {
-  setState(() {
-    isDarkMode = value; // Update the state
-    SharedPrefs.setThemeMode(isDarkMode); // Save the state to SharedPreferences
-  });
-}
-
+    setState(() {
+      isDarkMode = value; // Update the state
+      SharedPrefs.setThemeMode(
+          isDarkMode); // Save the state to SharedPreferences
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,8 +45,11 @@ class _MyAppState extends State<MyApp> {
       title: 'Theme Switcher App',
       theme: AppTheme.lightTheme, // Define the light theme
       darkTheme: AppTheme.darkTheme, // Define the dark theme
-      themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light, // Dynamically switch themes
-      initialRoute: RouteNames.home, // Use the RouteNames constant for initial route
+      themeMode: isDarkMode
+          ? ThemeMode.dark
+          : ThemeMode.light, // Dynamically switch themes
+      initialRoute:
+          RouteNames.home, // Use the RouteNames constant for initial route
       routes: AppRoutes.getRoutes(
         isDarkMode: isDarkMode,
         toggleTheme: toggleTheme, // Pass the correct toggleTheme function
@@ -54,4 +57,3 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
-

@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:kaar_e_kamal/core/theme/theme_settings_screen.dart';
 import 'package:kaar_e_kamal/routes/route_names.dart';
-import 'package:kaar_e_kamal/screens/test.dart';
+import 'package:kaar_e_kamal/screens/user/donation/donation_management_screen.dart';
+import 'package:kaar_e_kamal/screens/user/home_screen.dart';
+import 'package:kaar_e_kamal/screens/user_home2.dart';
 import '../screens/home_screen.dart';
 
 class AppRoutes {
   /// Method to get application routes
   static Map<String, WidgetBuilder> getRoutes({
-    required ValueChanged<bool>
-        toggleTheme, // Use ValueChanged<bool> for clarity
+    required ValueChanged<bool> toggleTheme,
     required bool isDarkMode,
   }) {
     return {
@@ -17,10 +18,15 @@ class AppRoutes {
             isDarkMode: isDarkMode,
           ),
       RouteNames.themeSettings: (context) => ThemeSettingsScreen(
-            onThemeChange: toggleTheme, // Updated callback name
-            initialDarkMode: isDarkMode, // Updated parameter name for clarity
+            onThemeChange: toggleTheme,
+            initialDarkMode: isDarkMode,
           ),
-      RouteNames.testing: (context) => Testing(), // Add TestingScreen route
+      RouteNames.userHome: (context) =>
+          const UserHomeScreen(), // New route for UserHome
+      RouteNames.userHome2: (context) =>
+          const UserHome2(), // New route for UserHome2
+      RouteNames.DonationManagementScreen: (context) =>
+          const DonationManagementScreen(), // New route for UserHome2
     };
   }
 }
