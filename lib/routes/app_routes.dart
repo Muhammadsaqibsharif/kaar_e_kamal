@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kaar_e_kamal/core/theme/theme_settings_screen.dart';
 import 'package:kaar_e_kamal/routes/route_names.dart';
+import 'package:kaar_e_kamal/screens/user/donation/donation_history_screen.dart';
 import 'package:kaar_e_kamal/screens/user/donation/donation_management_screen.dart';
 import 'package:kaar_e_kamal/screens/user/home_screen.dart';
 import 'package:kaar_e_kamal/screens/user_home2.dart';
@@ -26,7 +27,9 @@ class AppRoutes {
       RouteNames.userHome2: (context) =>
           const UserHome2(), // New route for UserHome2
       RouteNames.DonationManagementScreen: (context) =>
-          const DonationManagementScreen(), // New route for UserHome2
+          const DonationManagementScreen(), 
+      RouteNames.DonationHistoryScreen: (context) =>
+          DonationHistoryScreen(), 
     };
   }
 }

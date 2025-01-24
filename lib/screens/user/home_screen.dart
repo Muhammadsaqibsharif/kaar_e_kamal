@@ -35,6 +35,8 @@ class UserHomeScreen extends StatelessWidget {
                 subtitle: 'View your past donation records.',
                 icon: Icons.history,
                 onTap: () {
+                  Navigator.pushNamed(
+                      context, RouteNames.DonationHistoryScreen);
                   // Navigate to Donation History
                 },
               ),
