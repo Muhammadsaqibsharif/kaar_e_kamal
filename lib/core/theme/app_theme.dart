@@ -13,9 +13,9 @@ class AppTheme {
       buttonColor: Color(0xFF859F3D), // Olive Green
     ),
     textTheme: TextTheme(
-      bodyLarge: TextStyle(color: Colors.white), // White Text
-      bodyMedium: TextStyle(color: Colors.white), // White Text
-      bodySmall: TextStyle(color: Colors.white), // White Text (if needed)
+      bodyLarge: TextStyle(color: Colors.black), // White Text
+      bodyMedium: TextStyle(color: Colors.black), // White Text
+      bodySmall: TextStyle(color: Colors.black), // White Text (if needed)
     ),
   );
 

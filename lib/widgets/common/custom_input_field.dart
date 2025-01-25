@@ -21,31 +21,47 @@ class CustomInputField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Get the current theme
+    final theme = Theme.of(context);
+    final isDarkTheme = theme.brightness == Brightness.dark;
+
     return TextFormField(
       controller: controller, // Use the controller
       decoration: InputDecoration(
         labelText: label,
         hintText: hint,
         labelStyle: TextStyle(
-          color: Colors.white, // White text for the label
+          color: isDarkTheme
+              ? Colors.white
+              : Colors.black, // Adjust label color based on theme
           fontWeight: FontWeight.bold,
         ),
         hintStyle: TextStyle(
-          color: Colors.white70, // Duller hint color (slightly transparent white)
+          color: isDarkTheme
+              ? Colors.white70
+              : Colors.black54, // Adjust hint color based on theme
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            color: Colors.white, // White border when focused
+            color: isDarkTheme
+                ? Colors.white
+                : theme
+                    .primaryColor, // Adjust focused border color based on theme
           ),
         ),
         border: OutlineInputBorder(
           borderSide: BorderSide(
-            color: Colors.white, // White border
+            color: isDarkTheme
+                ? Colors.white
+                : theme.primaryColor, // Adjust border color based on theme
           ),
         ),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            color: Colors.white, // White border when enabled
+            color: isDarkTheme
+                ? Colors.white
+                : theme
+                    .primaryColor, // Adjust enabled border color based on theme
           ),
         ),
       ),
@@ -54,7 +70,9 @@ class CustomInputField extends StatelessWidget {
       validator: validator,
       onSaved: onSaved,
       style: TextStyle(
-        color: Colors.white, // White text for the input field
+        color: isDarkTheme
+            ? Colors.white
+            : Colors.black, // Adjust text color based on theme
       ),
     );
   }
