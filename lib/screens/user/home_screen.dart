@@ -77,6 +77,7 @@ class UserHomeScreen extends StatelessWidget {
                 subtitle: 'Submit cases of needy families.',
                 icon: Icons.family_restroom,
                 onTap: () {
+                  Navigator.pushNamed(context, RouteNames.FamilySubmissionForm);
                   // Navigate to Needy Family Submission
                 },
               ),

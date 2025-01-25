@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kaar_e_kamal/core/theme/app_theme.dart';
 
 class DonationHistoryCard extends StatelessWidget {
   final double amount;

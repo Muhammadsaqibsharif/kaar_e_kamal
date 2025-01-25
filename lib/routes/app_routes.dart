@@ -3,6 +3,7 @@ import 'package:kaar_e_kamal/core/theme/theme_settings_screen.dart';
 import 'package:kaar_e_kamal/routes/route_names.dart';
 import 'package:kaar_e_kamal/screens/user/donation/donation_history_screen.dart';
 import 'package:kaar_e_kamal/screens/user/donation/donation_management_screen.dart';
+import 'package:kaar_e_kamal/screens/user/family_submission/needy_family_submission_screen.dart';
 import 'package:kaar_e_kamal/screens/user/home_screen.dart';
 import 'package:kaar_e_kamal/screens/user_home2.dart';
 import '../screens/home_screen.dart';
@@ -30,6 +31,8 @@ class AppRoutes {
           const DonationManagementScreen(), 
       RouteNames.DonationHistoryScreen: (context) =>
           DonationHistoryScreen(), 
+      RouteNames.FamilySubmissionForm: (context) =>
+          FamilySubmissionForm(), 
     };
   }
 }
