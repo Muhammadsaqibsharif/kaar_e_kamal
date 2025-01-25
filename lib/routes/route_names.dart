@@ -13,4 +13,5 @@ class RouteNames {
       '/BloodDonationRegistrationScreen';
   static const String BloodDonationHistoryScreen =
       '/BloodDonationHistoryScreen';
+  static const String UserProfileScreen = '/UserProfileScreen';
 }

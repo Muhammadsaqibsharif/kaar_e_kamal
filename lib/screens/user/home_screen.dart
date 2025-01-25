@@ -100,6 +100,7 @@ class UserHomeScreen extends StatelessWidget {
                 subtitle: 'Update your profile and notification preferences.',
                 icon: Icons.person,
                 onTap: () {
+                  Navigator.pushNamed(context, RouteNames.UserProfileScreen);
                   // Navigate to Profile Management
                 },
               ),
