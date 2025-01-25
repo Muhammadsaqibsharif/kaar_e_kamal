@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:kaar_e_kamal/core/theme/theme_settings_screen.dart';
 import 'package:kaar_e_kamal/routes/route_names.dart';
+import 'package:kaar_e_kamal/screens/user/blood_donation/blood_appeal_screen.dart';
+import 'package:kaar_e_kamal/screens/user/blood_donation/blood_donation_history.dart';
+import 'package:kaar_e_kamal/screens/user/blood_donation/blood_donation_registration_screen.dart';
+import 'package:kaar_e_kamal/screens/user/chatbot/chatbot_interaction_screen.dart';
 import 'package:kaar_e_kamal/screens/user/donation/donation_history_screen.dart';
 import 'package:kaar_e_kamal/screens/user/donation/donation_management_screen.dart';
 import 'package:kaar_e_kamal/screens/user/family_submission/needy_family_submission_screen.dart';
@@ -33,6 +37,14 @@ class AppRoutes {
           DonationHistoryScreen(), 
       RouteNames.FamilySubmissionForm: (context) =>
           FamilySubmissionForm(), 
+      RouteNames.ChatbotInteractionScreen: (context) =>
+          ChatbotInteractionScreen(), 
+      RouteNames.BloodRequestScreen: (context) =>
+          BloodRequestScreen(), 
+      RouteNames.BloodDonationRegistrationScreen: (context) =>
+          BloodDonationRegistrationScreen(), 
+      RouteNames.BloodDonationHistoryScreen: (context) =>
+          BloodDonationHistoryScreen(), 
     };
   }
 }

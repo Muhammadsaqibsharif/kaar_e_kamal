@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kaar_e_kamal/widgets/user/family_submission/custom_input_field.dart';
+import 'package:kaar_e_kamal/widgets/common/custom_input_field.dart';
 
 class FamilySubmissionForm extends StatefulWidget {
   @override
@@ -8,11 +8,13 @@ class FamilySubmissionForm extends StatefulWidget {
 
 class _FamilySubmissionFormState extends State<FamilySubmissionForm> {
   final _formKey = GlobalKey<FormState>();
-  String fullName = '';
-  String address = '';
-  String caseTypeDetails = '';
-  String idCard = '';
-  String phoneNumber = '';
+
+  // Controllers for each input field
+  final TextEditingController _fullNameController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
+  final TextEditingController _caseTypeDetailsController = TextEditingController();
+  final TextEditingController _idCardController = TextEditingController();
+  final TextEditingController _phoneNumberController = TextEditingController();
 
   // Function to handle form submission
   void _submitForm() {
@@ -23,6 +25,17 @@ class _FamilySubmissionFormState extends State<FamilySubmissionForm> {
         content: Text('Form Submitted Successfully!'),
       ));
     }
+  }
+
+  @override
+  void dispose() {
+    // Dispose the controllers to avoid memory leaks
+    _fullNameController.dispose();
+    _addressController.dispose();
+    _caseTypeDetailsController.dispose();
+    _idCardController.dispose();
+    _phoneNumberController.dispose();
+    super.dispose();
   }
 
   @override
@@ -41,7 +54,8 @@ class _FamilySubmissionFormState extends State<FamilySubmissionForm> {
               CustomInputField(
                 label: 'Full Name',
                 hint: 'Enter your full name',
-                onSaved: (value) => fullName = value!,
+                controller: _fullNameController, // Pass the controller here
+                onSaved: (value) => _fullNameController.text = value!,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter your full name';
@@ -53,7 +67,8 @@ class _FamilySubmissionFormState extends State<FamilySubmissionForm> {
               CustomInputField(
                 label: 'Address',
                 hint: 'Enter your address',
-                onSaved: (value) => address = value!,
+                controller: _addressController, // Pass the controller here
+                onSaved: (value) => _addressController.text = value!,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter your address';
@@ -66,7 +81,8 @@ class _FamilySubmissionFormState extends State<FamilySubmissionForm> {
                 label: 'Case Type Details',
                 hint: 'Describe why you need support',
                 maxLines: 4,
-                onSaved: (value) => caseTypeDetails = value!,
+                controller: _caseTypeDetailsController, // Pass the controller here
+                onSaved: (value) => _caseTypeDetailsController.text = value!,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please provide details about the case';
@@ -78,7 +94,8 @@ class _FamilySubmissionFormState extends State<FamilySubmissionForm> {
               CustomInputField(
                 label: 'ID Card Number',
                 hint: 'Enter your ID card number',
-                onSaved: (value) => idCard = value!,
+                controller: _idCardController, // Pass the controller here
+                onSaved: (value) => _idCardController.text = value!,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter your ID card number';
@@ -91,7 +108,8 @@ class _FamilySubmissionFormState extends State<FamilySubmissionForm> {
                 label: 'Phone Number',
                 hint: 'Enter your phone number',
                 keyboardType: TextInputType.phone,
-                onSaved: (value) => phoneNumber = value!,
+                controller: _phoneNumberController, // Pass the controller here
+                onSaved: (value) => _phoneNumberController.text = value!,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter your phone number';

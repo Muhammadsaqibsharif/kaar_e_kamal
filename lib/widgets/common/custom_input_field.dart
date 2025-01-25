@@ -7,6 +7,7 @@ class CustomInputField extends StatelessWidget {
   final TextInputType keyboardType;
   final FormFieldValidator<String>? validator;
   final FormFieldSetter<String> onSaved;
+  final TextEditingController controller; // Added controller
 
   CustomInputField({
     required this.label,
@@ -15,11 +16,13 @@ class CustomInputField extends StatelessWidget {
     this.keyboardType = TextInputType.text,
     required this.onSaved,
     this.validator,
+    required this.controller, // Controller passed here
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: controller, // Use the controller
       decoration: InputDecoration(
         labelText: label,
         hintText: hint,
@@ -28,8 +31,7 @@ class CustomInputField extends StatelessWidget {
           fontWeight: FontWeight.bold,
         ),
         hintStyle: TextStyle(
-          color:
-              Colors.white70, // Duller hint color (slightly transparent white)
+          color: Colors.white70, // Duller hint color (slightly transparent white)
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(

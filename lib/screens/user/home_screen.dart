@@ -69,6 +69,8 @@ class UserHomeScreen extends StatelessWidget {
                 subtitle: 'Get instant assistance with our chatbot.',
                 icon: Icons.chat_bubble,
                 onTap: () {
+                  Navigator.pushNamed(
+                      context, RouteNames.ChatbotInteractionScreen);
                   // Navigate to Chatbot
                 },
               ),
@@ -86,6 +88,10 @@ class UserHomeScreen extends StatelessWidget {
                 subtitle: 'Register for blood donation or create appeals.',
                 icon: Icons.bloodtype,
                 onTap: () {
+                  Navigator.pushNamed(
+                      // context, RouteNames.BloodDonationRegistrationScreen);
+                      context,
+                      RouteNames.BloodRequestScreen);
                   // Navigate to Blood Donation
                 },
               ),
