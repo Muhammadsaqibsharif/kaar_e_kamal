@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_share/flutter_share.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:kaar_e_kamal/widgets/user/social_engagement/post_widget.dart';
 
 class PostSharingScreen extends StatelessWidget {
   // Function to handle sharing posts on social media
-  Future<void> sharePost(String postImage) async {
-    await FlutterShare.share(
-      title: 'Share Your Donation',
-      text:
-          'I just made a donation to a great cause! Join me in supporting the community. $postImage',
-      linkUrl: 'https://example.com/donation',
-      chooserTitle: 'Share your donation on social media',
+  Future<void> sharePost(String postCaption) async {
+    Share.share(
+      '$postCaption\n\nI just made a donation to a great cause! Join me in supporting the community: https://example.com/donation',
+      subject: 'Share Your Donation',
     );
   }
 

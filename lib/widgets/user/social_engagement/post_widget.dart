@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_share/flutter_share.dart';
 
 class PostWidget extends StatelessWidget {
   final String image;
