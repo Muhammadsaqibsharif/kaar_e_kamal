@@ -11,6 +11,7 @@ import 'package:kaar_e_kamal/screens/user/donation/donation_management_screen.da
 import 'package:kaar_e_kamal/screens/user/family_submission/needy_family_submission_screen.dart';
 import 'package:kaar_e_kamal/screens/user/gamification/gamification_screen.dart';
 import 'package:kaar_e_kamal/screens/user/home_screen.dart';
+import 'package:kaar_e_kamal/screens/user/transparency/transparency_screen.dart';
 import '../screens/home_screen.dart';
 
 class AppRoutes {
@@ -43,6 +44,8 @@ class AppRoutes {
           BloodDonationHistoryScreen(),
       RouteNames.GamificationScreen: (context) =>
           GamificationScreen(),
+      RouteNames.TransparencyScreen: (context) =>
+          TransparencyScreen(),
       //profile
       RouteNames.UserProfileScreen: (context) => UserProfileScreen(
             imgPath: 'assets/pics/DP.jpg', // Replace with actual value or variable

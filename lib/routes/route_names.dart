@@ -13,4 +13,5 @@ class RouteNames {
       '/BloodDonationHistoryScreen';
   static const String UserProfileScreen = '/UserProfileScreen';
   static const String GamificationScreen = '/GamificationScreen';
+  static const String TransparencyScreen = '/TransparencyScreen';
 }

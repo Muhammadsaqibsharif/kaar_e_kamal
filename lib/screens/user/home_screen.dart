@@ -45,6 +45,7 @@ class UserHomeScreen extends StatelessWidget {
                 subtitle: 'Track donation usage with detailed reports.',
                 icon: Icons.fact_check,
                 onTap: () {
+                  Navigator.pushNamed(context, RouteNames.TransparencyScreen);
                   // Navigate to Transparency Page
                 },
               ),
