@@ -63,6 +63,7 @@ class UserHomeScreen extends StatelessWidget {
                 subtitle: 'Share posts and join campaigns.',
                 icon: Icons.share,
                 onTap: () {
+                  Navigator.pushNamed(context, RouteNames.PostSharingScreen);
                   // Navigate to Social Engagement
                 },
               ),
