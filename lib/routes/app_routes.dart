@@ -9,8 +9,8 @@ import 'package:kaar_e_kamal/screens/user/chatbot/chatbot_interaction_screen.dar
 import 'package:kaar_e_kamal/screens/user/donation/donation_history_screen.dart';
 import 'package:kaar_e_kamal/screens/user/donation/donation_management_screen.dart';
 import 'package:kaar_e_kamal/screens/user/family_submission/needy_family_submission_screen.dart';
+import 'package:kaar_e_kamal/screens/user/gamification/gamification_screen.dart';
 import 'package:kaar_e_kamal/screens/user/home_screen.dart';
-import 'package:kaar_e_kamal/screens/user_home2.dart';
 import '../screens/home_screen.dart';
 
 class AppRoutes {
@@ -30,8 +30,6 @@ class AppRoutes {
           ),
       RouteNames.userHome: (context) =>
           const UserHomeScreen(), // New route for UserHome
-      RouteNames.userHome2: (context) =>
-          const UserHome2(), // New route for UserHome2
       RouteNames.DonationManagementScreen: (context) =>
           const DonationManagementScreen(),
       RouteNames.DonationHistoryScreen: (context) => DonationHistoryScreen(),
@@ -43,6 +41,8 @@ class AppRoutes {
           BloodDonationRegistrationScreen(),
       RouteNames.BloodDonationHistoryScreen: (context) =>
           BloodDonationHistoryScreen(),
+      RouteNames.GamificationScreen: (context) =>
+          GamificationScreen(),
       //profile
       RouteNames.UserProfileScreen: (context) => UserProfileScreen(
             imgPath: 'assets/pics/DP.jpg', // Replace with actual value or variable
