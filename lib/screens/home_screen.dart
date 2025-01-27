@@ -29,6 +29,14 @@ class HomeScreen extends StatelessWidget {
               child: const Text('Go To user home'),
             ),
           ),
+          Center(
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, RouteNames.UserHomeScreen2);
+              },
+              child: const Text('Home 2'),
+            ),
+          ),
         ],
       ),
     );

@@ -1,5 +1,6 @@
 class RouteNames {
   static const String home = '/';
+  static const String UserHomeScreen2 = 'UserHomeScreen2';
   static const String themeSettings = '/themeSettings'; // Add this constant
   static const String userHome = '/userHome'; // New route for UserHome screen
   static const String DonationManagementScreen = '/DonationManagementScreen';

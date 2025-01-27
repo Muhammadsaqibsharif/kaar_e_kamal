@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kaar_e_kamal/core/theme/theme_settings_screen.dart';
 import 'package:kaar_e_kamal/routes/route_names.dart';
 import 'package:kaar_e_kamal/screens/common/profile/user_profile_screen.dart';
+import 'package:kaar_e_kamal/screens/drawer/mainDrawer.dart';
 import 'package:kaar_e_kamal/screens/user/blood_donation/blood_appeal_screen.dart';
 import 'package:kaar_e_kamal/screens/user/blood_donation/blood_donation_history.dart';
 import 'package:kaar_e_kamal/screens/user/blood_donation/blood_donation_registration_screen.dart';
@@ -11,6 +12,7 @@ import 'package:kaar_e_kamal/screens/user/donation/donation_management_screen.da
 import 'package:kaar_e_kamal/screens/user/family_submission/needy_family_submission_screen.dart';
 import 'package:kaar_e_kamal/screens/user/gamification/gamification_screen.dart';
 import 'package:kaar_e_kamal/screens/user/home_screen.dart';
+import 'package:kaar_e_kamal/screens/user/home_screen2.dart';
 import 'package:kaar_e_kamal/screens/user/social_engagement/post_sharing_screen.dart';
 import 'package:kaar_e_kamal/screens/user/transparency/transparency_screen.dart';
 import '../screens/home_screen.dart';
@@ -32,6 +34,8 @@ class AppRoutes {
           ),
       RouteNames.userHome: (context) =>
           const UserHomeScreen(), // New route for UserHome
+      RouteNames.UserHomeScreen2: (context) =>
+          const UserHomeScreen2(), // New route for UserHome
       RouteNames.DonationManagementScreen: (context) =>
           const DonationManagementScreen(),
       RouteNames.DonationHistoryScreen: (context) => DonationHistoryScreen(),
