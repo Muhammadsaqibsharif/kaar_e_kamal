@@ -1,97 +1,167 @@
 import 'package:flutter/material.dart';
 
 class AccessControlScreen extends StatefulWidget {
-  const AccessControlScreen({Key? key}) : super(key: key);
-
   @override
   _AccessControlScreenState createState() => _AccessControlScreenState();
 }
 
 class _AccessControlScreenState extends State<AccessControlScreen> {
-  final List<Map<String, dynamic>> users = [
-    {"id": "001", "name": "Ali Raza", "role": "Super Admin"},
-    {"id": "002", "name": "Fatima Khan", "role": "City Admin"},
-    {"id": "003", "name": "Hassan Ahmed", "role": "Moderator"},
-    {"id": "004", "name": "Ayesha Siddiq", "role": "Team Member"},
-    {"id": "005", "name": "Usman Tariq", "role": "Team Member"},
+  List<Map<String, dynamic>> users = [
+    {"id": 1, "name": "Ali", "role": "Super Admin"},
+    {"id": 2, "name": "Saqib", "role": "Team Leader"},
+    {"id": 3, "name": "Usama", "role": "Team Leader"},
+    {"id": 4, "name": "Mashood", "role": "President"},
   ];
+
+  List<Map<String, dynamic>> filteredUsers = [];
+  final TextEditingController searchController = TextEditingController();
 
   final List<String> roles = [
     "Super Admin",
-    "City Admin",
-    "Moderator",
+    "President",
+    "Team Leader",
     "Team Member"
   ];
+  final List<String> cities = ["Lahore", "Karachi", "Islamabad"];
+  final List<String> teams = ["Media", "Finance", "Operations"];
+
+  String? selectedRole;
+  String? selectedCity;
+  String? selectedTeam;
+
+  @override
+  void initState() {
+    super.initState();
+    filteredUsers = List.from(users);
+    searchController.addListener(_filterUsers);
+  }
+
+  void _filterUsers() {
+    String query = searchController.text.toLowerCase();
+    setState(() {
+      filteredUsers = users
+          .where((user) =>
+              user["name"].toLowerCase().contains(query) ||
+              user["role"].toLowerCase().contains(query) ||
+              user["id"].toString().contains(query))
+          .toList();
+    });
+  }
 
   void _showRoleDialog(BuildContext context, Map<String, dynamic> user) {
-    String? selectedRole = user["role"];
-    final theme = Theme.of(context);
+    selectedRole = user["role"];
+    selectedCity = null;
+    selectedTeam = null;
 
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return Dialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Center(
-                  child: Text(
-                    "Manage Role for ${user["name"]}",
-                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                DropdownButtonFormField<String>(
-                  value: selectedRole,
-                  decoration: const InputDecoration(
-                    labelText: "Select Role",
-                    border: OutlineInputBorder(),
-                    contentPadding: EdgeInsets.symmetric(vertical: 14, horizontal: 10),
-                  ),
-                  items: roles
-                      .map((role) => DropdownMenuItem(value: role, child: Text(role)))
-                      .toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      selectedRole = value;
-                    });
-                  },
-                ),
-                const SizedBox(height: 24),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        return StatefulBuilder(
+          builder: (context, setStateDialog) {
+            return Dialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                      onPressed: () {
-                        setState(() {
-                          users.removeWhere((u) => u["id"] == user["id"]);
-                        });
-                        Navigator.pop(context);
-                      },
-                      child: const Text("Delete"),
+                    Text(
+                      "Manage Role for ${user['name']} (ID: ${user['id']})",
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                    ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          user["role"] = selectedRole!;
+                    const SizedBox(height: 16),
+                    DropdownButtonFormField<String>(
+                      value: selectedRole,
+                      decoration: const InputDecoration(
+                        labelText: "Select Role",
+                        border: OutlineInputBorder(),
+                      ),
+                      items: roles.map((role) {
+                        return DropdownMenuItem(value: role, child: Text(role));
+                      }).toList(),
+                      onChanged: (value) {
+                        setStateDialog(() {
+                          selectedRole = value;
+                          selectedCity = null;
+                          selectedTeam = null;
                         });
-                        Navigator.pop(context);
                       },
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: theme.primaryColor,
-                          foregroundColor: Colors.white),
-                      child: const Text("Save Changes"),
+                    ),
+                    const SizedBox(height: 12),
+                    if (selectedRole == "President")
+                      DropdownButtonFormField<String>(
+                        value: selectedCity,
+                        decoration: const InputDecoration(
+                          labelText: "Select City",
+                          border: OutlineInputBorder(),
+                        ),
+                        items: cities.map((city) {
+                          return DropdownMenuItem(
+                              value: city, child: Text(city));
+                        }).toList(),
+                        onChanged: (value) {
+                          setStateDialog(() => selectedCity = value);
+                        },
+                      ),
+                    if (selectedRole == "Team Leader" ||
+                        selectedRole == "Team Member")
+                      Padding(
+                        padding: const EdgeInsets.only(top: 12),
+                        child: DropdownButtonFormField<String>(
+                          value: selectedTeam,
+                          decoration: const InputDecoration(
+                            labelText: "Select Team",
+                            border: OutlineInputBorder(),
+                          ),
+                          items: teams.map((team) {
+                            return DropdownMenuItem(
+                                value: team, child: Text(team));
+                          }).toList(),
+                          onChanged: (value) {
+                            setStateDialog(() => selectedTeam = value);
+                          },
+                        ),
+                      ),
+                    const SizedBox(height: 24),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        TextButton(
+                          child: const Text("Cancel"),
+                          onPressed: () => Navigator.pop(context),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            if (selectedRole != null) {
+                              setState(() {
+                                // Find the index of the user in the main list
+                                int userIndex = users
+                                    .indexWhere((u) => u["id"] == user["id"]);
+                                if (userIndex != -1) {
+                                  users[userIndex]["role"] = selectedRole!;
+                                }
+
+                                // Also update filteredUsers to reflect the changes immediately
+                                filteredUsers = List.from(users);
+                              });
+                              Navigator.pop(context);
+                            }
+                          },
+                          child: const Text("Assign Role"),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
-            ),
-          ),
+              ),
+            );
+          },
         );
       },
     );
@@ -99,29 +169,41 @@ class _AccessControlScreenState extends State<AccessControlScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Scaffold(
-      appBar: AppBar(title: const Text('Access Control'), centerTitle: true),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
-        child: ListView(
-          children: users.map((user) {
-            return Card(
-              elevation: 2,
-              child: ListTile(
-                leading: CircleAvatar(
-                  backgroundColor: theme.primaryColor.withOpacity(0.2),
-                  child: Text(user["name"][0], style: TextStyle(color: theme.primaryColor)),
+      appBar: AppBar(title: const Text("Access Control")),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              controller: searchController,
+              decoration: InputDecoration(
+                labelText: "Search User (By Name, Role, or ID)",
+                prefixIcon: const Icon(Icons.search),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8.0),
                 ),
-                title: Text(user["name"]),
-                subtitle: Text("Role: ${user["role"]}"),
-                trailing: Icon(Icons.edit, color: theme.primaryColor),
-                onTap: () => _showRoleDialog(context, user),
               ),
-            );
-          }).toList(),
-        ),
+            ),
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: filteredUsers.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(
+                      "${filteredUsers[index]["name"]} (ID: ${filteredUsers[index]['id']})"),
+                  subtitle: Text("Role: ${filteredUsers[index]['role']}"),
+                  trailing: IconButton(
+                    icon: const Icon(Icons.edit),
+                    onPressed: () =>
+                        _showRoleDialog(context, filteredUsers[index]),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
