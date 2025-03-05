@@ -16,29 +16,67 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Kaar e Kamal'),
+        title: const Text(
+          'Kaar e Kamal',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 22,
+          ),
+        ),
+        backgroundColor: const Color(0xFF31511E), // Dark Green
+        centerTitle: true,
       ),
       drawer: MainDrawer(),
-      body: Column(
-        children: [
-          Center(
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, RouteNames.userHome);
-              },
-              child: const Text('Go To user home'),
+      body: Container(
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: isDarkMode ? const Color(0xFF1A1A19) : const Color(0xFFF6FCDF),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            _buildStyledButton(
+              context,
+              'Go To User Home',
+              () => Navigator.pushNamed(context, RouteNames.userHome),
             ),
-          ),
-          Center(
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, RouteNames.UserHomeScreen2);
-              },
-              child: const Text('Home 2'),
+            const SizedBox(height: 20),
+            _buildStyledButton(
+              context,
+              'Home 2',
+              () => Navigator.pushNamed(context, RouteNames.UserHomeScreen2),
             ),
-          ),
-        ],
+            const SizedBox(height: 20),
+            _buildStyledButton(
+              context,
+              'Super Admin Home',
+              () => Navigator.pushNamed(context, RouteNames.dashboard),
+            ),
+          ],
+        ),
       ),
+    );
+  }
+
+  Widget _buildStyledButton(
+      BuildContext context, String text, VoidCallback onPressed) {
+    return ElevatedButton(
+      onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+        padding: const EdgeInsets.symmetric(vertical: 15),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        backgroundColor: const Color(0xFF859F3D), // Olive Green
+        foregroundColor: Colors.white,
+        textStyle: const TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+        ),
+        elevation: 5,
+      ),
+      child: Text(text),
     );
   }
 }

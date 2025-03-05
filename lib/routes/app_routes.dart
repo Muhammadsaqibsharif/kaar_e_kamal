@@ -3,6 +3,12 @@ import 'package:kaar_e_kamal/core/theme/theme_settings_screen.dart';
 import 'package:kaar_e_kamal/routes/route_names.dart';
 import 'package:kaar_e_kamal/screens/common/profile/user_profile_screen.dart';
 import 'package:kaar_e_kamal/screens/drawer/mainDrawer.dart';
+import 'package:kaar_e_kamal/screens/superAdmin/access_control/access_control.dart';
+import 'package:kaar_e_kamal/screens/superAdmin/chapter_management/assign_position_screen.dart';
+import 'package:kaar_e_kamal/screens/superAdmin/chapter_management/chapter_list_screen.dart';
+import 'package:kaar_e_kamal/screens/superAdmin/chapter_management/chapter_management_screen.dart';
+import 'package:kaar_e_kamal/screens/superAdmin/chapter_management/create_chapter_screen.dart';
+import 'package:kaar_e_kamal/screens/superAdmin/dashboard_screen.dart';
 import 'package:kaar_e_kamal/screens/user/blood_donation/blood_appeal_screen.dart';
 import 'package:kaar_e_kamal/screens/user/blood_donation/blood_donation_history.dart';
 import 'package:kaar_e_kamal/screens/user/blood_donation/blood_donation_registration_screen.dart';
@@ -63,6 +69,16 @@ class AppRoutes {
             userPhone: '030-84075-256', // Replace with actual value or variable
             userType: 'Leader', // Replace with actual value or variable
           ),
+
+      //Super Admin Routes
+      //Dashboard
+      RouteNames.dashboard: (context) => const DashboardScreen(),  
+      // Chapter Management
+      RouteNames.createChapter: (context) => CreateChapterScreen(),
+      RouteNames.AssignPositionScreen: (context) => AssignPositionScreen(),
+      RouteNames.chapterList: (context) => ChapterListScreen(),
+      RouteNames.ChapterManagementScreen: (context) => ChapterManagementScreen(),
+      RouteNames.AccessControlScreen: (context) => AccessControlScreen(),
     };
   }
 }

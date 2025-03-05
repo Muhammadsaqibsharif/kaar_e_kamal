@@ -16,4 +16,16 @@ class RouteNames {
   static const String GamificationScreen = '/GamificationScreen';
   static const String TransparencyScreen = '/TransparencyScreen';
   static const String PostSharingScreen = '/PostSharingScreen';
+
+  //super admin routes
+  //Dashboard
+  static const String dashboard = '/dashboard';
+
+  // Chapter Management
+  static const String createChapter = '/create-chapter';
+  static const String AssignPositionScreen = '/AssignPositionScreen';
+  static const String chapterList = '/chapter-list';
+  static const String ChapterManagementScreen = '/ChapterManagementScreen';
+  static const String AccessControlScreen = '/AccessControlScreen';
+
 }
