@@ -19,7 +19,7 @@ class ChapterManagementScreen extends StatelessWidget {
         "icon": Icons.list
       },
       {
-        "label": "Assign President",
+        "label": "Assign Postion",
         "route": RouteNames.AssignPositionScreen,
         "icon": Icons.person_add
       },

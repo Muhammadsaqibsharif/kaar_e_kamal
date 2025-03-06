@@ -57,8 +57,9 @@ class DashboardScreen extends StatelessWidget {
                         context, RouteNames.AccessControlScreen);
                   }),
                   _buildFeatureTile(context,
-                      title: 'Transparency', icon: Icons.fact_check, onTap: () {
-                    Navigator.pushNamed(context, RouteNames.TransparencyScreen);
+                      title: 'Communication', icon: Icons.message, onTap: () {
+                    Navigator.pushNamed(
+                        context, RouteNames.CommunicationScreen);
                   }),
                   _buildFeatureTile(context,
                       title: 'Rewards', icon: Icons.emoji_events, onTap: () {
