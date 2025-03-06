@@ -9,13 +9,16 @@ class AppTheme {
       backgroundColor: Color(0xFF31511E), // Dark Green
       foregroundColor: Colors.white, // Text on AppBar
     ),
-    buttonTheme: ButtonThemeData(
-      buttonColor: Color(0xFF859F3D), // Olive Green
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Color(0xFF859F3D), // Olive Green
+        foregroundColor: Colors.black, // Button Text Color
+      ),
     ),
     textTheme: TextTheme(
-      bodyLarge: TextStyle(color: Colors.black), // White Text
-      bodyMedium: TextStyle(color: Colors.black), // White Text
-      bodySmall: TextStyle(color: Colors.black), // White Text (if needed)
+      bodyLarge: TextStyle(color: Colors.black),
+      bodyMedium: TextStyle(color: Colors.black),
+      bodySmall: TextStyle(color: Colors.black),
     ),
   );
 
@@ -27,13 +30,16 @@ class AppTheme {
       backgroundColor: Color(0xFF31511E), // Dark Green
       foregroundColor: Colors.white, // Text on AppBar
     ),
-    buttonTheme: ButtonThemeData(
-      buttonColor: Color(0xFF859F3D), // Olive Green
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Color(0xFF859F3D), // Olive Green
+        foregroundColor: Colors.white, // Button Text Color
+      ),
     ),
     textTheme: TextTheme(
-      bodyLarge: TextStyle(color: Colors.white), // White Text on Dark Mode
-      bodyMedium: TextStyle(color: Colors.white), // White Text on Dark Mode
-      bodySmall: TextStyle(color: Colors.white), // White Text (if needed)
+      bodyLarge: TextStyle(color: Colors.white),
+      bodyMedium: TextStyle(color: Colors.white),
+      bodySmall: TextStyle(color: Colors.white),
     ),
   );
 }

@@ -35,13 +35,6 @@ class _AssignPositionScreenState extends State<AssignPositionScreen> {
     "Team Leader - Blood Donation",
     "Team Leader - Operations",
     "Team Leader - Finance",
-    "Team Leader - IT",
-    "Team Leader - Marketing",
-    "Team Leader - Fundraising",
-    "Team Leader - Event Management",
-    "Team Leader - Content Writing",
-    "Team Leader - Community Engagement",
-    "Team Leader - Research & Development",
   ];
 
   @override
@@ -110,106 +103,105 @@ class _AssignPositionScreenState extends State<AssignPositionScreen> {
       context: context,
       builder: (BuildContext context) {
         return Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: ConstrainedBox(
-            constraints: BoxConstraints(
-              maxHeight:
-                  MediaQuery.of(context).size.height * 0.6, // Limit height
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    "Assign Position to ${user["name"]}",
-                    style: const TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 16),
-                  Flexible(
-                    child: ListView(
-                      shrinkWrap: true,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          child: StatefulBuilder(
+            builder: (context, setDialogState) {
+              return Padding(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text("Assign Position to ${user["name"]}",
+                        style: const TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.center),
+                    const SizedBox(height: 16),
+                    DropdownButtonFormField<String>(
+                      value: selectedChapter,
+                      decoration: const InputDecoration(
+                        labelText: "Select Chapter",
+                        border: OutlineInputBorder(),
+                        contentPadding:
+                            EdgeInsets.symmetric(vertical: 12, horizontal: 10),
+                      ),
+                      items: chapters
+                          .map((chapter) => DropdownMenuItem(
+                              value: chapter, child: Text(chapter)))
+                          .toList(),
+                      onChanged: (value) {
+                        setDialogState(() {
+                          selectedChapter = value;
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                    DropdownButtonFormField<String>(
+                      value: selectedRole,
+                      decoration: const InputDecoration(
+                        labelText: "Select Role",
+                        border: OutlineInputBorder(),
+                        contentPadding:
+                            EdgeInsets.symmetric(vertical: 12, horizontal: 10),
+                      ),
+                      items: roles
+                          .map((role) =>
+                              DropdownMenuItem(value: role, child: Text(role)))
+                          .toList(),
+                      onChanged: (value) {
+                        setDialogState(() {
+                          selectedRole = value;
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 24),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        DropdownButtonFormField<String>(
-                          value: selectedChapter,
-                          decoration: const InputDecoration(
-                            labelText: "Select Chapter",
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 14, horizontal: 10),
+                        TextButton(
+                          style: TextButton.styleFrom(
+                            foregroundColor: theme.primaryColor,
                           ),
-                          items: chapters
-                              .map((chapter) => DropdownMenuItem(
-                                  value: chapter, child: Text(chapter)))
-                              .toList(),
-                          onChanged: (value) {
-                            setState(() {
-                              selectedChapter = value;
-                            });
-                          },
-                        ),
-                        const SizedBox(height: 24),
-                        DropdownButtonFormField<String>(
-                          value: selectedRole,
-                          decoration: const InputDecoration(
-                            labelText: "Select Role",
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 14, horizontal: 10),
+                          child: Text(
+                            "Cancel",
+                            style: TextStyle(
+                              color: theme.brightness == Brightness.dark
+                                  ? Colors.white
+                                  : Colors.black,
+                            ),
                           ),
-                          items: roles
-                              .map((role) => DropdownMenuItem(
-                                  value: role, child: Text(role)))
-                              .toList(),
-                          onChanged: (value) {
-                            setState(() {
-                              selectedRole = value;
-                            });
-                          },
+                          onPressed: () => Navigator.pop(context),
                         ),
-                        const SizedBox(height: 24),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            TextButton(
-                              child: const Text("Cancel"),
-                              onPressed: () => Navigator.pop(context),
-                            ),
-                            ElevatedButton(
-                              onPressed: () {
-                                if (selectedChapter != null &&
-                                    selectedRole != null) {
-                                  setState(() {
-                                    user["chapter"] = selectedChapter!;
-                                    user["role"] = selectedRole!;
-                                  });
-                                  Navigator.pop(context);
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                          "${user["name"]} assigned as $selectedRole in $selectedChapter"),
-                                      backgroundColor: Colors.green,
-                                    ),
-                                  );
-                                }
-                              },
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: theme.primaryColor,
-                                  foregroundColor: Colors.white),
-                              child: const Text("Assign Position"),
-                            ),
-                          ],
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: theme.primaryColor,
+                            foregroundColor: Colors.white,
+                          ),
+                          onPressed: () {
+                            if (selectedChapter != null &&
+                                selectedRole != null) {
+                              setState(() {
+                                user["chapter"] = selectedChapter!;
+                                user["role"] = selectedRole!;
+                              });
+                              Navigator.pop(context);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                      "${user["name"]} assigned as $selectedRole in $selectedChapter"),
+                                  backgroundColor: Colors.green,
+                                ),
+                              );
+                            }
+                          },
+                          child: const Text("Assign Position"),
                         ),
                       ],
                     ),
-                  ),
-                ],
-              ),
-            ),
+                  ],
+                ),
+              );
+            },
           ),
         );
       },
