@@ -52,7 +52,7 @@ class DashboardScreen extends StatelessWidget {
                   // }),
                   _buildFeatureTile(context,
                       title: 'Access Control',
-                      icon: Icons.access_alarm, onTap: () {
+                      icon: Icons.settings_accessibility, onTap: () {
                     Navigator.pushNamed(
                         context, RouteNames.AccessControlScreen);
                   }),
