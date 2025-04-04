@@ -8,6 +8,7 @@ import 'package:kaar_e_kamal/screens/superAdmin/chapter_management/assign_positi
 import 'package:kaar_e_kamal/screens/superAdmin/chapter_management/chapter_list_screen.dart';
 import 'package:kaar_e_kamal/screens/superAdmin/chapter_management/chapter_management_screen.dart';
 import 'package:kaar_e_kamal/screens/superAdmin/chapter_management/create_chapter_screen.dart';
+import 'package:kaar_e_kamal/screens/superAdmin/communication/announcements_screen.dart';
 import 'package:kaar_e_kamal/screens/superAdmin/communication/communication_screen.dart';
 import 'package:kaar_e_kamal/screens/superAdmin/dashboard_screen.dart';
 import 'package:kaar_e_kamal/screens/user/blood_donation/blood_appeal_screen.dart';
@@ -81,6 +82,7 @@ class AppRoutes {
       RouteNames.ChapterManagementScreen: (context) => ChapterManagementScreen(),
       RouteNames.AccessControlScreen: (context) => AccessControlScreen(),
       RouteNames.CommunicationScreen: (context) => CommunicationScreen(),
+      RouteNames.AnnouncementsScreen: (context) => AnnouncementsScreen(),
     };
   }
 }

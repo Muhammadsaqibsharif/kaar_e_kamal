@@ -26,5 +26,6 @@ class RouteNames {
   static const String ChapterManagementScreen = '/ChapterManagementScreen';
   static const String AccessControlScreen = '/AccessControlScreen';
   static const String CommunicationScreen = '/CommunicationScreen';
+  static const String AnnouncementsScreen = '/AnnouncementsScreen';
 
 }

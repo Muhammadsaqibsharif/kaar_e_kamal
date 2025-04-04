@@ -62,17 +62,17 @@ class DashboardScreen extends StatelessWidget {
                         context, RouteNames.CommunicationScreen);
                   }),
                   _buildFeatureTile(context,
+                      title: 'Announce', icon: Icons.chat_bubble, onTap: () {
+                    Navigator.pushNamed(
+                        context, RouteNames.AnnouncementsScreen);
+                  }),
+                  _buildFeatureTile(context,
                       title: 'Rewards', icon: Icons.emoji_events, onTap: () {
                     Navigator.pushNamed(context, RouteNames.GamificationScreen);
                   }),
                   _buildFeatureTile(context, title: 'Social', icon: Icons.share,
                       onTap: () {
                     Navigator.pushNamed(context, RouteNames.PostSharingScreen);
-                  }),
-                  _buildFeatureTile(context,
-                      title: 'Chatbot', icon: Icons.chat_bubble, onTap: () {
-                    Navigator.pushNamed(
-                        context, RouteNames.ChatbotInteractionScreen);
                   }),
                   _buildFeatureTile(context,
                       title: 'Families',
