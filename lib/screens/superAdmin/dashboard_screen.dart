@@ -12,86 +12,93 @@ class DashboardScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Super Admin Dashboard'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              "Dashboard Overview",
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                "Dashboard Overview",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            const SizedBox(height: 16),
-            const DashboardSummaryCard(),
-            const SizedBox(height: 16),
-            const OverviewStatistics(),
+              const SizedBox(height: 16),
+              const DashboardSummaryCard(),
+              const SizedBox(height: 16),
+              const OverviewStatistics(),
 
-            // Grid Layout for Features
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: GridView.count(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                crossAxisCount: 3,
-                crossAxisSpacing: 12.0,
-                mainAxisSpacing: 12.0,
-                children: [
-                  _buildFeatureTile(context,
-                      title: 'Chapter Management',
-                      icon: Icons.business, onTap: () {
-                    Navigator.pushNamed(
-                        context, RouteNames.ChapterManagementScreen);
-                  }),
-                  // _buildFeatureTile(context,
-                  //     title: 'Chapter Management',
-                  //     icon: Icons.business, onTap: () {
-                  //   Navigator.pushNamed(context, RouteNames.createChapter);
-                  // }),
-                  _buildFeatureTile(context,
-                      title: 'Access Control',
-                      icon: Icons.settings_accessibility, onTap: () {
-                    Navigator.pushNamed(
-                        context, RouteNames.AccessControlScreen);
-                  }),
-                  _buildFeatureTile(context,
-                      title: 'Communication', icon: Icons.message, onTap: () {
-                    Navigator.pushNamed(
-                        context, RouteNames.CommunicationScreen);
-                  }),
-                  _buildFeatureTile(context,
-                      title: 'Announce', icon: Icons.chat_bubble, onTap: () {
-                    Navigator.pushNamed(
-                        context, RouteNames.AnnouncementsScreen);
-                  }),
-                  _buildFeatureTile(context,
-                      title: 'Rewards', icon: Icons.emoji_events, onTap: () {
-                    Navigator.pushNamed(context, RouteNames.GamificationScreen);
-                  }),
-                  _buildFeatureTile(context, title: 'Social', icon: Icons.share,
-                      onTap: () {
-                    Navigator.pushNamed(context, RouteNames.PostSharingScreen);
-                  }),
-                  _buildFeatureTile(context,
-                      title: 'Families',
-                      icon: Icons.family_restroom, onTap: () {
-                    Navigator.pushNamed(
-                        context, RouteNames.FamilySubmissionForm);
-                  }),
-                  _buildFeatureTile(context,
-                      title: 'Blood', icon: Icons.bloodtype, onTap: () {
-                    Navigator.pushNamed(context, RouteNames.BloodRequestScreen);
-                  }),
-                  _buildFeatureTile(context,
-                      title: 'Profile', icon: Icons.person, onTap: () {
-                    Navigator.pushNamed(context, RouteNames.UserProfileScreen);
-                  }),
-                ],
+              // Grid Layout for Features
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: GridView.count(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  crossAxisCount: 3,
+                  crossAxisSpacing: 12.0,
+                  mainAxisSpacing: 12.0,
+                  children: [
+                    _buildFeatureTile(context,
+                        title: 'Chapter Management',
+                        icon: Icons.business, onTap: () {
+                      Navigator.pushNamed(
+                          context, RouteNames.ChapterManagementScreen);
+                    }),
+                    // _buildFeatureTile(context,
+                    //     title: 'Chapter Management',
+                    //     icon: Icons.business, onTap: () {
+                    //   Navigator.pushNamed(context, RouteNames.createChapter);
+                    // }),
+                    _buildFeatureTile(context,
+                        title: 'Access Control',
+                        icon: Icons.settings_accessibility, onTap: () {
+                      Navigator.pushNamed(
+                          context, RouteNames.AccessControlScreen);
+                    }),
+                    _buildFeatureTile(context,
+                        title: 'Communication', icon: Icons.message, onTap: () {
+                      Navigator.pushNamed(
+                          context, RouteNames.CommunicationScreen);
+                    }),
+                    _buildFeatureTile(context,
+                        title: 'Announce', icon: Icons.chat_bubble, onTap: () {
+                      Navigator.pushNamed(
+                          context, RouteNames.AnnouncementsScreen);
+                    }),
+                    _buildFeatureTile(context,
+                        title: 'Financial',
+                        icon: Icons.emoji_events, onTap: () {
+                      Navigator.pushNamed(
+                          context, RouteNames.FinancialReportsScreen);
+                    }),
+                    _buildFeatureTile(context,
+                        title: 'funds', icon: Icons.share, onTap: () {
+                      Navigator.pushNamed(
+                          context, RouteNames.FinancialReportsScreen);
+                    }),
+                    _buildFeatureTile(context,
+                        title: 'Reports',
+                        icon: Icons.family_restroom, onTap: () {
+                      Navigator.pushNamed(
+                          context, RouteNames.ReportsDashboardScreen);
+                    }),
+                    _buildFeatureTile(context,
+                        title: 'Blood', icon: Icons.bloodtype, onTap: () {
+                      Navigator.pushNamed(
+                          context, RouteNames.BloodRequestScreen);
+                    }),
+                    _buildFeatureTile(context,
+                        title: 'Profile', icon: Icons.person, onTap: () {
+                      Navigator.pushNamed(
+                          context, RouteNames.UserProfileScreen);
+                    }),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

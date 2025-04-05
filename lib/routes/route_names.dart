@@ -27,5 +27,7 @@ class RouteNames {
   static const String AccessControlScreen = '/AccessControlScreen';
   static const String CommunicationScreen = '/CommunicationScreen';
   static const String AnnouncementsScreen = '/AnnouncementsScreen';
+  static const String FinancialReportsScreen = '/FinancialReportsScreen';
+  static const String ReportsDashboardScreen = '/ReportsDashboardScreen';
 
 }

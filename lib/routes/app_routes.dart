@@ -11,6 +11,8 @@ import 'package:kaar_e_kamal/screens/superAdmin/chapter_management/create_chapte
 import 'package:kaar_e_kamal/screens/superAdmin/communication/announcements_screen.dart';
 import 'package:kaar_e_kamal/screens/superAdmin/communication/communication_screen.dart';
 import 'package:kaar_e_kamal/screens/superAdmin/dashboard_screen.dart';
+import 'package:kaar_e_kamal/screens/superAdmin/financial_oversight/financial_reports_screen.dart';
+import 'package:kaar_e_kamal/screens/superAdmin/reporting_analytics/reports_dashboard_screen.dart';
 import 'package:kaar_e_kamal/screens/user/blood_donation/blood_appeal_screen.dart';
 import 'package:kaar_e_kamal/screens/user/blood_donation/blood_donation_history.dart';
 import 'package:kaar_e_kamal/screens/user/blood_donation/blood_donation_registration_screen.dart';
@@ -55,15 +57,13 @@ class AppRoutes {
           BloodDonationRegistrationScreen(),
       RouteNames.BloodDonationHistoryScreen: (context) =>
           BloodDonationHistoryScreen(),
-      RouteNames.GamificationScreen: (context) =>
-          GamificationScreen(),
-      RouteNames.TransparencyScreen: (context) =>
-          TransparencyScreen(),
-      RouteNames.PostSharingScreen: (context) =>
-          PostSharingScreen(),
+      RouteNames.GamificationScreen: (context) => GamificationScreen(),
+      RouteNames.TransparencyScreen: (context) => TransparencyScreen(),
+      RouteNames.PostSharingScreen: (context) => PostSharingScreen(),
       //profile
       RouteNames.UserProfileScreen: (context) => UserProfileScreen(
-            imgPath: 'assets/pics/DP.jpg', // Replace with actual value or variable
+            imgPath:
+                'assets/pics/DP.jpg', // Replace with actual value or variable
             userId: 'DEV910', // Replace with actual value or variable
             userName: 'M Saqib', // Replace with actual value or variable
             userEmail:
@@ -74,15 +74,18 @@ class AppRoutes {
 
       //Super Admin Routes
       //Dashboard
-      RouteNames.dashboard: (context) => const DashboardScreen(),  
+      RouteNames.dashboard: (context) => const DashboardScreen(),
       // Chapter Management
       RouteNames.createChapter: (context) => CreateChapterScreen(),
       RouteNames.AssignPositionScreen: (context) => AssignPositionScreen(),
       RouteNames.chapterList: (context) => ChapterListScreen(),
-      RouteNames.ChapterManagementScreen: (context) => ChapterManagementScreen(),
+      RouteNames.ChapterManagementScreen: (context) =>
+          ChapterManagementScreen(),
       RouteNames.AccessControlScreen: (context) => AccessControlScreen(),
       RouteNames.CommunicationScreen: (context) => CommunicationScreen(),
       RouteNames.AnnouncementsScreen: (context) => AnnouncementsScreen(),
+      RouteNames.FinancialReportsScreen: (context) => FinancialReportsScreen(),
+      RouteNames.ReportsDashboardScreen: (context) => ReportsDashboardScreen(),
     };
   }
 }
