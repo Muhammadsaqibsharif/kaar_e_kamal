@@ -85,7 +85,7 @@ class DashboardScreen extends StatelessWidget {
                           context, RouteNames.ReportsDashboardScreen);
                     }),
                     _buildFeatureTile(context,
-                        title: 'Blood', icon: Icons.emergency, onTap: () {
+                        title: 'Emergency', icon: Icons.emergency, onTap: () {
                       Navigator.pushNamed(
                           context, RouteNames.EmergencyProtocolsScreen);
                     }),
