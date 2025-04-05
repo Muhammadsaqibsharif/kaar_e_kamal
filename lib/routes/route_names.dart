@@ -34,6 +34,7 @@ class RouteNames {
    //president routes
   static const String PresidentDashboardScreen = '/PresidentDashboardScreen';
   static const String PresidentDashboardWidget = '/PresidentDashboardWidget';
+  static const String TeamManagmentScreen = '/TeamManagmentScreen';
   
 
 }

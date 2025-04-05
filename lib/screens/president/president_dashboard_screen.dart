@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kaar_e_kamal/routes/route_names.dart';
 import 'package:kaar_e_kamal/widgets/president/dashboard/president_dashboard_widget.dart';
 
 class PresidentDashboardScreen extends StatelessWidget {
@@ -49,7 +50,8 @@ class PresidentDashboardScreen extends StatelessWidget {
                     _buildFeatureTile(context,
                         title: 'Team Management',
                         icon: Icons.group_add, onTap: () {
-                      // Navigator.pushNamed(context, RouteNames.TeamManagementScreen);
+                      Navigator.pushNamed(
+                          context, RouteNames.TeamManagmentScreen);
                     }),
                     _buildFeatureTile(context,
                         title: 'Reports', icon: Icons.report, onTap: () {
