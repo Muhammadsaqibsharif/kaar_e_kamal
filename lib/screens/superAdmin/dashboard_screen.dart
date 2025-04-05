@@ -74,9 +74,9 @@ class DashboardScreen extends StatelessWidget {
                           context, RouteNames.FinancialReportsScreen);
                     }),
                     _buildFeatureTile(context,
-                        title: 'funds', icon: Icons.share, onTap: () {
+                        title: 'events', icon: Icons.event, onTap: () {
                       Navigator.pushNamed(
-                          context, RouteNames.FinancialReportsScreen);
+                          context, RouteNames.CreateEventScreen);
                     }),
                     _buildFeatureTile(context,
                         title: 'Reports',

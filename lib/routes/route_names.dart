@@ -29,5 +29,6 @@ class RouteNames {
   static const String AnnouncementsScreen = '/AnnouncementsScreen';
   static const String FinancialReportsScreen = '/FinancialReportsScreen';
   static const String ReportsDashboardScreen = '/ReportsDashboardScreen';
+  static const String CreateEventScreen = '/CreateEventScreen';
 
 }

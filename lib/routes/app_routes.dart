@@ -11,6 +11,7 @@ import 'package:kaar_e_kamal/screens/superAdmin/chapter_management/create_chapte
 import 'package:kaar_e_kamal/screens/superAdmin/communication/announcements_screen.dart';
 import 'package:kaar_e_kamal/screens/superAdmin/communication/communication_screen.dart';
 import 'package:kaar_e_kamal/screens/superAdmin/dashboard_screen.dart';
+import 'package:kaar_e_kamal/screens/superAdmin/events_campaigns/create_event_screen.dart';
 import 'package:kaar_e_kamal/screens/superAdmin/financial_oversight/financial_reports_screen.dart';
 import 'package:kaar_e_kamal/screens/superAdmin/reporting_analytics/reports_dashboard_screen.dart';
 import 'package:kaar_e_kamal/screens/user/blood_donation/blood_appeal_screen.dart';
@@ -86,6 +87,7 @@ class AppRoutes {
       RouteNames.AnnouncementsScreen: (context) => AnnouncementsScreen(),
       RouteNames.FinancialReportsScreen: (context) => FinancialReportsScreen(),
       RouteNames.ReportsDashboardScreen: (context) => ReportsDashboardScreen(),
+      RouteNames.CreateEventScreen: (context) => CreateEventScreen(),
     };
   }
 }
