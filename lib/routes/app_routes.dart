@@ -3,6 +3,7 @@ import 'package:kaar_e_kamal/core/theme/theme_settings_screen.dart';
 import 'package:kaar_e_kamal/routes/route_names.dart';
 import 'package:kaar_e_kamal/screens/common/profile/user_profile_screen.dart';
 import 'package:kaar_e_kamal/screens/drawer/mainDrawer.dart';
+import 'package:kaar_e_kamal/screens/president/president_dashboard_screen.dart';
 import 'package:kaar_e_kamal/screens/superAdmin/access_control/access_control.dart';
 import 'package:kaar_e_kamal/screens/superAdmin/chapter_management/assign_position_screen.dart';
 import 'package:kaar_e_kamal/screens/superAdmin/chapter_management/chapter_list_screen.dart';
@@ -27,6 +28,7 @@ import 'package:kaar_e_kamal/screens/user/home_screen.dart';
 import 'package:kaar_e_kamal/screens/user/home_screen2.dart';
 import 'package:kaar_e_kamal/screens/user/social_engagement/post_sharing_screen.dart';
 import 'package:kaar_e_kamal/screens/user/transparency/transparency_screen.dart';
+import 'package:kaar_e_kamal/widgets/president/dashboard/president_dashboard_widget.dart';
 import '../screens/home_screen.dart';
 
 class AppRoutes {
@@ -89,7 +91,12 @@ class AppRoutes {
       RouteNames.FinancialReportsScreen: (context) => FinancialReportsScreen(),
       RouteNames.ReportsDashboardScreen: (context) => ReportsDashboardScreen(),
       RouteNames.CreateEventScreen: (context) => CreateEventScreen(),
-      RouteNames.EmergencyProtocolsScreen: (context) => EmergencyProtocolsScreen(),
+      RouteNames.EmergencyProtocolsScreen: (context) =>
+          EmergencyProtocolsScreen(),
+
+      //president routes
+      RouteNames.PresidentDashboardScreen: (context) =>
+          PresidentDashboardScreen(),
     };
   }
 }

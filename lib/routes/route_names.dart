@@ -18,7 +18,6 @@ class RouteNames {
   static const String PostSharingScreen = '/PostSharingScreen';
 
   //super admin routes
-  //Dashboard
   static const String dashboard = '/dashboard';
   static const String createChapter = '/create-chapter';
   static const String AssignPositionScreen = '/AssignPositionScreen';
@@ -31,5 +30,10 @@ class RouteNames {
   static const String ReportsDashboardScreen = '/ReportsDashboardScreen';
   static const String CreateEventScreen = '/CreateEventScreen';
   static const String EmergencyProtocolsScreen = '/EmergencyProtocolsScreen';
+
+   //president routes
+  static const String PresidentDashboardScreen = '/PresidentDashboardScreen';
+  static const String PresidentDashboardWidget = '/PresidentDashboardWidget';
+  
 
 }

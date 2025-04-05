@@ -53,6 +53,13 @@ class HomeScreen extends StatelessWidget {
               'Super Admin Home',
               () => Navigator.pushNamed(context, RouteNames.dashboard),
             ),
+            const SizedBox(height: 20),
+            _buildStyledButton(
+              context,
+              'President Home',
+              () => Navigator.pushNamed(
+                  context, RouteNames.PresidentDashboardScreen),
+            ),
           ],
         ),
       ),
