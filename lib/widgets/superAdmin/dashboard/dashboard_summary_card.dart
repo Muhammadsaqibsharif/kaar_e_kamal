@@ -15,7 +15,7 @@ class DashboardSummaryCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              "Total Chapters: 10",
+              "Total Chapters: 60",
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -24,7 +24,7 @@ class DashboardSummaryCard extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             const Text(
-              "Active Users: 200",
+              "Active Users: 548",
               style: TextStyle(fontSize: 16, color: Colors.white70),
             ),
           ],

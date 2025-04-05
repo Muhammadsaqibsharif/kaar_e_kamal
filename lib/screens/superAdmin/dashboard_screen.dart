@@ -63,31 +63,31 @@ class DashboardScreen extends StatelessWidget {
                           context, RouteNames.CommunicationScreen);
                     }),
                     _buildFeatureTile(context,
-                        title: 'Announce', icon: Icons.chat_bubble, onTap: () {
+                        title: 'Announce',
+                        icon: Icons.notification_add, onTap: () {
                       Navigator.pushNamed(
                           context, RouteNames.AnnouncementsScreen);
                     }),
                     _buildFeatureTile(context,
-                        title: 'Financial',
-                        icon: Icons.emoji_events, onTap: () {
+                        title: 'Donation Status',
+                        icon: Icons.star_outline_sharp, onTap: () {
                       Navigator.pushNamed(
                           context, RouteNames.FinancialReportsScreen);
                     }),
                     _buildFeatureTile(context,
-                        title: 'events', icon: Icons.event, onTap: () {
+                        title: 'Manage Events', icon: Icons.event, onTap: () {
                       Navigator.pushNamed(
                           context, RouteNames.CreateEventScreen);
                     }),
                     _buildFeatureTile(context,
-                        title: 'Reports',
-                        icon: Icons.family_restroom, onTap: () {
+                        title: 'Reports', icon: Icons.report, onTap: () {
                       Navigator.pushNamed(
                           context, RouteNames.ReportsDashboardScreen);
                     }),
                     _buildFeatureTile(context,
-                        title: 'Blood', icon: Icons.bloodtype, onTap: () {
+                        title: 'Blood', icon: Icons.emergency, onTap: () {
                       Navigator.pushNamed(
-                          context, RouteNames.BloodRequestScreen);
+                          context, RouteNames.EmergencyProtocolsScreen);
                     }),
                     _buildFeatureTile(context,
                         title: 'Profile', icon: Icons.person, onTap: () {
