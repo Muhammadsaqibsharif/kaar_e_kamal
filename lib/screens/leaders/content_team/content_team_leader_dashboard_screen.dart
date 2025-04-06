@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kaar_e_kamal/routes/route_names.dart';
 
 class ContentTeamLeaderDashboardScreen extends StatelessWidget {
   const ContentTeamLeaderDashboardScreen({super.key});
@@ -40,7 +41,8 @@ class ContentTeamLeaderDashboardScreen extends StatelessWidget {
                     title: 'Task Dashboard',
                     icon: Icons.dashboard,
                     onTap: () {
-                      // Navigator.pushNamed(context, RouteNames.ContentTeamLeaderTaskDashboard);
+                      Navigator.pushNamed(context,
+                          RouteNames.ContentTeamLeaderTaskDashboardScreen);
                     },
                   ),
                   _buildFeatureTile(

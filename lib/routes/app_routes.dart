@@ -4,6 +4,7 @@ import 'package:kaar_e_kamal/routes/route_names.dart';
 import 'package:kaar_e_kamal/screens/common/profile/user_profile_screen.dart';
 import 'package:kaar_e_kamal/screens/drawer/mainDrawer.dart';
 import 'package:kaar_e_kamal/screens/leaders/content_team/content_team_leader_dashboard_screen.dart';
+import 'package:kaar_e_kamal/screens/leaders/content_team/task_dashboard/content_team_leader_task_dashboard_screen.dart';
 import 'package:kaar_e_kamal/screens/president/communication/president_communication_screen.dart';
 import 'package:kaar_e_kamal/screens/president/documentation_compliance/compliance_screen.dart';
 import 'package:kaar_e_kamal/screens/president/documentation_compliance/maintain_documentation_screen.dart';
@@ -140,6 +141,7 @@ class AppRoutes {
       //Content Team Leader Routes
       RouteNames.ContentTeamLeaderDashboardScreen: (context) =>
           const ContentTeamLeaderDashboardScreen(),
+      RouteNames.ContentTeamLeaderTaskDashboardScreen: (context) => ContentTeamLeaderTaskDashboardScreen(),
     };
   }
 }
