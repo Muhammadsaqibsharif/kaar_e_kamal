@@ -101,7 +101,12 @@ class PresidentDashboardScreen extends StatelessWidget {
                     _buildFeatureTile(context,
                         title: 'Documentation',
                         icon: Icons.document_scanner, onTap: () {
-                      // Navigator.pushNamed(context, RouteNames.DocumentationComplianceScreen);
+                      Navigator.pushNamed(
+                          context, RouteNames.MaintainDocumentationScreen);
+                    }),
+                    _buildFeatureTile(context,
+                        title: 'Compliance', icon: Icons.policy, onTap: () {
+                      Navigator.pushNamed(context, RouteNames.ComplianceScreen);
                     }),
                   ],
                 ),

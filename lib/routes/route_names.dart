@@ -47,6 +47,8 @@ class RouteNames {
   static const String EncourageVolunteersScreen = '/EncourageVolunteersScreen';
   static const String ManageResourcesScreen = '/ManageResourcesScreen';
   static const String SuperAdminPresidentChatScreen = '/SuperAdminPresidentChatScreen';
+  static const String MaintainDocumentationScreen = '/MaintainDocumentationScreen';
+  static const String ComplianceScreen = '/ComplianceScreen';
   
 
 }
