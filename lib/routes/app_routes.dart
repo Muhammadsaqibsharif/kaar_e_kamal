@@ -5,6 +5,7 @@ import 'package:kaar_e_kamal/screens/common/profile/user_profile_screen.dart';
 import 'package:kaar_e_kamal/screens/drawer/mainDrawer.dart';
 import 'package:kaar_e_kamal/screens/president/communication/president_communication_screen.dart';
 import 'package:kaar_e_kamal/screens/president/events_activity/president_event_managment_screen.dart';
+import 'package:kaar_e_kamal/screens/president/member_engagement/encourage_volunteers_screen.dart';
 import 'package:kaar_e_kamal/screens/president/president_dashboard_screen.dart';
 import 'package:kaar_e_kamal/screens/president/progress_monitoring/feedback_screen.dart';
 import 'package:kaar_e_kamal/screens/president/progress_monitoring/team_progress_screen.dart';
@@ -118,6 +119,7 @@ class AppRoutes {
         RouteNames.TeamProgressScreen: (context) => TeamProgressScreen(),
         RouteNames.PresidentCommunicationScreen: (context) => PresidentCommunicationScreen(),
         RouteNames.PresidentEventManagementScreen: (context) => PresidentEventManagementScreen(),
+        RouteNames.EncourageVolunteersScreen: (context) => EncourageVolunteersScreen(),
         
     };
   }

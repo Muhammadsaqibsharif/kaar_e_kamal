@@ -83,7 +83,8 @@ class PresidentDashboardScreen extends StatelessWidget {
                     _buildFeatureTile(context,
                         title: 'Member Engagement',
                         icon: Icons.people, onTap: () {
-                      // Navigator.pushNamed(context, RouteNames.MemberEngagementScreen);
+                      Navigator.pushNamed(
+                          context, RouteNames.EncourageVolunteersScreen);
                     }),
                     _buildFeatureTile(context,
                         title: 'Resource Management',
