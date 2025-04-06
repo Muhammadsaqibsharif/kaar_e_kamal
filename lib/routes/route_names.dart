@@ -43,6 +43,8 @@ class RouteNames {
   static const String TaskDetailsScreen = '/TaskDetailsScreen';
   static const String TeamProgressScreen = '/TeamProgressScreen';
   static const String PresidentCommunicationScreen = '/PresidentCommunicationScreen';
+  static const String PresidentEventManagementScreen = '/PresidentEventManagementScreen';
   
 
 }
+ 
