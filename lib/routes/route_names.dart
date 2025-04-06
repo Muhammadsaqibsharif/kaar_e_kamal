@@ -49,6 +49,9 @@ class RouteNames {
   static const String SuperAdminPresidentChatScreen = '/SuperAdminPresidentChatScreen';
   static const String MaintainDocumentationScreen = '/MaintainDocumentationScreen';
   static const String ComplianceScreen = '/ComplianceScreen';
+
+   //content team leader routes
+  static const String ContentTeamLeaderDashboardScreen = '/ContentTeamLeaderDashboardScreen';
   
 
 }
