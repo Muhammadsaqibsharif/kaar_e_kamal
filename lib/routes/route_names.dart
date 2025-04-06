@@ -35,6 +35,10 @@ class RouteNames {
   static const String PresidentDashboardScreen = '/PresidentDashboardScreen';
   static const String PresidentDashboardWidget = '/PresidentDashboardWidget';
   static const String TeamManagmentScreen = '/TeamManagmentScreen';
+  static const String ChapterPerformanceReportScreen = '/ChapterPerformanceReportScreen';
+  static const String DonationReportScreen = '/donationReportScreen';
+  static const String ActivityLevelReportScreen = '/activityLevelReportScreen';
+  static const String VolunteerEngagementReportScreen = '/volunteerEngagementReportScreen';
   
 
 }

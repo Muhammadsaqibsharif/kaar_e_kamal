@@ -4,6 +4,10 @@ import 'package:kaar_e_kamal/routes/route_names.dart';
 import 'package:kaar_e_kamal/screens/common/profile/user_profile_screen.dart';
 import 'package:kaar_e_kamal/screens/drawer/mainDrawer.dart';
 import 'package:kaar_e_kamal/screens/president/president_dashboard_screen.dart';
+import 'package:kaar_e_kamal/screens/president/reports/activity_level_report_screen.dart';
+import 'package:kaar_e_kamal/screens/president/reports/chapter_performance_report_screen.dart';
+import 'package:kaar_e_kamal/screens/president/reports/donation_report_screen.dart';
+import 'package:kaar_e_kamal/screens/president/reports/volunteer_engagement_report_screen.dart';
 import 'package:kaar_e_kamal/screens/president/team_management/team_managment_screen.dart';
 import 'package:kaar_e_kamal/screens/superAdmin/access_control/access_control.dart';
 import 'package:kaar_e_kamal/screens/superAdmin/chapter_management/assign_position_screen.dart';
@@ -92,14 +96,17 @@ class AppRoutes {
       RouteNames.FinancialReportsScreen: (context) => FinancialReportsScreen(),
       RouteNames.ReportsDashboardScreen: (context) => ReportsDashboardScreen(),
       RouteNames.CreateEventScreen: (context) => CreateEventScreen(),
-      RouteNames.EmergencyProtocolsScreen: (context) =>
-          EmergencyProtocolsScreen(),
+      RouteNames.EmergencyProtocolsScreen: (context) => EmergencyProtocolsScreen(),
 
       //president routes
-      RouteNames.PresidentDashboardScreen: (context) =>
-          PresidentDashboardScreen(),
-      RouteNames.TeamManagmentScreen: (context) =>
-          TeamManagmentScreen(),
+      RouteNames.PresidentDashboardScreen: (context) => PresidentDashboardScreen(),
+      RouteNames.TeamManagmentScreen: (context) => TeamManagmentScreen(),
+      RouteNames.ChapterPerformanceReportScreen: (context) => ChapterPerformanceReportScreen(),
+      RouteNames.DonationReportScreen: (context) => DonationReportScreen(),
+        RouteNames.ActivityLevelReportScreen: (context) =>
+            ActivityLevelReportScreen(),
+        RouteNames.VolunteerEngagementReportScreen: (context) =>
+            VolunteerEngagementReportScreen(),
     };
   }
 }
