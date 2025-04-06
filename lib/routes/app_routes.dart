@@ -8,6 +8,8 @@ import 'package:kaar_e_kamal/screens/president/reports/activity_level_report_scr
 import 'package:kaar_e_kamal/screens/president/reports/chapter_performance_report_screen.dart';
 import 'package:kaar_e_kamal/screens/president/reports/donation_report_screen.dart';
 import 'package:kaar_e_kamal/screens/president/reports/volunteer_engagement_report_screen.dart';
+import 'package:kaar_e_kamal/screens/president/task_management/task_details_screen.dart';
+import 'package:kaar_e_kamal/screens/president/task_management/task_management_screen.dart';
 import 'package:kaar_e_kamal/screens/president/team_management/team_managment_screen.dart';
 import 'package:kaar_e_kamal/screens/superAdmin/access_control/access_control.dart';
 import 'package:kaar_e_kamal/screens/superAdmin/chapter_management/assign_position_screen.dart';
@@ -107,6 +109,9 @@ class AppRoutes {
             ActivityLevelReportScreen(),
         RouteNames.VolunteerEngagementReportScreen: (context) =>
             VolunteerEngagementReportScreen(),
+        RouteNames.TaskManagementScreen: (context) => TaskManagementScreen(),
+        RouteNames.TaskDetailsScreen: (context) => TaskDetailsScreen(),
+        
     };
   }
 }

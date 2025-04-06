@@ -60,7 +60,8 @@ class PresidentDashboardScreen extends StatelessWidget {
                     }),
                     _buildFeatureTile(context,
                         title: 'Task Management', icon: Icons.task, onTap: () {
-                      // Navigator.pushNamed(context, RouteNames.TaskManagementScreen);
+                      Navigator.pushNamed(
+                          context, RouteNames.TaskManagementScreen);
                     }),
                     _buildFeatureTile(context,
                         title: 'Progress Monitoring',

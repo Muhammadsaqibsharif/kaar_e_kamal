@@ -39,6 +39,8 @@ class RouteNames {
   static const String DonationReportScreen = '/donationReportScreen';
   static const String ActivityLevelReportScreen = '/activityLevelReportScreen';
   static const String VolunteerEngagementReportScreen = '/volunteerEngagementReportScreen';
+  static const String TaskManagementScreen = '/TaskManagementScreen';
+  static const String TaskDetailsScreen = '/TaskDetailsScreen';
   
 
 }

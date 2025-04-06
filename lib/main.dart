@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'core/theme/app_theme.dart';
 import 'core/utils/shared_prefs.dart';
-import 'routes/app_routes.dart'; 
-import 'routes/route_names.dart'; 
+import 'routes/app_routes.dart';
+import 'routes/route_names.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
