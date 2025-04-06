@@ -4,6 +4,8 @@ import 'package:kaar_e_kamal/routes/route_names.dart';
 import 'package:kaar_e_kamal/screens/common/profile/user_profile_screen.dart';
 import 'package:kaar_e_kamal/screens/drawer/mainDrawer.dart';
 import 'package:kaar_e_kamal/screens/president/president_dashboard_screen.dart';
+import 'package:kaar_e_kamal/screens/president/progress_monitoring/feedback_screen.dart';
+import 'package:kaar_e_kamal/screens/president/progress_monitoring/team_progress_screen.dart';
 import 'package:kaar_e_kamal/screens/president/reports/activity_level_report_screen.dart';
 import 'package:kaar_e_kamal/screens/president/reports/chapter_performance_report_screen.dart';
 import 'package:kaar_e_kamal/screens/president/reports/donation_report_screen.dart';
@@ -111,6 +113,7 @@ class AppRoutes {
             VolunteerEngagementReportScreen(),
         RouteNames.TaskManagementScreen: (context) => TaskManagementScreen(),
         RouteNames.TaskDetailsScreen: (context) => TaskDetailsScreen(),
+        RouteNames.TeamProgressScreen: (context) => TeamProgressScreen(),
         
     };
   }
