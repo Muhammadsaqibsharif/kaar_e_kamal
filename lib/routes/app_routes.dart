@@ -14,6 +14,7 @@ import 'package:kaar_e_kamal/screens/president/reports/chapter_performance_repor
 import 'package:kaar_e_kamal/screens/president/reports/donation_report_screen.dart';
 import 'package:kaar_e_kamal/screens/president/reports/volunteer_engagement_report_screen.dart';
 import 'package:kaar_e_kamal/screens/president/resource_management/manage_resources_screen.dart';
+import 'package:kaar_e_kamal/screens/president/super_admin_collaboration/super_admin_president_chat_screen.dart';
 import 'package:kaar_e_kamal/screens/president/task_management/task_details_screen.dart';
 import 'package:kaar_e_kamal/screens/president/task_management/task_management_screen.dart';
 import 'package:kaar_e_kamal/screens/president/team_management/team_managment_screen.dart';
@@ -128,6 +129,7 @@ class AppRoutes {
       RouteNames.EncourageVolunteersScreen: (context) =>
           EncourageVolunteersScreen(),
       RouteNames.ManageResourcesScreen: (context) => ManageResourcesScreen(),
+      RouteNames.SuperAdminPresidentChatScreen: (context) => SuperAdminPresidentChatScreen(),
     };
   }
 }

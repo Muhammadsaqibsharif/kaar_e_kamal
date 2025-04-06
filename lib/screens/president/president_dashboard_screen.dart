@@ -95,7 +95,8 @@ class PresidentDashboardScreen extends StatelessWidget {
                     _buildFeatureTile(context,
                         title: 'Super Admin Collaboration',
                         icon: Icons.supervised_user_circle, onTap: () {
-                      // Navigator.pushNamed(context, RouteNames.SuperAdminCollaborationScreen);
+                      Navigator.pushNamed(
+                          context, RouteNames.SuperAdminPresidentChatScreen);
                     }),
                     _buildFeatureTile(context,
                         title: 'Documentation',
