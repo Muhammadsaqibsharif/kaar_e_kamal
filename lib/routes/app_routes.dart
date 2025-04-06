@@ -132,7 +132,9 @@ class AppRoutes {
           EncourageVolunteersScreen(),
       RouteNames.ManageResourcesScreen: (context) => ManageResourcesScreen(),
       RouteNames.SuperAdminPresidentChatScreen: (context) => SuperAdminPresidentChatScreen(),
+      RouteNames.MaintainDocumentationScreen: (context) => MaintainDocumentationScreen(),
       RouteNames.ComplianceScreen: (context) => ComplianceScreen(),
     };
   }
 }
+
