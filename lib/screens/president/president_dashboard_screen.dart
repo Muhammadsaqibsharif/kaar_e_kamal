@@ -89,7 +89,8 @@ class PresidentDashboardScreen extends StatelessWidget {
                     _buildFeatureTile(context,
                         title: 'Resource Management',
                         icon: Icons.storage, onTap: () {
-                      // Navigator.pushNamed(context, RouteNames.ResourceManagementScreen);
+                      Navigator.pushNamed(
+                          context, RouteNames.ManageResourcesScreen);
                     }),
                     _buildFeatureTile(context,
                         title: 'Super Admin Collaboration',

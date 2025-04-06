@@ -13,6 +13,7 @@ import 'package:kaar_e_kamal/screens/president/reports/activity_level_report_scr
 import 'package:kaar_e_kamal/screens/president/reports/chapter_performance_report_screen.dart';
 import 'package:kaar_e_kamal/screens/president/reports/donation_report_screen.dart';
 import 'package:kaar_e_kamal/screens/president/reports/volunteer_engagement_report_screen.dart';
+import 'package:kaar_e_kamal/screens/president/resource_management/manage_resources_screen.dart';
 import 'package:kaar_e_kamal/screens/president/task_management/task_details_screen.dart';
 import 'package:kaar_e_kamal/screens/president/task_management/task_management_screen.dart';
 import 'package:kaar_e_kamal/screens/president/team_management/team_managment_screen.dart';
@@ -103,24 +104,30 @@ class AppRoutes {
       RouteNames.FinancialReportsScreen: (context) => FinancialReportsScreen(),
       RouteNames.ReportsDashboardScreen: (context) => ReportsDashboardScreen(),
       RouteNames.CreateEventScreen: (context) => CreateEventScreen(),
-      RouteNames.EmergencyProtocolsScreen: (context) => EmergencyProtocolsScreen(),
+      RouteNames.EmergencyProtocolsScreen: (context) =>
+          EmergencyProtocolsScreen(),
 
       //president routes
-      RouteNames.PresidentDashboardScreen: (context) => PresidentDashboardScreen(),
+      RouteNames.PresidentDashboardScreen: (context) =>
+          PresidentDashboardScreen(),
       RouteNames.TeamManagmentScreen: (context) => TeamManagmentScreen(),
-      RouteNames.ChapterPerformanceReportScreen: (context) => ChapterPerformanceReportScreen(),
+      RouteNames.ChapterPerformanceReportScreen: (context) =>
+          ChapterPerformanceReportScreen(),
       RouteNames.DonationReportScreen: (context) => DonationReportScreen(),
-        RouteNames.ActivityLevelReportScreen: (context) =>
-            ActivityLevelReportScreen(),
-        RouteNames.VolunteerEngagementReportScreen: (context) =>
-            VolunteerEngagementReportScreen(),
-        RouteNames.TaskManagementScreen: (context) => TaskManagementScreen(),
-        RouteNames.TaskDetailsScreen: (context) => TaskDetailsScreen(),
-        RouteNames.TeamProgressScreen: (context) => TeamProgressScreen(),
-        RouteNames.PresidentCommunicationScreen: (context) => PresidentCommunicationScreen(),
-        RouteNames.PresidentEventManagementScreen: (context) => PresidentEventManagementScreen(),
-        RouteNames.EncourageVolunteersScreen: (context) => EncourageVolunteersScreen(),
-        
+      RouteNames.ActivityLevelReportScreen: (context) =>
+          ActivityLevelReportScreen(),
+      RouteNames.VolunteerEngagementReportScreen: (context) =>
+          VolunteerEngagementReportScreen(),
+      RouteNames.TaskManagementScreen: (context) => TaskManagementScreen(),
+      RouteNames.TaskDetailsScreen: (context) => TaskDetailsScreen(),
+      RouteNames.TeamProgressScreen: (context) => TeamProgressScreen(),
+      RouteNames.PresidentCommunicationScreen: (context) =>
+          PresidentCommunicationScreen(),
+      RouteNames.PresidentEventManagementScreen: (context) =>
+          PresidentEventManagementScreen(),
+      RouteNames.EncourageVolunteersScreen: (context) =>
+          EncourageVolunteersScreen(),
+      RouteNames.ManageResourcesScreen: (context) => ManageResourcesScreen(),
     };
   }
 }
