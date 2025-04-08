@@ -68,7 +68,8 @@ class ContentTeamLeaderDashboardScreen extends StatelessWidget {
                     title: 'Content Editor',
                     icon: Icons.edit,
                     onTap: () {
-                      // Navigator.pushNamed(context, RouteNames.ContentTeamLeaderContentEditor);
+                      Navigator.pushNamed(context,
+                          RouteNames.ContentTeamLeaderContentEditorScreen);
                     },
                   ),
                   _buildFeatureTile(
