@@ -54,6 +54,8 @@ class RouteNames {
   static const String ContentTeamLeaderDashboardScreen = '/ContentTeamLeaderDashboardScreen';
   static const String ContentTeamLeaderTaskDashboardScreen = '/ContentTeamLeaderTaskDashboardScreen';
   static const String ContentTeamLeaderAssignTaskScreen = '/ContentTeamLeaderAssignTaskScreen';
+  static const String ContentTeamLeaderMemberAvailabilityScreen = '/ContentTeamLeaderMemberAvailabilityScreen';
+  
   
 
 }

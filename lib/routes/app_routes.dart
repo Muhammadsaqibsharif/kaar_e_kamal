@@ -6,6 +6,7 @@ import 'package:kaar_e_kamal/screens/drawer/mainDrawer.dart';
 import 'package:kaar_e_kamal/screens/leaders/content_team/content_team_leader_dashboard_screen.dart';
 import 'package:kaar_e_kamal/screens/leaders/content_team/task_assignment/content_team_leader_assign_task_screen.dart';
 import 'package:kaar_e_kamal/screens/leaders/content_team/task_dashboard/content_team_leader_task_dashboard_screen.dart';
+import 'package:kaar_e_kamal/screens/leaders/content_team/team_availability/content_team_leader_member_availability_screen.dart';
 import 'package:kaar_e_kamal/screens/president/communication/president_communication_screen.dart';
 import 'package:kaar_e_kamal/screens/president/documentation_compliance/compliance_screen.dart';
 import 'package:kaar_e_kamal/screens/president/documentation_compliance/maintain_documentation_screen.dart';
@@ -144,6 +145,7 @@ class AppRoutes {
           const ContentTeamLeaderDashboardScreen(),
       RouteNames.ContentTeamLeaderTaskDashboardScreen: (context) => ContentTeamLeaderTaskDashboardScreen(),
       RouteNames.ContentTeamLeaderAssignTaskScreen: (context) => ContentTeamLeaderAssignTaskScreen(),
+      RouteNames.ContentTeamLeaderMemberAvailabilityScreen: (context) => ContentTeamLeaderMemberAvailabilityScreen(),
     };
   }
 }
