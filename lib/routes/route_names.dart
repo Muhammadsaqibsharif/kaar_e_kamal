@@ -69,4 +69,6 @@ class RouteNames {
       '/ContentTeamLeaderContentEditorScreen';
   static const String ContentToPresidentRequestScreen =
       '/ContentToPresidentRequestScreen';
+  static const String ContentTeamLeaderAddRemoveMembersScreen =
+      '/ContentTeamLeaderAddRemoveMembersScreen';
 }

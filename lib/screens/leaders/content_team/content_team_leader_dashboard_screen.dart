@@ -86,7 +86,8 @@ class ContentTeamLeaderDashboardScreen extends StatelessWidget {
                     title: 'Request Approval',
                     icon: Icons.send,
                     onTap: () {
-                      // Navigator.pushNamed(context, RouteNames.ContentTeamLeaderApprovalRequest);
+                      Navigator.pushNamed(context,
+                          RouteNames.ContentTeamLeaderAddRemoveMembersScreen);
                     },
                   ),
                 ],
