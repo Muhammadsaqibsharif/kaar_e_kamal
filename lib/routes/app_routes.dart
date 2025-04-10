@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kaar_e_kamal/core/theme/theme_settings_screen.dart';
 import 'package:kaar_e_kamal/routes/route_names.dart';
+import 'package:kaar_e_kamal/screens/common/auth/login.dart';
+import 'package:kaar_e_kamal/screens/common/auth/signup.dart';
 import 'package:kaar_e_kamal/screens/common/profile/user_profile_screen.dart';
 import 'package:kaar_e_kamal/screens/drawer/mainDrawer.dart';
 import 'package:kaar_e_kamal/screens/leaders/content_team/add_remove_members/content_team_leader_add_remove_members.dart';
@@ -69,6 +71,11 @@ class AppRoutes {
             onThemeChange: toggleTheme,
             initialDarkMode: isDarkMode,
           ),
+    //auth 
+        RouteNames.LoginScreen: (context) => const LoginScreen(),
+        RouteNames.SignUpScreen: (context) => const SignUpScreen(),
+   
+    //user
       RouteNames.userHome: (context) =>
           const UserHomeScreen(), // New route for UserHome
       RouteNames.UserHomeScreen2: (context) =>

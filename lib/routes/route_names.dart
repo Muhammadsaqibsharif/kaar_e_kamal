@@ -1,4 +1,8 @@
 class RouteNames {
+  //auth 
+  static const String LoginScreen = '/LoginScreen';
+  static const String SignUpScreen = '/SignUpScreen';
+  //user 
   static const String home = '/';
   static const String UserHomeScreen2 = 'UserHomeScreen2';
   static const String themeSettings = '/themeSettings'; // Add this constant

@@ -38,6 +38,16 @@ class HomeScreen extends StatelessWidget {
           children: [
             _buildStyledButton(
               context,
+              'Sign Up',
+              () => Navigator.pushNamed(context, RouteNames.SignUpScreen),
+            ),
+            _buildStyledButton(
+              context,
+              'Login',
+              () => Navigator.pushNamed(context, RouteNames.LoginScreen),
+            ),
+            _buildStyledButton(
+              context,
               'Go To User Home',
               () => Navigator.pushNamed(context, RouteNames.userHome),
             ),
