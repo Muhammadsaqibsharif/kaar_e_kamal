@@ -41,11 +41,13 @@ class HomeScreen extends StatelessWidget {
               'Sign Up',
               () => Navigator.pushNamed(context, RouteNames.SignUpScreen),
             ),
+            const SizedBox(height: 20),
             _buildStyledButton(
               context,
               'Login',
               () => Navigator.pushNamed(context, RouteNames.LoginScreen),
             ),
+            const SizedBox(height: 20),
             _buildStyledButton(
               context,
               'Go To User Home',
