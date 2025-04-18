@@ -75,7 +75,7 @@ class ContentTeamLeaderDashboardScreen extends StatelessWidget {
                   _buildFeatureTile(
                     context,
                     title: 'Send To President',
-                    icon: Icons.rate_review,
+                    icon: Icons.send,
                     onTap: () {
                       Navigator.pushNamed(
                           context, RouteNames.ContentToPresidentRequestScreen);
@@ -84,10 +84,19 @@ class ContentTeamLeaderDashboardScreen extends StatelessWidget {
                   _buildFeatureTile(
                     context,
                     title: 'Request Approval',
-                    icon: Icons.send,
+                    icon: Icons.group_add,
                     onTap: () {
                       Navigator.pushNamed(context,
                           RouteNames.ContentTeamLeaderAddRemoveMembersScreen);
+                    },
+                  ),
+                  _buildFeatureTile(
+                    context,
+                    title: 'Communication',
+                    icon: Icons.chat,
+                    onTap: () {
+                      Navigator.pushNamed(context,
+                          RouteNames.ContentTeamLeaderCommunicationScreen);
                     },
                   ),
                 ],
