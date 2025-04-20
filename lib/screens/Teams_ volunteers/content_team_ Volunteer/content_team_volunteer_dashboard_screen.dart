@@ -51,11 +51,11 @@ class ContentTeamVolunteerDashboardScreen extends StatelessWidget {
                   ),
                   _buildFeatureTile(
                     context,
-                    title: 'Communication',
+                    title: 'Chat with Leader',
                     icon: Icons.chat,
                     onTap: () {
-                      // Navigator.pushNamed(context,
-                      //     RouteNames.ContentVolunteerCommunicationScreen);
+                      Navigator.pushNamed(context,
+                          RouteNames.ContentVolunteerCommunicationScreen);
                     },
                   ),
                 ],
