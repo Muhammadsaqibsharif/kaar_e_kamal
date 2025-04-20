@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kaar_e_kamal/core/theme/theme_settings_screen.dart';
 import 'package:kaar_e_kamal/routes/route_names.dart';
 import 'package:kaar_e_kamal/screens/Teams_%20volunteers/content_team_%20Volunteer/content_team_volunteer_dashboard_screen.dart';
+import 'package:kaar_e_kamal/screens/Teams_%20volunteers/content_team_%20Volunteer/content_team_volunteer_task_screen/ContentTeamVolunteerTaskScreen.dart';
 import 'package:kaar_e_kamal/screens/common/auth/login.dart';
 import 'package:kaar_e_kamal/screens/common/auth/signup.dart';
 import 'package:kaar_e_kamal/screens/common/profile/user_profile_screen.dart';
@@ -165,6 +166,7 @@ class AppRoutes {
 
       //Content Team Volunteer Routes
       RouteNames.ContentTeamVolunteerDashboardScreen: (context) => ContentTeamVolunteerDashboardScreen(),
+      RouteNames.ContentTeamVolunteerTaskScreen: (context) => ContentTeamVolunteerTaskScreen(),
     };
   }
 }

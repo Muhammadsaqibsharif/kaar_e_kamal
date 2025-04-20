@@ -36,13 +36,13 @@ class ContentTeamVolunteerDashboardScreen extends StatelessWidget {
                     title: 'My Tasks',
                     icon: Icons.task_alt,
                     onTap: () {
-                      // Navigator.pushNamed(context,
-                      //     RouteNames.ContentTeamVolunteerTaskScreen);
+                      Navigator.pushNamed(
+                          context, RouteNames.ContentTeamVolunteerTaskScreen);
                     },
                   ),
                   _buildFeatureTile(
                     context,
-                    title: 'Send to President',
+                    title: 'Send to Leader',
                     icon: Icons.send,
                     onTap: () {
                       // Navigator.pushNamed(context,

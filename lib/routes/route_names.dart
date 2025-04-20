@@ -81,4 +81,7 @@ class RouteNames {
   //content team  Volunteer routes
   static const String ContentTeamVolunteerDashboardScreen =
       '/ContentTeamVolunteerDashboardScreen';
+  static const String ContentTeamVolunteerTaskScreen =
+      '/ContentTeamVolunteerTaskScreen';
 }
+
