@@ -79,6 +79,13 @@ class HomeScreen extends StatelessWidget {
               () => Navigator.pushNamed(
                   context, RouteNames.ContentTeamLeaderDashboardScreen),
             ),
+            const SizedBox(height: 20),
+            _buildStyledButton(
+              context,
+              'Content Team  Volunteer',
+              () => Navigator.pushNamed(
+                  context, RouteNames.ContentTeamVolunteerDashboardScreen),
+            ),
           ],
         ),
       ),

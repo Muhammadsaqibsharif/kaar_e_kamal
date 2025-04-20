@@ -77,4 +77,8 @@ class RouteNames {
       '/ContentTeamLeaderAddRemoveMembersScreen';
   static const String ContentTeamLeaderCommunicationScreen =
       '/ContentTeamLeaderCommunicationScreen';
+
+  //content team  Volunteer routes
+  static const String ContentTeamVolunteerDashboardScreen =
+      '/ContentTeamVolunteerDashboardScreen';
 }
