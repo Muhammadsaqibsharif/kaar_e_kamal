@@ -32,61 +32,77 @@ class HomeScreen extends StatelessWidget {
         decoration: BoxDecoration(
           color: isDarkMode ? const Color(0xFF1A1A19) : const Color(0xFFF6FCDF),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            _buildStyledButton(
-              context,
-              'Sign Up',
-              () => Navigator.pushNamed(context, RouteNames.SignUpScreen),
-            ),
-            const SizedBox(height: 20),
-            _buildStyledButton(
-              context,
-              'Login',
-              () => Navigator.pushNamed(context, RouteNames.LoginScreen),
-            ),
-            const SizedBox(height: 20),
-            _buildStyledButton(
-              context,
-              'Go To User Home',
-              () => Navigator.pushNamed(context, RouteNames.userHome),
-            ),
-            const SizedBox(height: 20),
-            _buildStyledButton(
-              context,
-              'Home 2',
-              () => Navigator.pushNamed(context, RouteNames.UserHomeScreen2),
-            ),
-            const SizedBox(height: 20),
-            _buildStyledButton(
-              context,
-              'Super Admin Home',
-              () => Navigator.pushNamed(context, RouteNames.dashboard),
-            ),
-            const SizedBox(height: 20),
-            _buildStyledButton(
-              context,
-              'President Home',
-              () => Navigator.pushNamed(
-                  context, RouteNames.PresidentDashboardScreen),
-            ),
-            const SizedBox(height: 20),
-            _buildStyledButton(
-              context,
-              'Content Team Leader',
-              () => Navigator.pushNamed(
-                  context, RouteNames.ContentTeamLeaderDashboardScreen),
-            ),
-            const SizedBox(height: 20),
-            _buildStyledButton(
-              context,
-              'Content Team  Volunteer',
-              () => Navigator.pushNamed(
-                  context, RouteNames.ContentTeamVolunteerDashboardScreen),
-            ),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              _buildStyledButton(
+                context,
+                'Sign Up',
+                () => Navigator.pushNamed(context, RouteNames.SignUpScreen),
+              ),
+              const SizedBox(height: 20),
+              _buildStyledButton(
+                context,
+                'Login',
+                () => Navigator.pushNamed(context, RouteNames.LoginScreen),
+              ),
+              const SizedBox(height: 20),
+              _buildStyledButton(
+                context,
+                'Go To User Home',
+                () => Navigator.pushNamed(context, RouteNames.userHome),
+              ),
+              const SizedBox(height: 20),
+              _buildStyledButton(
+                context,
+                'Home 2',
+                () => Navigator.pushNamed(context, RouteNames.UserHomeScreen2),
+              ),
+              const SizedBox(height: 20),
+              _buildStyledButton(
+                context,
+                'Super Admin Home',
+                () => Navigator.pushNamed(context, RouteNames.dashboard),
+              ),
+              const SizedBox(height: 20),
+              _buildStyledButton(
+                context,
+                'President Home',
+                () => Navigator.pushNamed(
+                    context, RouteNames.PresidentDashboardScreen),
+              ),
+              const SizedBox(height: 20),
+              _buildStyledButton(
+                context,
+                'Content Team Leader',
+                () => Navigator.pushNamed(
+                    context, RouteNames.ContentTeamLeaderDashboardScreen),
+              ),
+              const SizedBox(height: 20),
+              _buildStyledButton(
+                context,
+                'Content Team  Volunteer',
+                () => Navigator.pushNamed(
+                    context, RouteNames.ContentTeamVolunteerDashboardScreen),
+              ),
+              const SizedBox(height: 20),
+              _buildStyledButton(
+                context,
+                'Graphics Team Leader',
+                () => Navigator.pushNamed(
+                    context, RouteNames.GraphicsTeamLeaderDashboardScreen),
+              ),
+              const SizedBox(height: 20),
+              _buildStyledButton(
+                context,
+                'Graphics Team Volunteer',
+                () => Navigator.pushNamed(
+                    context, RouteNames.ContentTeamVolunteerDashboardScreen),
+              ),
+            ],
+          ),
         ),
       ),
     );

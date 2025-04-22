@@ -12,6 +12,7 @@ class _ContentToPresidentRequestScreenState
     extends State<ContentToPresidentRequestScreen> {
   final _formKey = GlobalKey<FormState>();
   String? _selectedContent;
+  // ignore: unused_field
   String? _note;
 
   final List<String> _contentOptions = [

@@ -17,6 +17,8 @@ import 'package:kaar_e_kamal/screens/leaders/content_team/content_tools/content_
 import 'package:kaar_e_kamal/screens/leaders/content_team/task_assignment/content_team_leader_assign_task_screen.dart';
 import 'package:kaar_e_kamal/screens/leaders/content_team/task_dashboard/content_team_leader_task_dashboard_screen.dart';
 import 'package:kaar_e_kamal/screens/leaders/content_team/team_availability/content_team_leader_member_availability_screen.dart';
+import 'package:kaar_e_kamal/screens/leaders/graphics_team/GraphicsTeamLeaderDashboardScreen.dart';
+import 'package:kaar_e_kamal/screens/leaders/graphics_team/task_dashboard/graphics_team_leader_task_dashboard_screen.dart';
 import 'package:kaar_e_kamal/screens/president/communication/president_communication_screen.dart';
 import 'package:kaar_e_kamal/screens/president/documentation_compliance/compliance_screen.dart';
 import 'package:kaar_e_kamal/screens/president/documentation_compliance/maintain_documentation_screen.dart';
@@ -171,6 +173,10 @@ class AppRoutes {
       RouteNames.ContentTeamVolunteerTaskScreen: (context) => ContentTeamVolunteerTaskScreen(),
       RouteNames.ContentVolunteerToLeaderRequestScreen: (context) => ContentVolunteerToLeaderRequestScreen(),
       RouteNames.ContentVolunteerCommunicationScreen: (context) => ContentVolunteerCommunicationScreen(),
+
+      //Graphics Team Leader Routes
+      RouteNames.GraphicsTeamLeaderDashboardScreen: (context) => const GraphicsTeamLeaderDashboardScreen(),
+      RouteNames.GraphicsTeamLeaderTaskDashboardScreen: (context) => const GraphicsTeamLeaderTaskDashboardScreen(),
     };
   }
 }
