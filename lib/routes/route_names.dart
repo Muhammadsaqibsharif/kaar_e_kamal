@@ -92,5 +92,7 @@ class RouteNames {
   static const String GraphicsTeamLeaderDashboardScreen =
       '/GraphicsTeamLeaderDashboardScreen';
   static const String GraphicsTeamLeaderTaskDashboardScreen = '/GraphicsTeamLeaderTaskDashboardScreen';
+  static const String GraphicsTeamLeaderAssignTaskScreen =
+      '/GraphicsTeamLeaderAssignTaskScreen'; 
 }
 

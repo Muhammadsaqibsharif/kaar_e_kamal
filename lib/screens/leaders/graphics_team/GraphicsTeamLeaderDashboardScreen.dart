@@ -50,8 +50,8 @@ class GraphicsTeamLeaderDashboardScreen extends StatelessWidget {
                     title: 'Assign Design Tasks',
                     icon: Icons.task,
                     onTap: () {
-                      // Navigator.pushNamed(context,
-                      //     RouteNames.GraphicsTeamAssignTaskScreen);
+                      Navigator.pushNamed(context,
+                          RouteNames.GraphicsTeamLeaderAssignTaskScreen);
                     },
                   ),
                   _buildFeatureTile(

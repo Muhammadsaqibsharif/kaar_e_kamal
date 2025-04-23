@@ -1,48 +1,49 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_image_gallery_saver/flutter_image_gallery_saver.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
-class ContentTeamLeaderAssignTaskScreen extends StatefulWidget {
-  const ContentTeamLeaderAssignTaskScreen({super.key});
+class GraphicsTeamLeaderAssignTaskScreen extends StatefulWidget {
+  const GraphicsTeamLeaderAssignTaskScreen({super.key});
 
   @override
-  State<ContentTeamLeaderAssignTaskScreen> createState() =>
-      _ContentTeamLeaderAssignTaskScreenState();
+  State<GraphicsTeamLeaderAssignTaskScreen> createState() =>
+      _GraphicsTeamLeaderAssignTaskScreenState();
 }
 
-class _ContentTeamLeaderAssignTaskScreenState
-    extends State<ContentTeamLeaderAssignTaskScreen> {
+class _GraphicsTeamLeaderAssignTaskScreenState
+    extends State<GraphicsTeamLeaderAssignTaskScreen> {
   final List<Map<String, dynamic>> tasks = [
     {
-      'description': 'Design caption for Ramadan Campaign',
-      'member': 'Ayesha Khan',
-      'date': DateTime.now().add(const Duration(days: 3)),
+      'description': 'Design Poster for Ramadan Campaign',
+      'member': 'Ali Khan',
+      'date': DateTime.now().add(const Duration(days: 2)),
       'status': 'Pending',
-      'output':
-          'Here is the sample caption: "Reflect. Rejoice. Ramadan Mubarak!"'
+      'outputImage': 'assets/Images/1.jpg',
+      'revisionNote': '',
     },
     {
-      'description': 'Write copy for Blood Drive Poster',
-      'member': 'Ahmed Raza',
+      'description': 'Create Banner for Blood Drive',
+      'member': 'Hina Ijaz',
       'date': DateTime.now().add(const Duration(days: 5)),
       'status': 'In Progress',
-      'output': 'Donate blood, save lives. Join our drive this Friday at 5 PM!'
+      'outputImage': 'assets/Images/2.jpg',
+      'revisionNote': '',
     },
     {
-      'description': 'Finalize Eid Greetings',
-      'member': 'Sara Malik',
+      'description': 'Finalize Eid Greeting Graphic',
+      'member': 'Usman Tariq',
       'date': DateTime.now().subtract(const Duration(days: 1)),
       'status': 'Completed',
-      'output': 'May this Eid bring joy, peace, and blessings. Eid Mubarak!'
+      'outputImage': 'assets/Images/3.jpg',
+      'revisionNote': '',
     },
   ];
 
-  final List<String> teamMembers = [
-    'Ayesha Khan',
-    'Ahmed Raza',
-    'Sara Malik',
-    'Hamza Farooq'
-  ];
+  final List<String> teamMembers = ['Ali Khan', 'Hina Ijaz', 'Usman Tariq'];
 
   void _showAddTaskDialog() {
     final TextEditingController descController = TextEditingController();
@@ -126,7 +127,8 @@ class _ContentTeamLeaderAssignTaskScreenState
                       'member': selectedMember!,
                       'date': selectedDate!,
                       'status': 'Pending',
-                      'output': 'No output yet.',
+                      'outputImage': 'assets/Images/1.jpg',
+                      'revisionNote': '',
                     });
                   });
 
@@ -141,20 +143,50 @@ class _ContentTeamLeaderAssignTaskScreenState
     );
   }
 
+  Future<void> _saveAssetImageToGallery(String assetPath) async {
+    try {
+      if (Platform.isAndroid) {
+        final photosStatus = await Permission.photos.request();
+        final storageStatus = await Permission.storage.request();
+
+        if (!photosStatus.isGranted && !storageStatus.isGranted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+                content: Text('❗ Permission denied to access storage.')),
+          );
+          return;
+        }
+      }
+
+      final byteData = await rootBundle.load(assetPath);
+      final Uint8List bytes = byteData.buffer.asUint8List();
+
+      final tempDir = await getTemporaryDirectory();
+      final file = await File(
+        '${tempDir.path}/${DateTime.now().millisecondsSinceEpoch}.jpg',
+      ).create();
+      await file.writeAsBytes(bytes);
+
+      await FlutterImageGallerySaver.saveFile(file.path);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('✅ Image saved to gallery!')),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('❌ Error saving image: $e')),
+      );
+    }
+  }
+
   void _showTaskDetails(Map<String, dynamic> task) {
-    bool isCompleted = task['status'] == 'Completed';
+    final bool isCompleted = task['status'] == 'Completed';
+    final TextEditingController revisionController = TextEditingController();
 
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        title: Text(
-          "Task Details",
-          style: TextStyle(
-            color: Theme.of(context).brightness == Brightness.dark
-                ? Colors.white
-                : Colors.black,
-          ),
-        ),
+        title: const Text("Task Details"),
         content: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -166,35 +198,33 @@ class _ContentTeamLeaderAssignTaskScreenState
               Text('📅 Due Date: ${DateFormat.yMMMd().format(task['date'])}'),
               const SizedBox(height: 8),
               Text('📌 Status: ${task['status']}'),
-              const SizedBox(height: 16),
-              Text('📤 Output:',
+              const SizedBox(height: 12),
+              Text('🎨 Output Image:',
                   style: const TextStyle(fontWeight: FontWeight.bold)),
               const SizedBox(height: 6),
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Column(
-                  children: [
-                    Text(task['output'] ?? 'No output submitted yet.'),
-                    const SizedBox(height: 12),
-                    ElevatedButton.icon(
-                      onPressed: () {
-                        Clipboard.setData(ClipboardData(text: task['output']))
-                            .then((_) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Output copied!')),
-                          );
-                        });
-                      },
-                      icon: const Icon(Icons.copy),
-                      label: const Text('Copy Output'),
-                    ),
-                  ],
-                ),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Image.asset(task['outputImage']),
               ),
+              const SizedBox(height: 8),
+              ElevatedButton.icon(
+                onPressed: () => _saveAssetImageToGallery(task['outputImage']),
+                icon: const Icon(Icons.download),
+                label: const Text('Download Image'),
+              ),
+              const SizedBox(height: 16),
+              if (!isCompleted) ...[
+                const Text("✏️ Add Revision Note:"),
+                const SizedBox(height: 8),
+                TextField(
+                  controller: revisionController,
+                  maxLines: 2,
+                  decoration: const InputDecoration(
+                    hintText: 'e.g. Use lighter background',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+              ]
             ],
           ),
         ),
@@ -217,10 +247,11 @@ class _ContentTeamLeaderAssignTaskScreenState
               onPressed: () {
                 setState(() {
                   task['status'] = 'Needs Revision';
+                  task['revisionNote'] = revisionController.text.trim();
                 });
                 Navigator.pop(context);
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Task sent for Revision')),
+                  const SnackBar(content: Text('Revision requested')),
                 );
               },
               child: const Text('Request Revision ✏️'),
@@ -234,65 +265,45 @@ class _ContentTeamLeaderAssignTaskScreenState
     );
   }
 
-  Widget _buildTaskTile(Map<String, dynamic> task) {
-    final isUrgent =
-        (task['date'] as DateTime).difference(DateTime.now()).inDays <= 2;
-    final isCompleted = task['status'] == 'Completed';
-
-    final gradient = isCompleted
-        ? LinearGradient(colors: [Colors.grey[400]!, Colors.grey[300]!])
-        : isUrgent
-            ? const LinearGradient(colors: [Colors.red, Colors.orange])
-            : LinearGradient(colors: [
-                Theme.of(context).primaryColor.withOpacity(0.8),
-                Theme.of(context).primaryColor.withOpacity(0.5)
-              ]);
-
-    return Container(
-      decoration: BoxDecoration(
-        gradient: gradient,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: ListTile(
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        title: Text(task['description'],
-            style: const TextStyle(
-                fontWeight: FontWeight.bold, color: Colors.white)),
-        subtitle: Text(
-          '${task['member']} • ${DateFormat.yMMMd().format(
-            task['date'] is String
-                ? DateTime.tryParse(task['date']) ?? DateTime.now()
-                : task['date'],
-          )}',
-          style: const TextStyle(fontSize: 12, color: Colors.white70),
-        ),
-        trailing: Chip(
-          label:
-              Text(task['status'], style: const TextStyle(color: Colors.white)),
-          backgroundColor: Colors.black.withOpacity(0.3),
-        ),
-        onTap: () => _showTaskDetails(task),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Assign Tasks'),
+        title: const Text('Graphics Team Tasks'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: _showAddTaskDialog,
+          )
+        ],
       ),
-      body: ListView.separated(
-        padding: const EdgeInsets.all(16),
+      body: ListView.builder(
+        padding: const EdgeInsets.all(12),
         itemCount: tasks.length,
-        separatorBuilder: (_, __) => const SizedBox(height: 12),
-        itemBuilder: (_, index) => _buildTaskTile(tasks[index]),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _showAddTaskDialog,
-        backgroundColor: Theme.of(context).primaryColor,
-        child: const Icon(Icons.add),
+        itemBuilder: (context, index) {
+          final task = tasks[index];
+          return Card(
+            elevation: 4,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            margin: const EdgeInsets.symmetric(vertical: 8),
+            child: ListTile(
+              title: Text(task['description']),
+              subtitle: Text(
+                  'Assigned to: ${task['member']} • Due: ${DateFormat.yMMMd().format(task['date'])}'),
+              trailing: Text(
+                task['status'],
+                style: TextStyle(
+                    color: task['status'] == 'Completed'
+                        ? Colors.green
+                        : (task['status'] == 'Needs Revision'
+                            ? Colors.red
+                            : Colors.orange)),
+              ),
+              onTap: () => _showTaskDetails(task),
+            ),
+          );
+        },
       ),
     );
   }
