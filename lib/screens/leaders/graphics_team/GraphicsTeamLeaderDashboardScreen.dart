@@ -59,8 +59,10 @@ class GraphicsTeamLeaderDashboardScreen extends StatelessWidget {
                     title: 'Team Availability',
                     icon: Icons.people_outline,
                     onTap: () {
-                      // Navigator.pushNamed(context,
-                      //     RouteNames.GraphicsTeamMemberAvailabilityScreen);
+                      Navigator.pushNamed(
+                          context,
+                          RouteNames
+                              .GraphicsTeamLeaderMemberAvailabilityScreen);
                     },
                   ),
                   _buildFeatureTile(
