@@ -79,8 +79,8 @@ class GraphicsTeamLeaderDashboardScreen extends StatelessWidget {
                     title: 'Send Designs To President',
                     icon: Icons.send,
                     onTap: () {
-                      // Navigator.pushNamed(
-                      //     context, RouteNames.GraphicsToPresidentRequestScreen);
+                      Navigator.pushNamed(
+                          context, RouteNames.GraphicsToPresidentRequestScreen);
                     },
                   ),
                   _buildFeatureTile(
