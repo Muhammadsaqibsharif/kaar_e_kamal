@@ -17,6 +17,7 @@ import 'package:kaar_e_kamal/screens/leaders/content_team/content_tools/content_
 import 'package:kaar_e_kamal/screens/leaders/content_team/task_assignment/content_team_leader_assign_task_screen.dart';
 import 'package:kaar_e_kamal/screens/leaders/content_team/task_dashboard/content_team_leader_task_dashboard_screen.dart';
 import 'package:kaar_e_kamal/screens/leaders/content_team/team_availability/content_team_leader_member_availability_screen.dart';
+import 'package:kaar_e_kamal/screens/leaders/content_team/team_performance/content_team_performance.dart';
 import 'package:kaar_e_kamal/screens/leaders/graphics_team/GraphicsTeamLeaderDashboardScreen.dart';
 import 'package:kaar_e_kamal/screens/leaders/graphics_team/add_remove_members/graphics_team_leader_add_remove_members.dart';
 import 'package:kaar_e_kamal/screens/leaders/graphics_team/communication/graphics_leader_communication_screen.dart';
@@ -85,11 +86,11 @@ class AppRoutes {
             onThemeChange: toggleTheme,
             initialDarkMode: isDarkMode,
           ),
-    //auth 
-        RouteNames.LoginScreen: (context) => const LoginScreen(),
-        RouteNames.SignUpScreen: (context) => const SignUpScreen(),
-   
-    //user
+      //auth
+      RouteNames.LoginScreen: (context) => const LoginScreen(),
+      RouteNames.SignUpScreen: (context) => const SignUpScreen(),
+
+      //user
       RouteNames.userHome: (context) =>
           const UserHomeScreen(), // New route for UserHome
       RouteNames.UserHomeScreen2: (context) =>
@@ -159,40 +160,61 @@ class AppRoutes {
       RouteNames.EncourageVolunteersScreen: (context) =>
           EncourageVolunteersScreen(),
       RouteNames.ManageResourcesScreen: (context) => ManageResourcesScreen(),
-      RouteNames.SuperAdminPresidentChatScreen: (context) => SuperAdminPresidentChatScreen(),
-      RouteNames.MaintainDocumentationScreen: (context) => MaintainDocumentationScreen(),
+      RouteNames.SuperAdminPresidentChatScreen: (context) =>
+          SuperAdminPresidentChatScreen(),
+      RouteNames.MaintainDocumentationScreen: (context) =>
+          MaintainDocumentationScreen(),
       RouteNames.ComplianceScreen: (context) => ComplianceScreen(),
-
 
       //Content Team Leader Routes
       RouteNames.ContentTeamLeaderDashboardScreen: (context) =>
           const ContentTeamLeaderDashboardScreen(),
-      RouteNames.ContentTeamLeaderTaskDashboardScreen: (context) => ContentTeamLeaderTaskDashboardScreen(),
-      RouteNames.ContentTeamLeaderAssignTaskScreen: (context) => ContentTeamLeaderAssignTaskScreen(),
-      RouteNames.ContentTeamLeaderMemberAvailabilityScreen: (context) => ContentTeamLeaderMemberAvailabilityScreen(),
-      RouteNames.ContentTeamLeaderContentEditorScreen: (context) => ContentTeamLeaderContentEditorScreen(),
-      RouteNames.ContentToPresidentRequestScreen: (context) => ContentToPresidentRequestScreen(),
-      RouteNames.ContentTeamLeaderAddRemoveMembersScreen: (context) => ContentTeamLeaderAddRemoveMembersScreen(),
-      RouteNames.ContentTeamLeaderCommunicationScreen: (context) => ContentTeamLeaderCommunicationScreen(),
+      RouteNames.ContentTeamLeaderTaskDashboardScreen: (context) =>
+          ContentTeamLeaderTaskDashboardScreen(),
+      RouteNames.ContentTeamLeaderAssignTaskScreen: (context) =>
+          ContentTeamLeaderAssignTaskScreen(),
+      RouteNames.ContentTeamLeaderMemberAvailabilityScreen: (context) =>
+          ContentTeamLeaderMemberAvailabilityScreen(),
+      RouteNames.ContentTeamLeaderContentEditorScreen: (context) =>
+          ContentTeamLeaderContentEditorScreen(),
+      RouteNames.ContentToPresidentRequestScreen: (context) =>
+          ContentToPresidentRequestScreen(),
+      RouteNames.ContentTeamLeaderAddRemoveMembersScreen: (context) =>
+          ContentTeamLeaderAddRemoveMembersScreen(),
+      RouteNames.ContentTeamLeaderCommunicationScreen: (context) =>
+          ContentTeamLeaderCommunicationScreen(),
+      RouteNames.ContentTeamLeaderPerformanceScreen: (context) =>
+          ContentTeamLeaderPerformanceScreen(),
 
       //Content Team Volunteer Routes
-      RouteNames.ContentTeamVolunteerDashboardScreen: (context) => ContentTeamVolunteerDashboardScreen(),
-      RouteNames.ContentTeamVolunteerTaskScreen: (context) => ContentTeamVolunteerTaskScreen(),
-      RouteNames.ContentVolunteerToLeaderRequestScreen: (context) => ContentVolunteerToLeaderRequestScreen(),
-      RouteNames.ContentVolunteerCommunicationScreen: (context) => ContentVolunteerCommunicationScreen(),
+      RouteNames.ContentTeamVolunteerDashboardScreen: (context) =>
+          ContentTeamVolunteerDashboardScreen(),
+      RouteNames.ContentTeamVolunteerTaskScreen: (context) =>
+          ContentTeamVolunteerTaskScreen(),
+      RouteNames.ContentVolunteerToLeaderRequestScreen: (context) =>
+          ContentVolunteerToLeaderRequestScreen(),
+      RouteNames.ContentVolunteerCommunicationScreen: (context) =>
+          ContentVolunteerCommunicationScreen(),
 
       //Graphics Team Leader Routes
-      RouteNames.GraphicsTeamLeaderDashboardScreen: (context) => const GraphicsTeamLeaderDashboardScreen(),
-      RouteNames.GraphicsTeamLeaderTaskDashboardScreen: (context) => const GraphicsTeamLeaderTaskDashboardScreen(),
-      RouteNames.GraphicsTeamLeaderAssignTaskScreen: (context) => const GraphicsTeamLeaderAssignTaskScreen(),
-      RouteNames.GraphicsTeamLeaderMemberAvailabilityScreen: (context) => const GraphicsTeamLeaderMemberAvailabilityScreen(),
-      RouteNames.GraphicsTeamLeaderEditorScreen: (context) => const GraphicsTeamLeaderEditorScreen(),
-      RouteNames.GraphicsToPresidentRequestScreen: (context) => const GraphicsToPresidentRequestScreen(),
-      RouteNames. GraphicsTeamLeaderAddRemoveMembersScreen: (context) => const  GraphicsTeamLeaderAddRemoveMembersScreen(),
-      RouteNames. GraphicsTeamLeaderCommunicationScreen: (context) => GraphicsTeamLeaderCommunicationScreen(),
-      RouteNames. GraphicsTeamLeaderPerformanceScreen: (context) => GraphicsTeamLeaderPerformanceScreen(),
-
+      RouteNames.GraphicsTeamLeaderDashboardScreen: (context) =>
+          const GraphicsTeamLeaderDashboardScreen(),
+      RouteNames.GraphicsTeamLeaderTaskDashboardScreen: (context) =>
+          const GraphicsTeamLeaderTaskDashboardScreen(),
+      RouteNames.GraphicsTeamLeaderAssignTaskScreen: (context) =>
+          const GraphicsTeamLeaderAssignTaskScreen(),
+      RouteNames.GraphicsTeamLeaderMemberAvailabilityScreen: (context) =>
+          const GraphicsTeamLeaderMemberAvailabilityScreen(),
+      RouteNames.GraphicsTeamLeaderEditorScreen: (context) =>
+          const GraphicsTeamLeaderEditorScreen(),
+      RouteNames.GraphicsToPresidentRequestScreen: (context) =>
+          const GraphicsToPresidentRequestScreen(),
+      RouteNames.GraphicsTeamLeaderAddRemoveMembersScreen: (context) =>
+          const GraphicsTeamLeaderAddRemoveMembersScreen(),
+      RouteNames.GraphicsTeamLeaderCommunicationScreen: (context) =>
+          GraphicsTeamLeaderCommunicationScreen(),
+      RouteNames.GraphicsTeamLeaderPerformanceScreen: (context) =>
+          GraphicsTeamLeaderPerformanceScreen(),
     };
   }
 }
-
