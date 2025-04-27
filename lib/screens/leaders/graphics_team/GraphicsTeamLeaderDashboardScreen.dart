@@ -88,8 +88,8 @@ class GraphicsTeamLeaderDashboardScreen extends StatelessWidget {
                     title: 'Request Approval',
                     icon: Icons.group_add,
                     onTap: () {
-                      // Navigator.pushNamed(context,
-                      //     RouteNames.GraphicsTeamAddRemoveMembersScreen);
+                      Navigator.pushNamed(context,
+                          RouteNames.GraphicsTeamLeaderAddRemoveMembersScreen);
                     },
                   ),
                   _buildFeatureTile(

@@ -100,6 +100,8 @@ class RouteNames {
       '/GraphicsTeamLeaderEditorScreen';
   static const String GraphicsToPresidentRequestScreen =
       '/GraphicsToPresidentRequestScreen';
+  static const String  GraphicsTeamLeaderAddRemoveMembersScreen =
+      '/ GraphicsTeamLeaderAddRemoveMembersScreen';
 
 }
 
