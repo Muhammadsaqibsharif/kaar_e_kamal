@@ -25,6 +25,7 @@ import 'package:kaar_e_kamal/screens/leaders/graphics_team/send_to_president/gra
 import 'package:kaar_e_kamal/screens/leaders/graphics_team/task_assignment/GraphicsTeamLeaderAssignTaskScreen.dart';
 import 'package:kaar_e_kamal/screens/leaders/graphics_team/task_dashboard/graphics_team_leader_task_dashboard_screen.dart';
 import 'package:kaar_e_kamal/screens/leaders/graphics_team/team_availability/graphics_team_leader_member_availability_screen.dart';
+import 'package:kaar_e_kamal/screens/leaders/graphics_team/team_performance/graphics_team_performance.dart';
 import 'package:kaar_e_kamal/screens/president/communication/president_communication_screen.dart';
 import 'package:kaar_e_kamal/screens/president/documentation_compliance/compliance_screen.dart';
 import 'package:kaar_e_kamal/screens/president/documentation_compliance/maintain_documentation_screen.dart';
@@ -189,6 +190,7 @@ class AppRoutes {
       RouteNames.GraphicsToPresidentRequestScreen: (context) => const GraphicsToPresidentRequestScreen(),
       RouteNames. GraphicsTeamLeaderAddRemoveMembersScreen: (context) => const  GraphicsTeamLeaderAddRemoveMembersScreen(),
       RouteNames. GraphicsTeamLeaderCommunicationScreen: (context) => GraphicsTeamLeaderCommunicationScreen(),
+      RouteNames. GraphicsTeamLeaderPerformanceScreen: (context) => GraphicsTeamLeaderPerformanceScreen(),
 
     };
   }

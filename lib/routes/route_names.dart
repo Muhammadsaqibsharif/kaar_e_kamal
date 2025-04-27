@@ -104,6 +104,8 @@ class RouteNames {
       '/ GraphicsTeamLeaderAddRemoveMembersScreen';
   static const String  GraphicsTeamLeaderCommunicationScreen =
       '/ GraphicsTeamLeaderCommunicationScreen';
+  static const String  GraphicsTeamLeaderPerformanceScreen =
+      '/ GraphicsTeamLeaderPerformanceScreen';
 
 }
 

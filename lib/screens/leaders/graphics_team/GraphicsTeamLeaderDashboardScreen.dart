@@ -101,6 +101,15 @@ class GraphicsTeamLeaderDashboardScreen extends StatelessWidget {
                           RouteNames.GraphicsTeamLeaderCommunicationScreen);
                     },
                   ),
+                  _buildFeatureTile(
+                    context,
+                    title: 'Team Performance',
+                    icon: Icons.bar_chart,
+                    onTap: () {
+                      Navigator.pushNamed(context,
+                          RouteNames.GraphicsTeamLeaderPerformanceScreen);
+                    },
+                  ),
                 ],
               ),
             ],
