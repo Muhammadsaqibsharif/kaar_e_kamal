@@ -3,6 +3,7 @@ import 'package:kaar_e_kamal/core/theme/theme_settings_screen.dart';
 import 'package:kaar_e_kamal/routes/route_names.dart';
 import 'package:kaar_e_kamal/screens/Teams_%20volunteers/content_team_%20Volunteer/SendToContantLeader/ContentVolunteerToLeaderRequestScreen.dart';
 import 'package:kaar_e_kamal/screens/Teams_%20volunteers/content_team_%20Volunteer/communication/ContentVolunteerCommunicationScreen.dart';
+import 'package:kaar_e_kamal/screens/Teams_%20volunteers/content_team_%20Volunteer/content_team_leaderboard/content_team_leaderboard.dart';
 import 'package:kaar_e_kamal/screens/Teams_%20volunteers/content_team_%20Volunteer/content_team_volunteer_dashboard_screen.dart';
 import 'package:kaar_e_kamal/screens/Teams_%20volunteers/content_team_%20Volunteer/content_team_volunteer_task_screen/ContentTeamVolunteerTaskScreen.dart';
 import 'package:kaar_e_kamal/screens/common/auth/login.dart';
@@ -195,6 +196,8 @@ class AppRoutes {
           ContentVolunteerToLeaderRequestScreen(),
       RouteNames.ContentVolunteerCommunicationScreen: (context) =>
           ContentVolunteerCommunicationScreen(),
+      RouteNames.ContentVolunteerLeaderboardScreen: (context) =>
+          ContentVolunteerLeaderboardScreen(),
 
       //Graphics Team Leader Routes
       RouteNames.GraphicsTeamLeaderDashboardScreen: (context) =>

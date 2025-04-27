@@ -58,6 +58,15 @@ class ContentTeamVolunteerDashboardScreen extends StatelessWidget {
                           RouteNames.ContentVolunteerCommunicationScreen);
                     },
                   ),
+                  _buildFeatureTile(
+                    context,
+                    title: 'Leaderboard',
+                    icon: Icons.leaderboard,
+                    onTap: () {
+                      Navigator.pushNamed(context,
+                          RouteNames.ContentVolunteerLeaderboardScreen);
+                    },
+                  ),
                 ],
               ),
             ],

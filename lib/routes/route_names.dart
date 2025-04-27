@@ -89,6 +89,8 @@ class RouteNames {
       '/ContentVolunteerToLeaderRequestScreen';
   static const String ContentVolunteerCommunicationScreen =
       '/ContentVolunteerCommunicationScreen';
+  static const String ContentVolunteerLeaderboardScreen =
+      '/ContentVolunteerLeaderboardScreen';
 
   //graphics team leader routes
   static const String GraphicsTeamLeaderDashboardScreen =
