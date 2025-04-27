@@ -6,6 +6,11 @@ import 'package:kaar_e_kamal/screens/Teams_%20volunteers/content_team_%20Volunte
 import 'package:kaar_e_kamal/screens/Teams_%20volunteers/content_team_%20Volunteer/content_team_leaderboard/content_team_leaderboard.dart';
 import 'package:kaar_e_kamal/screens/Teams_%20volunteers/content_team_%20Volunteer/content_team_volunteer_dashboard_screen.dart';
 import 'package:kaar_e_kamal/screens/Teams_%20volunteers/content_team_%20Volunteer/content_team_volunteer_task_screen/ContentTeamVolunteerTaskScreen.dart';
+import 'package:kaar_e_kamal/screens/Teams_%20volunteers/graphics_team_%20Volunteer/SendToGraphicsLeader/GraphicsVolunteerToLeaderRequestScreen.dart';
+import 'package:kaar_e_kamal/screens/Teams_%20volunteers/graphics_team_%20Volunteer/communication/GraphicsVolunteerCommunicationScreen.dart';
+import 'package:kaar_e_kamal/screens/Teams_%20volunteers/graphics_team_%20Volunteer/graphics_team_leaderboard/content_team_leaderboard.dart';
+import 'package:kaar_e_kamal/screens/Teams_%20volunteers/graphics_team_%20Volunteer/graphics_team_volunteer_dashboard_screen.dart';
+import 'package:kaar_e_kamal/screens/Teams_%20volunteers/graphics_team_%20Volunteer/graphics_team_volunteer_task_screen/GraphicsTeamVolunteerTaskScreen.dart';
 import 'package:kaar_e_kamal/screens/common/auth/login.dart';
 import 'package:kaar_e_kamal/screens/common/auth/signup.dart';
 import 'package:kaar_e_kamal/screens/common/profile/user_profile_screen.dart';
@@ -218,6 +223,18 @@ class AppRoutes {
           GraphicsTeamLeaderCommunicationScreen(),
       RouteNames.GraphicsTeamLeaderPerformanceScreen: (context) =>
           GraphicsTeamLeaderPerformanceScreen(),
+
+      //Graphics Team Volunteer Routes
+      RouteNames.GraphicsTeamVolunteerDashboardScreen: (context) =>
+          const GraphicsTeamVolunteerDashboardScreen(),
+      RouteNames.GraphicsVolunteerCommunicationScreen: (context) =>
+          const GraphicsVolunteerCommunicationScreen(),
+      RouteNames.GraphicsVolunteerToLeaderRequestScreen: (context) =>
+          const GraphicsVolunteerToLeaderRequestScreen(),
+      RouteNames.GraphicsVolunteerLeaderboardScreen: (context) =>
+          const GraphicsVolunteerLeaderboardScreen(),
+      RouteNames.GraphicsTeamVolunteerTaskScreen: (context) =>
+          const GraphicsTeamVolunteerTaskScreen(),
     };
   }
 }

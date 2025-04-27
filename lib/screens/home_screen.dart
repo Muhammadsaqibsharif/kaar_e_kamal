@@ -99,7 +99,7 @@ class HomeScreen extends StatelessWidget {
                 context,
                 'Graphics Team Volunteer',
                 () => Navigator.pushNamed(
-                    context, RouteNames.ContentTeamVolunteerDashboardScreen),
+                    context, RouteNames.GraphicsTeamVolunteerDashboardScreen),
               ),
             ],
           ),

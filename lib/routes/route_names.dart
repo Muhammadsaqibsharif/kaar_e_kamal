@@ -111,5 +111,18 @@ class RouteNames {
   static const String  GraphicsTeamLeaderPerformanceScreen =
       '/ GraphicsTeamLeaderPerformanceScreen';
 
+  //graphics team volunteer routes
+  static const String  GraphicsTeamVolunteerDashboardScreen =
+      '/ GraphicsTeamVolunteerDashboardScreen';
+  static const String  GraphicsVolunteerCommunicationScreen =
+      '/ GraphicsVolunteerCommunicationScreen'; 
+  static const String  GraphicsVolunteerToLeaderRequestScreen =
+      '/ GraphicsVolunteerToLeaderRequestScreen'; 
+  static const String  GraphicsVolunteerLeaderboardScreen =
+      '/ GraphicsVolunteerLeaderboardScreen'; 
+  static const String  GraphicsTeamVolunteerTaskScreen =
+      '/ GraphicsTeamVolunteerTaskScreen'; 
+  
+
 }
 
