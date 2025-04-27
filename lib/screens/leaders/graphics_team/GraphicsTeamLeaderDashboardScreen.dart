@@ -97,8 +97,8 @@ class GraphicsTeamLeaderDashboardScreen extends StatelessWidget {
                     title: 'Communication',
                     icon: Icons.chat,
                     onTap: () {
-                      // Navigator.pushNamed(context,
-                      //     RouteNames.GraphicsTeamCommunicationScreen);
+                      Navigator.pushNamed(context,
+                          RouteNames.GraphicsTeamLeaderCommunicationScreen);
                     },
                   ),
                 ],

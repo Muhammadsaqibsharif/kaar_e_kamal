@@ -10,7 +10,7 @@ import 'package:kaar_e_kamal/screens/common/auth/signup.dart';
 import 'package:kaar_e_kamal/screens/common/profile/user_profile_screen.dart';
 import 'package:kaar_e_kamal/screens/drawer/mainDrawer.dart';
 import 'package:kaar_e_kamal/screens/leaders/content_team/add_remove_members/content_team_leader_add_remove_members.dart';
-import 'package:kaar_e_kamal/screens/leaders/content_team/communication/president_communication_screen.dart';
+import 'package:kaar_e_kamal/screens/leaders/content_team/communication/content_leader_communication_screen.dart';
 import 'package:kaar_e_kamal/screens/leaders/content_team/send_to_president/content_team_leader_approval_request_screen.dart';
 import 'package:kaar_e_kamal/screens/leaders/content_team/content_team_leader_dashboard_screen.dart';
 import 'package:kaar_e_kamal/screens/leaders/content_team/content_tools/content_team_leader_content_editor_screen.dart';
@@ -19,6 +19,7 @@ import 'package:kaar_e_kamal/screens/leaders/content_team/task_dashboard/content
 import 'package:kaar_e_kamal/screens/leaders/content_team/team_availability/content_team_leader_member_availability_screen.dart';
 import 'package:kaar_e_kamal/screens/leaders/graphics_team/GraphicsTeamLeaderDashboardScreen.dart';
 import 'package:kaar_e_kamal/screens/leaders/graphics_team/add_remove_members/graphics_team_leader_add_remove_members.dart';
+import 'package:kaar_e_kamal/screens/leaders/graphics_team/communication/graphics_leader_communication_screen.dart';
 import 'package:kaar_e_kamal/screens/leaders/graphics_team/graphics_editor/GraphicsTeamLeaderEditorScreen.dart';
 import 'package:kaar_e_kamal/screens/leaders/graphics_team/send_to_president/graphics_team_leader_approval_request_screen.dart';
 import 'package:kaar_e_kamal/screens/leaders/graphics_team/task_assignment/GraphicsTeamLeaderAssignTaskScreen.dart';
@@ -187,6 +188,7 @@ class AppRoutes {
       RouteNames.GraphicsTeamLeaderEditorScreen: (context) => const GraphicsTeamLeaderEditorScreen(),
       RouteNames.GraphicsToPresidentRequestScreen: (context) => const GraphicsToPresidentRequestScreen(),
       RouteNames. GraphicsTeamLeaderAddRemoveMembersScreen: (context) => const  GraphicsTeamLeaderAddRemoveMembersScreen(),
+      RouteNames. GraphicsTeamLeaderCommunicationScreen: (context) => GraphicsTeamLeaderCommunicationScreen(),
 
     };
   }

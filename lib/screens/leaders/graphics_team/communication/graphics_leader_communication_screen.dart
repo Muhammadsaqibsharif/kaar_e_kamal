@@ -1,21 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:kaar_e_kamal/widgets/common/custom_input_field.dart';
 
-class ContentTeamLeaderCommunicationScreen extends StatefulWidget {
+class GraphicsTeamLeaderCommunicationScreen extends StatefulWidget {
   @override
-  _ContentTeamLeaderCommunicationScreenState createState() =>
-      _ContentTeamLeaderCommunicationScreenState();
+  _GraphicsTeamLeaderCommunicationScreenState createState() =>
+      _GraphicsTeamLeaderCommunicationScreenState();
 }
 
-class _ContentTeamLeaderCommunicationScreenState
-    extends State<ContentTeamLeaderCommunicationScreen> {
+class _GraphicsTeamLeaderCommunicationScreenState
+    extends State<GraphicsTeamLeaderCommunicationScreen> {
   final TextEditingController searchController = TextEditingController();
   final TextEditingController messageController = TextEditingController();
 
-  // Content Leader’s chapter
   String leaderChapter = "Lahore";
 
-  // Sample list of users (include President and relevant volunteers)
   List<Map<String, String>> users = [
     {
       "id": "001",
@@ -35,7 +33,7 @@ class _ContentTeamLeaderCommunicationScreenState
       "id": "003",
       "name": "Mashood",
       "position": "Team Member",
-      "team": "Content Team",
+      "team": "Graphics Team",
       "chapter": "Lahore"
     },
     {
@@ -49,7 +47,7 @@ class _ContentTeamLeaderCommunicationScreenState
       "id": "005",
       "name": "Sara",
       "position": "Volunteer",
-      "team": "Content Team",
+      "team": "Graphics Team",
       "chapter": "Karachi"
     },
   ];
@@ -73,25 +71,24 @@ class _ContentTeamLeaderCommunicationScreenState
     super.dispose();
   }
 
-  // Filter only President or same chapter Content Team volunteers
   List<Map<String, String>> get filteredUsers {
     return users.where((user) {
       final sameChapter = user["chapter"] == leaderChapter;
       final isPresident = user["position"]?.toLowerCase() == "president";
-      final isContentTeam =
-          user["team"]?.toLowerCase() == "content team" &&
+      final isGraphicsTeam =
+          user["team"]?.toLowerCase() == "graphics team" &&
               (user["position"]?.toLowerCase() == "volunteer" ||
-               user["position"]?.toLowerCase() == "team member");
+                  user["position"]?.toLowerCase() == "team member");
 
-      final matchesSearch = user["name"]!.toLowerCase().contains(searchQuery.toLowerCase()) ||
+      final matchesSearch = user["name"]!
+              .toLowerCase()
+              .contains(searchQuery.toLowerCase()) ||
           user["id"]!.contains(searchQuery) ||
           user["position"]!.toLowerCase().contains(searchQuery.toLowerCase()) ||
           (user.containsKey("team") &&
-              user["team"]!
-                  .toLowerCase()
-                  .contains(searchQuery.toLowerCase()));
+              user["team"]!.toLowerCase().contains(searchQuery.toLowerCase()));
 
-      return sameChapter && (isPresident || isContentTeam) && matchesSearch;
+      return sameChapter && (isPresident || isGraphicsTeam) && matchesSearch;
     }).toList();
   }
 
@@ -100,7 +97,8 @@ class _ContentTeamLeaderCommunicationScreenState
       context: context,
       builder: (context) {
         return Dialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           child: Container(
             width: 350,
             height: 400,
@@ -182,7 +180,7 @@ class _ContentTeamLeaderCommunicationScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Content Team Leader Communication"),
+        title: const Text("Graphics Team Leader Communication"),
       ),
       body: Column(
         children: [
@@ -199,7 +197,8 @@ class _ContentTeamLeaderCommunicationScreenState
                   ),
                 ),
                 IconButton(
-                  icon: Icon(Icons.search, color: Theme.of(context).primaryColor),
+                  icon:
+                      Icon(Icons.search, color: Theme.of(context).primaryColor),
                   onPressed: () => setState(() {
                     searchQuery = searchController.text;
                   }),
@@ -216,16 +215,20 @@ class _ContentTeamLeaderCommunicationScreenState
                   child: ListTile(
                     title: Text("${user["name"]} - ${user["position"]}",
                         style: TextStyle(
-                            color: Theme.of(context).textTheme.bodyLarge?.color)),
+                            color:
+                                Theme.of(context).textTheme.bodyLarge?.color)),
                     subtitle: Text(
                         "ID: ${user["id"]}" +
-                            (user.containsKey("team") && user["team"]!.isNotEmpty
+                            (user.containsKey("team") &&
+                                    user["team"]!.isNotEmpty
                                 ? "\nTeam: ${user["team"]}"
                                 : ""),
                         style: TextStyle(
-                            color: Theme.of(context).textTheme.bodyMedium?.color)),
+                            color:
+                                Theme.of(context).textTheme.bodyMedium?.color)),
                     trailing: IconButton(
-                      icon: Icon(Icons.message, color: Theme.of(context).primaryColor),
+                      icon: Icon(Icons.message,
+                          color: Theme.of(context).primaryColor),
                       onPressed: () => openChatPopup(context, user["name"]!),
                     ),
                   ),
