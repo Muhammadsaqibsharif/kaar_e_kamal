@@ -96,5 +96,8 @@ class RouteNames {
       '/GraphicsTeamLeaderAssignTaskScreen'; 
   static const String GraphicsTeamLeaderMemberAvailabilityScreen =
       '/GraphicsTeamLeaderMemberAvailabilityScreen';
+
+  static const String GraphicsTeamLeaderEditorScreen =
+      '/GraphicsTeamLeaderEditorScreen';
 }
 

@@ -3,8 +3,9 @@ import 'core/theme/app_theme.dart';
 import 'core/utils/shared_prefs.dart';
 import 'routes/app_routes.dart';
 import 'routes/route_names.dart';
+
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized(); 
+  WidgetsFlutterBinding.ensureInitialized();
   await SharedPrefs.init(); // Initialize SharedPreferences
   final isDarkMode = SharedPrefs.getThemeMode(); // Load theme mode
 

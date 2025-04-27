@@ -70,8 +70,8 @@ class GraphicsTeamLeaderDashboardScreen extends StatelessWidget {
                     title: 'Graphics Editor',
                     icon: Icons.edit,
                     onTap: () {
-                      // Navigator.pushNamed(context,
-                      //     RouteNames.GraphicsTeamContentEditorScreen);
+                      Navigator.pushNamed(
+                          context, RouteNames.GraphicsTeamLeaderEditorScreen);
                     },
                   ),
                   _buildFeatureTile(
