@@ -20,6 +20,14 @@ class UserHomeScreen2 extends StatelessWidget {
           style: theme.textTheme.titleLarge?.copyWith(color: Colors.white),
         ),
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.notifications, color: Colors.white),
+            onPressed: () {
+              // Navigator.pushNamed(context, RouteNames.NotificationsScreen);
+            },
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
