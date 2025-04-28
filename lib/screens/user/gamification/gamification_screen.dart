@@ -91,8 +91,14 @@ class _UserLeaderboardState extends State<UserLeaderboard> {
 
     List<Map<String, dynamic>> leaderboardData =
         selectedFilter == 'Overall Organization'
-            ? overallLeaderboard
-            : chapterLeaderboard;
+            ? [...overallLeaderboard]
+            : [...chapterLeaderboard];
+
+    leaderboardData.sort((a, b) {
+      double aPercentage = a["donationAchieved"] / a["donationTarget"];
+      double bPercentage = b["donationAchieved"] / b["donationTarget"];
+      return bPercentage.compareTo(aPercentage);
+    });
 
     return Scaffold(
       appBar: AppBar(
@@ -140,11 +146,12 @@ class _UserLeaderboardState extends State<UserLeaderboard> {
                         },
                         items: ['Overall Organization', 'My Chapter']
                             .map<DropdownMenuItem<String>>(
-                                (String value) => DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(value,
-                                          style: TextStyle(color: textColor)),
-                                    ))
+                              (String value) => DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value,
+                                    style: TextStyle(color: textColor)),
+                              ),
+                            )
                             .toList(),
                       ),
                     ),
@@ -184,27 +191,49 @@ class _UserLeaderboardState extends State<UserLeaderboard> {
                     child: ListTile(
                       contentPadding: const EdgeInsets.all(14),
                       leading: Stack(
-                        alignment: Alignment.topRight,
+                        alignment: Alignment.center,
                         children: [
                           CircleAvatar(
                             radius: 30,
                             backgroundImage: NetworkImage(donor["image"]),
                           ),
                           if (index < 3)
-                            Container(
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: badgeColor,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: badgeColor.withOpacity(0.6),
-                                    blurRadius: 6,
-                                  )
-                                ],
+                            Positioned(
+                              top: 0,
+                              right: 0,
+                              child: Container(
+                                width: 36,
+                                height: 36,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.transparent,
+                                ),
+                                child: Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.star,
+                                      size: 36,
+                                      color: badgeColor,
+                                    ),
+                                    Positioned(
+                                      top: 11,
+                                      child: Text(
+                                        index == 0
+                                            ? '1st'
+                                            : index == 1
+                                                ? '2nd'
+                                                : '3rd',
+                                        style: TextStyle(
+                                          fontSize: 9,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                              padding: EdgeInsets.all(5),
-                              child: Icon(Icons.star,
-                                  size: 16, color: Colors.white),
                             ),
                         ],
                       ),
@@ -225,9 +254,7 @@ class _UserLeaderboardState extends State<UserLeaderboard> {
                             minHeight: 10,
                             backgroundColor: Colors.grey[300],
                             valueColor: AlwaysStoppedAnimation<Color>(
-                              Color(0xFF31511E),
-
-                            ),
+                                Color(0xFF31511E)),
                           ),
                           SizedBox(height: 6),
                           Text(
