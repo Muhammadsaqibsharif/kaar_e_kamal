@@ -20,6 +20,7 @@ class RouteNames {
   static const String UserLeaderboard = '/UserLeaderboard';
   static const String TransparencyScreen = '/TransparencyScreen';
   static const String PostSharingScreen = '/PostSharingScreen';
+  static const String CaseDonationScreen = '/CaseDonationScreen';
 
   //super admin routes
   static const String dashboard = '/dashboard';

@@ -152,6 +152,11 @@ class UserHomeScreen2 extends StatelessWidget {
                       title: 'Profile', icon: Icons.person, onTap: () {
                     Navigator.pushNamed(context, RouteNames.UserProfileScreen);
                   }),
+                  _buildFeatureTile(context,
+                      title: 'Live Cases',
+                      icon: Icons.healing_sharp, onTap: () {
+                    Navigator.pushNamed(context, RouteNames.CaseDonationScreen);
+                  }),
                 ],
               ),
             ),

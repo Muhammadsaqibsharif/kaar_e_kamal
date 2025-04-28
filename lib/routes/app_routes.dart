@@ -72,6 +72,7 @@ import 'package:kaar_e_kamal/screens/user/family_submission/needy_family_submiss
 import 'package:kaar_e_kamal/screens/user/gamification/gamification_screen.dart';
 import 'package:kaar_e_kamal/screens/user/home_screen.dart';
 import 'package:kaar_e_kamal/screens/user/home_screen2.dart';
+import 'package:kaar_e_kamal/screens/user/live_cases/case_donation_screen.dart';
 import 'package:kaar_e_kamal/screens/user/social_engagement/post_sharing_screen.dart';
 import 'package:kaar_e_kamal/screens/user/transparency/transparency_screen.dart';
 import 'package:kaar_e_kamal/widgets/president/dashboard/president_dashboard_widget.dart';
@@ -115,6 +116,7 @@ class AppRoutes {
       RouteNames.UserLeaderboard: (context) => UserLeaderboard(),
       RouteNames.TransparencyScreen: (context) => TransparencyScreen(),
       RouteNames.PostSharingScreen: (context) => PostSharingScreen(),
+      RouteNames.CaseDonationScreen: (context) => CaseDonationScreen(),
       //profile
       RouteNames.UserProfileScreen: (context) => UserProfileScreen(
             imgPath:
