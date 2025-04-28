@@ -54,7 +54,7 @@ class UserHomeScreen extends StatelessWidget {
                 subtitle: 'Earn badges and check leaderboards.',
                 icon: Icons.emoji_events,
                 onTap: () {
-                  Navigator.pushNamed(context, RouteNames.GamificationScreen);
+                  Navigator.pushNamed(context, RouteNames.UserLeaderboard);
                   // Navigate to Gamification Page
                 },
               ),

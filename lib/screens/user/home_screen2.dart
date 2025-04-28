@@ -127,7 +127,7 @@ class UserHomeScreen2 extends StatelessWidget {
                   }),
                   _buildFeatureTile(context,
                       title: 'Rewards', icon: Icons.emoji_events, onTap: () {
-                    Navigator.pushNamed(context, RouteNames.GamificationScreen);
+                    Navigator.pushNamed(context, RouteNames.UserLeaderboard);
                   }),
                   _buildFeatureTile(context, title: 'Social', icon: Icons.share,
                       onTap: () {

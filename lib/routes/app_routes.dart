@@ -112,7 +112,7 @@ class AppRoutes {
           BloodDonationRegistrationScreen(),
       RouteNames.BloodDonationHistoryScreen: (context) =>
           BloodDonationHistoryScreen(),
-      RouteNames.GamificationScreen: (context) => GamificationScreen(),
+      RouteNames.UserLeaderboard: (context) => UserLeaderboard(),
       RouteNames.TransparencyScreen: (context) => TransparencyScreen(),
       RouteNames.PostSharingScreen: (context) => PostSharingScreen(),
       //profile
