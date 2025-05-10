@@ -3,7 +3,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:kaar_e_kamal/routes/route_names.dart';
 import 'dart:convert';
 import 'dart:ui';
-import 'package:kaar_e_kamal/api/api_controller.dart'; // Make sure this is imported
+import 'package:kaar_e_kamal/api/api_controller.dart';
+import 'package:shared_preferences/shared_preferences.dart'; // ADDED
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -50,8 +51,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
       if (response.statusCode == 200) {
         final id = data['userId'];
+        final token = data['accessToken'];
 
         if (id != null && id.length >= 2) {
+          // ✅ Save accessToken & userId in SharedPreferences
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setString('accessToken', token);
+          await prefs.setString('userId', id);
+
           String prefix = id.substring(0, 2);
 
           switch (prefix) {
@@ -218,5 +225,34 @@ class _LoginScreenState extends State<LoginScreen> {
         ],
       ),
     );
+  }
+}
+
+// ✅ Check login status function (call this in main or splash screen)
+Future<void> checkLoginStatus(BuildContext context) async {
+  final prefs = await SharedPreferences.getInstance();
+  String? token = prefs.getString('accessToken');
+  String? userId = prefs.getString('userId');
+
+  if (token != null && token.isNotEmpty && userId != null) {
+    String prefix = userId.substring(0, 2);
+    switch (prefix) {
+      case 'GE':
+        Navigator.pushReplacementNamed(context, RouteNames.UserHomeScreen2);
+        break;
+      case 'PR':
+        Navigator.pushReplacementNamed(
+            context, RouteNames.PresidentDashboardScreen);
+        break;
+      case 'CL':
+        Navigator.pushReplacementNamed(
+            context, RouteNames.ContentTeamLeaderDashboardScreen);
+        break;
+      default:
+        // optional: logout or send to login if prefix is weird
+        break;
+    }
+  } else {
+    Navigator.pushReplacementNamed(context, RouteNames.LoginScreen);
   }
 }

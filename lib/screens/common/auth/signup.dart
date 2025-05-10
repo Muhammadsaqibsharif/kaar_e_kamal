@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kaar_e_kamal/api/api_controller.dart';
 import 'package:kaar_e_kamal/routes/route_names.dart';
 import 'dart:io';
 import 'dart:math';
+import 'dart:ui';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -22,12 +24,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _email = TextEditingController();
   final _password = TextEditingController();
   final _confirmPassword = TextEditingController();
+  final _phoneNo = TextEditingController();
 
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
 
   String generatedId = '';
-  final String selectedTeam = 'General User'; // Always fixed
+  final String selectedTeam = 'General User';
   String? selectedCity;
 
   final List<String> cities = [
@@ -57,6 +60,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
     'Jhelum',
     'Sahiwal'
   ];
+
+  bool _isLoading = false;
 
   void _pickImage() async {
     final XFile? pickedFile =
@@ -110,14 +115,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
 
     final signupData = {
-    '_id': generatedId, // ✅ Pass the custom ID
-    'firstName': _firstName.text.trim(),
-    'lastName': _lastName.text.trim(),
-    'email': _email.text.trim(),
-    'password': _password.text,
-    'city': selectedCity!,
-  };
+      '_id': generatedId,
+      'firstName': _firstName.text.trim(),
+      'lastName': _lastName.text.trim(),
+      'email': _email.text.trim(),
+      'password': _password.text,
+      'city': selectedCity!,
+      'phone': _phoneNo.text.trim(),
+    };
 
+    setState(() {
+      _isLoading = true;
+    });
 
     try {
       final response = await ApiController.post('/auth/signup', signupData);
@@ -143,13 +152,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
       } else {
         final responseData = jsonDecode(response.body);
         final errorMsg = responseData['message'] ?? "Signup failed";
+        print("Error response: $errorMsg");
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text(errorMsg)));
       }
     } catch (e) {
+      print("Error before snack bar: $e");
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Error: ${e.toString()}")),
       );
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 
@@ -160,148 +175,178 @@ class _SignUpScreenState extends State<SignUpScreen> {
         title: const Text("Sign Up"),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            GestureDetector(
-              onTap: _pickImage,
-              child: CircleAvatar(
-                radius: 50,
-                backgroundImage:
-                    _profileImage != null ? FileImage(_profileImage!) : null,
-                child: _profileImage == null
-                    ? const Icon(Icons.add_a_photo, size: 30)
-                    : null,
-              ),
-            ),
-            const SizedBox(height: 16),
-            TextField(
-              controller: _firstName,
-              onChanged: (_) => _generateUniqueId(),
-              decoration: const InputDecoration(
-                labelText: "First Name",
-                border: OutlineInputBorder(),
-              ),
-            ),
-            const SizedBox(height: 12),
-            TextField(
-              controller: _lastName,
-              onChanged: (_) => _generateUniqueId(),
-              decoration: const InputDecoration(
-                labelText: "Last Name",
-                border: OutlineInputBorder(),
-              ),
-            ),
-            const SizedBox(height: 12),
-            TextField(
-              controller: _email,
-              decoration: const InputDecoration(
-                labelText: "Email",
-                border: OutlineInputBorder(),
-              ),
-            ),
-            const SizedBox(height: 12),
-            Autocomplete<String>(
-              optionsBuilder: (TextEditingValue textEditingValue) {
-                return cities
-                    .where((city) => city
-                        .toLowerCase()
-                        .startsWith(textEditingValue.text.toLowerCase()))
-                    .toList();
-              },
-              onSelected: (String city) {
-                setState(() => selectedCity = city);
-              },
-              fieldViewBuilder:
-                  (context, controller, focusNode, onEditingComplete) {
-                controller.text = selectedCity ?? '';
-                return TextField(
-                  controller: controller,
-                  focusNode: focusNode,
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                GestureDetector(
+                  onTap: _pickImage,
+                  child: CircleAvatar(
+                    radius: 50,
+                    backgroundImage: _profileImage != null
+                        ? FileImage(_profileImage!)
+                        : null,
+                    child: _profileImage == null
+                        ? const Icon(Icons.add_a_photo, size: 30)
+                        : null,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                TextField(
+                  controller: _firstName,
+                  onChanged: (_) => _generateUniqueId(),
                   decoration: const InputDecoration(
-                    labelText: 'City',
+                    labelText: "First Name",
                     border: OutlineInputBorder(),
                   ),
-                );
-              },
-              optionsViewBuilder: (context, onSelected, options) {
-                return Align(
-                  alignment: Alignment.topLeft,
-                  child: Material(
-                    elevation: 4.0,
-                    child: Container(
-                      width: MediaQuery.of(context).size.width - 32,
-                      child: ListView.builder(
-                        padding: EdgeInsets.zero,
-                        shrinkWrap: true,
-                        itemCount: options.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          final String option = options.elementAt(index);
-                          return ListTile(
-                            title: Text(option),
-                            onTap: () => onSelected(option),
-                          );
-                        },
+                ),
+                const SizedBox(height: 12),
+                TextField(
+                  controller: _lastName,
+                  onChanged: (_) => _generateUniqueId(),
+                  decoration: const InputDecoration(
+                    labelText: "Last Name",
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                TextField(
+                  controller: _email,
+                  decoration: const InputDecoration(
+                    labelText: "Email",
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                TextField(
+                  controller: _phoneNo,
+                  decoration: const InputDecoration(
+                    labelText: "Phone No",
+                    border: OutlineInputBorder(),
+                  ),
+                  keyboardType: TextInputType.phone,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                    LengthLimitingTextInputFormatter(11),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                Autocomplete<String>(
+                  optionsBuilder: (TextEditingValue textEditingValue) {
+                    return cities
+                        .where((city) => city
+                            .toLowerCase()
+                            .startsWith(textEditingValue.text.toLowerCase()))
+                        .toList();
+                  },
+                  onSelected: (String city) {
+                    setState(() => selectedCity = city);
+                  },
+                  fieldViewBuilder:
+                      (context, controller, focusNode, onEditingComplete) {
+                    controller.text = selectedCity ?? '';
+                    return TextField(
+                      controller: controller,
+                      focusNode: focusNode,
+                      decoration: const InputDecoration(
+                        labelText: 'City',
+                        border: OutlineInputBorder(),
                       ),
+                    );
+                  },
+                  optionsViewBuilder: (context, onSelected, options) {
+                    return Align(
+                      alignment: Alignment.topLeft,
+                      child: Material(
+                        elevation: 4.0,
+                        child: Container(
+                          width: MediaQuery.of(context).size.width - 32,
+                          child: ListView.builder(
+                            padding: EdgeInsets.zero,
+                            shrinkWrap: true,
+                            itemCount: options.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              final String option = options.elementAt(index);
+                              return ListTile(
+                                title: Text(option),
+                                onTap: () => onSelected(option),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+                const SizedBox(height: 12),
+                TextField(
+                  controller: _password,
+                  obscureText: _obscurePassword,
+                  decoration: InputDecoration(
+                    labelText: "Password",
+                    border: const OutlineInputBorder(),
+                    suffixIcon: IconButton(
+                      icon: Icon(_obscurePassword
+                          ? Icons.visibility_off
+                          : Icons.visibility),
+                      onPressed: () =>
+                          setState(() => _obscurePassword = !_obscurePassword),
                     ),
                   ),
-                );
-              },
-            ),
-            const SizedBox(height: 12),
-            TextField(
-              controller: _password,
-              obscureText: _obscurePassword,
-              decoration: InputDecoration(
-                labelText: "Password",
-                border: const OutlineInputBorder(),
-                suffixIcon: IconButton(
-                  icon: Icon(_obscurePassword
-                      ? Icons.visibility_off
-                      : Icons.visibility),
-                  onPressed: () =>
-                      setState(() => _obscurePassword = !_obscurePassword),
                 ),
-              ),
-            ),
-            const SizedBox(height: 12),
-            TextField(
-              controller: _confirmPassword,
-              obscureText: _obscureConfirmPassword,
-              decoration: InputDecoration(
-                labelText: "Confirm Password",
-                border: const OutlineInputBorder(),
-                suffixIcon: IconButton(
-                  icon: Icon(_obscureConfirmPassword
-                      ? Icons.visibility_off
-                      : Icons.visibility),
-                  onPressed: () => setState(
-                      () => _obscureConfirmPassword = !_obscureConfirmPassword),
-                ),
-              ),
-            ),
-            const SizedBox(height: 20),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: _submitForm,
-                style: ElevatedButton.styleFrom(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0),
+                const SizedBox(height: 12),
+                TextField(
+                  controller: _confirmPassword,
+                  obscureText: _obscureConfirmPassword,
+                  decoration: InputDecoration(
+                    labelText: "Confirm Password",
+                    border: const OutlineInputBorder(),
+                    suffixIcon: IconButton(
+                      icon: Icon(_obscureConfirmPassword
+                          ? Icons.visibility_off
+                          : Icons.visibility),
+                      onPressed: () => setState(() =>
+                          _obscureConfirmPassword = !_obscureConfirmPassword),
+                    ),
                   ),
                 ),
-                child: const Text(
-                  "Sign Up",
-                  style: TextStyle(fontSize: 16),
+                const SizedBox(height: 20),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: _submitForm,
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 14, horizontal: 20),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                    ),
+                    child: const Text(
+                      "Sign Up",
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+          if (_isLoading)
+            Positioned.fill(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                child: Container(
+                  color: Colors.black.withOpacity(0.3),
+                  child: const Center(
+                    child: CircularProgressIndicator(),
+                  ),
                 ),
               ),
-            )
-          ],
-        ),
+            ),
+        ],
       ),
     );
   }

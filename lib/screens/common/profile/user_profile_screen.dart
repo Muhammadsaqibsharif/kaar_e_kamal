@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:kaar_e_kamal/widgets/common/profile/info_row.dart';
 import 'package:kaar_e_kamal/widgets/common/profile/profile_avatar.dart';
 
-class UserProfileScreen extends StatelessWidget {
+class UserProfileScreen extends StatefulWidget {
   final String imgPath;
   final String userId;
   final String userName;
@@ -21,99 +20,109 @@ class UserProfileScreen extends StatelessWidget {
   });
 
   @override
+  State<UserProfileScreen> createState() => _UserProfileScreenState();
+}
+
+class _UserProfileScreenState extends State<UserProfileScreen> {
+  bool isEditing = false;
+
+  late TextEditingController nameController;
+  late TextEditingController emailController;
+  late TextEditingController phoneController;
+
+  @override
+  void initState() {
+    super.initState();
+    nameController = TextEditingController(text: widget.userName);
+    emailController = TextEditingController(text: widget.userEmail);
+    phoneController = TextEditingController(text: widget.userPhone);
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    emailController.dispose();
+    phoneController.dispose();
+    super.dispose();
+  }
+
+  void _toggleEdit() {
+    setState(() {
+      isEditing = !isEditing;
+    });
+  }
+
+  void _saveProfile() {
+    // Example: you can update Firestore/API here
+
+    setState(() {
+      isEditing = false;
+    });
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Profile updated successfully')),
+    );
+  }
+
+  Widget _buildReadOnlyField(String label, String value) {
+    return ListTile(
+      title: Text(label, style: const TextStyle(fontWeight: FontWeight.bold)),
+      subtitle: Text(value),
+    );
+  }
+
+  Widget _buildEditableField(String label, TextEditingController controller) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: TextField(
+        controller: controller,
+        enabled: isEditing,
+        decoration: InputDecoration(
+          labelText: label,
+          border: const OutlineInputBorder(),
+        ),
+      ),
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('User Profile'),
         actions: [
           IconButton(
-            icon: const Icon(Icons.edit),
-            onPressed: () {
-              _showEditDialog(context);
-            },
+            icon: Icon(isEditing ? Icons.close : Icons.edit),
+            onPressed: _toggleEdit,
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(20),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Center(
-              child: ProfileAvatar(assetPath: imgPath),
-            ),
+            Center(child: ProfileAvatar(assetPath: widget.imgPath)),
             const SizedBox(height: 20),
-            InfoRow(label: 'User ID', value: userId),
-            InfoRow(label: 'Name', value: userName),
-            InfoRow(label: 'Email', value: userEmail),
-            InfoRow(label: 'Phone', value: userPhone),
-            InfoRow(label: 'User Type', value: userType),
+            _buildReadOnlyField('User ID', widget.userId),
+            _buildEditableField('Name', nameController),
+            _buildEditableField('Email', emailController),
+            _buildEditableField('Phone', phoneController),
+            _buildReadOnlyField('User Type', widget.userType),
+            if (isEditing)
+              Padding(
+                padding: const EdgeInsets.only(top: 30),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton.icon(
+                    onPressed: _saveProfile,
+                    icon: const Icon(Icons.save),
+                    label: const Text('Save Changes'),
+                  ),
+                ),
+              ),
           ],
         ),
       ),
-    );
-  }
-
-  void _showEditDialog(BuildContext context) {
-    final TextEditingController nameController =
-        TextEditingController(text: userName);
-    final TextEditingController emailController =
-        TextEditingController(text: userEmail);
-    final TextEditingController phoneController =
-        TextEditingController(text: userPhone);
-
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Edit Profile'),
-          content: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TextField(
-                  controller: nameController,
-                  decoration: const InputDecoration(
-                    labelText: 'Name',
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-                const SizedBox(height: 10),
-                TextField(
-                  controller: emailController,
-                  decoration: const InputDecoration(
-                    labelText: 'Email',
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-                const SizedBox(height: 10),
-                TextField(
-                  controller: phoneController,
-                  decoration: const InputDecoration(
-                    labelText: 'Phone',
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context); // Close the dialog
-              },
-              child: const Text('Cancel'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                // Perform save operation here (e.g., send data to a database or API)
-                Navigator.pop(context); // Close the dialog
-              },
-              child: const Text('Save'),
-            ),
-          ],
-        );
-      },
     );
   }
 }
