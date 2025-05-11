@@ -118,16 +118,7 @@ class AppRoutes {
       RouteNames.PostSharingScreen: (context) => PostSharingScreen(),
       RouteNames.CaseDonationScreen: (context) => CaseDonationScreen(),
       //profile
-      RouteNames.UserProfileScreen: (context) => UserProfileScreen(
-            imgPath:
-                'assets/pics/DP.jpg', // Replace with actual value or variable
-            userId: 'DEV910', // Replace with actual value or variable
-            userName: 'M Saqib', // Replace with actual value or variable
-            userEmail:
-                'Msaqibsharif430.com', // Replace with actual value or variable
-            userPhone: '030-84075-256', // Replace with actual value or variable
-            userType: 'Leader', // Replace with actual value or variable
-          ),
+      RouteNames.UserProfileScreen: (context) => UserProfileScreen(),
 
       //Super Admin Routes
       //Dashboard

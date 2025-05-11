@@ -30,11 +30,9 @@ class DonationCard extends StatelessWidget {
           'Amount: $amount',
           style: theme.textTheme.bodyMedium,
         ),
-        trailing: IconButton(
-          icon: const Icon(Icons.edit, color: Colors.grey),
-          onPressed: () {
-            // Edit donation functionality
-          },
+        trailing: Icon(
+          Icons.payment,
+          color: Theme.of(context).primaryColor, // Use primary color for icon
         ),
       ),
     );

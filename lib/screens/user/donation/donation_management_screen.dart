@@ -1,8 +1,65 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../../../widgets/user/donation/donation_list.dart';
 
-class DonationManagementScreen extends StatelessWidget {
+class DonationManagementScreen extends StatefulWidget {
   const DonationManagementScreen({Key? key}) : super(key: key);
+
+  @override
+  State<DonationManagementScreen> createState() =>
+      _DonationManagementScreenState();
+}
+
+class _DonationManagementScreenState extends State<DonationManagementScreen> {
+  final TextEditingController _amountController = TextEditingController();
+  String? _selectedPaymentMethod;
+
+  Future<void> _makeDonation() async {
+    final user = FirebaseAuth.instance.currentUser;
+
+    if (user == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("You need to be logged in to donate.")),
+      );
+      return;
+    }
+
+    final amount = _amountController.text.trim();
+    if (amount.isEmpty || _selectedPaymentMethod == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+            content: Text("Please enter amount and select payment method.")),
+      );
+      return;
+    }
+
+    try {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .collection('donation_records')
+          .add({
+        'amount': amount,
+        'payment_method': _selectedPaymentMethod,
+        'date': DateTime.now(),
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Donated RS.$amount Successfully.")),
+      );
+
+      // Clear fields after donation
+      _amountController.clear();
+      setState(() {
+        _selectedPaymentMethod = null;
+      });
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error: $e")),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +72,6 @@ class DonationManagementScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
-          // Top Section: "Make a Donation"
           Container(
             padding: const EdgeInsets.all(16.0),
             color: theme.primaryColor.withOpacity(0.05),
@@ -32,13 +88,12 @@ class DonationManagementScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    // Row for Amount and Payment Method
                     Row(
                       children: [
-                        // Enter Amount Field
                         Expanded(
                           flex: 2,
                           child: TextField(
+                            controller: _amountController,
                             keyboardType: TextInputType.number,
                             decoration: InputDecoration(
                               labelText: 'Enter Amount',
@@ -53,17 +108,17 @@ class DonationManagementScreen extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 16),
-                        // Payment Method Dropdown
                         Expanded(
                           flex: 3,
                           child: DropdownButtonFormField<String>(
+                            value: _selectedPaymentMethod,
                             items: const [
                               DropdownMenuItem(
-                                value: 'credit_card',
+                                value: 'Credit Card',
                                 child: Text('Credit Card'),
                               ),
                               DropdownMenuItem(
-                                value: 'bank_transfer',
+                                value: 'Bank Transfer',
                                 child: Text('Bank Transfer'),
                               ),
                               DropdownMenuItem(
@@ -76,7 +131,9 @@ class DonationManagementScreen extends StatelessWidget {
                               ),
                             ],
                             onChanged: (value) {
-                              // Handle payment method selection
+                              setState(() {
+                                _selectedPaymentMethod = value;
+                              });
                             },
                             decoration: InputDecoration(
                               labelText: 'Payment Method',
@@ -89,16 +146,13 @@ class DonationManagementScreen extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 16),
-                    // Make Donation Button
                     SizedBox(
-                      width: constraints.maxWidth, // Take the full width
+                      width: constraints.maxWidth,
                       child: ElevatedButton(
-                        onPressed: () {
-                          // Add donation logic here
-                        },
+                        onPressed: _makeDonation,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: theme.primaryColor,
-                          foregroundColor: Colors.white, // Button text color
+                          foregroundColor: Colors.white,
                           padding: const EdgeInsets.symmetric(
                               vertical: 12, horizontal: 16),
                           shape: RoundedRectangleBorder(
@@ -116,12 +170,20 @@ class DonationManagementScreen extends StatelessWidget {
               },
             ),
           ),
-          // Bottom Section: Donation List
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+            child: Text(
+              'Your Donation Records',
+              style: theme.textTheme.bodySmall?.copyWith(
+                fontSize: 22.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(16.0),
-              child:
-                  DonationList(), // Reusable widget for displaying donation cards
+              child: DonationList(),
             ),
           ),
         ],

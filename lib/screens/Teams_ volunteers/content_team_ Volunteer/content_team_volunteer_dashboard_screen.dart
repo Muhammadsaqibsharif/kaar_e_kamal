@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kaar_e_kamal/routes/route_names.dart';
+import 'package:kaar_e_kamal/screens/drawer/mainDrawer.dart';
 
 class ContentTeamVolunteerDashboardScreen extends StatelessWidget {
   const ContentTeamVolunteerDashboardScreen({super.key});
@@ -9,7 +10,17 @@ class ContentTeamVolunteerDashboardScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Content Team Volunteer'),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.person, color: Colors.white),
+            onPressed: () {
+              Navigator.pushNamed(context, RouteNames.UserProfileScreen);
+            },
+          ),
+        ],
       ),
+      drawer: MainDrawer(),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
