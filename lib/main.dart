@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+
+// Local imports
 import 'core/theme/app_theme.dart';
 import 'core/utils/shared_prefs.dart';
 import 'routes/app_routes.dart';
@@ -6,9 +9,15 @@ import 'routes/route_names.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await SharedPrefs.init(); // Initialize SharedPreferences
-  final isDarkMode = SharedPrefs.getThemeMode(); // Load theme mode
 
+  // Initialize SharedPreferences
+  await SharedPrefs.init();
+  final isDarkMode = SharedPrefs.getThemeMode();
+
+  // Initialize Firebase
+  await Firebase.initializeApp();
+
+  // Run the app
   runApp(MyApp(isDarkMode: isDarkMode));
 }
 
@@ -32,9 +41,8 @@ class _MyAppState extends State<MyApp> {
   /// Function to toggle between light and dark themes
   void toggleTheme(bool value) {
     setState(() {
-      isDarkMode = value; // Update the state
-      SharedPrefs.setThemeMode(
-          isDarkMode); // Save the state to SharedPreferences
+      isDarkMode = value;
+      SharedPrefs.setThemeMode(isDarkMode);
     });
   }
 
@@ -43,16 +51,13 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Theme Switcher App',
-      theme: AppTheme.lightTheme, // Define the light theme
-      darkTheme: AppTheme.darkTheme, // Define the dark theme
-      themeMode: isDarkMode
-          ? ThemeMode.dark
-          : ThemeMode.light, // Dynamically switch themes
-      initialRoute:
-          RouteNames.home, // Use the RouteNames constant for initial route
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
+      initialRoute: RouteNames.home,
       routes: AppRoutes.getRoutes(
         isDarkMode: isDarkMode,
-        toggleTheme: toggleTheme, // Pass the correct toggleTheme function
+        toggleTheme: toggleTheme,
       ),
     );
   }

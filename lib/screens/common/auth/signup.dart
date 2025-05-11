@@ -1,12 +1,14 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:kaar_e_kamal/api/api_controller.dart';
-import 'package:kaar_e_kamal/routes/route_names.dart';
 import 'dart:io';
 import 'dart:math';
 import 'dart:ui';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:kaar_e_kamal/routes/route_names.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -30,7 +32,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool _obscureConfirmPassword = true;
 
   String generatedId = '';
-  final String selectedTeam = 'General User';
+  final String Role = 'General User';
   String? selectedCity;
 
   final List<String> cities = [
@@ -73,8 +75,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   void _generateUniqueId() {
     final random = Random();
-    final teamCode =
-        selectedTeam.replaceAll(' ', '').substring(0, 2).toUpperCase();
+    final teamCode = Role.replaceAll(' ', '').substring(0, 2).toUpperCase();
     final fInit =
         _firstName.text.isNotEmpty ? _firstName.text[0].toUpperCase() : 'X';
     final lInit = _lastName.text.isNotEmpty
@@ -114,50 +115,65 @@ class _SignUpScreenState extends State<SignUpScreen> {
       return;
     }
 
-    final signupData = {
-      '_id': generatedId,
-      'firstName': _firstName.text.trim(),
-      'lastName': _lastName.text.trim(),
-      'email': _email.text.trim(),
-      'password': _password.text,
-      'city': selectedCity!,
-      'phone': _phoneNo.text.trim(),
-    };
-
     setState(() {
       _isLoading = true;
     });
 
     try {
-      final response = await ApiController.post('/auth/signup', signupData);
+      // Firebase authentication
+      UserCredential userCredential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+              email: _email.text.trim(), password: _password.text);
 
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Signed up successfully!")),
-        );
+      String uid = userCredential.user!.uid;
+      String? imageString;
 
-        _firstName.clear();
-        _lastName.clear();
-        _email.clear();
-        _password.clear();
-        _confirmPassword.clear();
-        setState(() {
-          selectedCity = null;
-          _profileImage = null;
-        });
-
-        Future.delayed(const Duration(seconds: 1), () {
-          Navigator.pushReplacementNamed(context, RouteNames.LoginScreen);
-        });
-      } else {
-        final responseData = jsonDecode(response.body);
-        final errorMsg = responseData['message'] ?? "Signup failed";
-        print("Error response: $errorMsg");
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(errorMsg)));
+      // Convert image to Base64 string if exists
+      if (_profileImage != null) {
+        final bytes = await _profileImage!.readAsBytes();
+        imageString = base64Encode(bytes);
       }
+
+      // Save user data to Firestore
+      await FirebaseFirestore.instance.collection('users').doc(uid).set({
+        '_id': generatedId,
+        'firstName': _firstName.text.trim(),
+        'lastName': _lastName.text.trim(),
+        'email': _email.text.trim(),
+        'phone': _phoneNo.text.trim(),
+        'city': selectedCity!,
+        'profileImageString': imageString ?? '',
+        'Role': Role,
+        'createdAt': FieldValue.serverTimestamp(),
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Signed up successfully!")),
+      );
+
+      // Clear input fields
+      _firstName.clear();
+      _lastName.clear();
+      _email.clear();
+      _password.clear();
+      _confirmPassword.clear();
+      _phoneNo.clear();
+
+      setState(() {
+        selectedCity = null;
+        _profileImage = null;
+      });
+
+      // Navigate back to the previous screen after a brief delay
+      // Navigate to the login page after successful signup
+      Future.delayed(const Duration(seconds: 1), () {
+        Navigator.pushReplacementNamed(context, RouteNames.LoginScreen);
+      });
+    } on FirebaseAuthException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.message ?? 'Signup failed')),
+      );
     } catch (e) {
-      print("Error before snack bar: $e");
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Error: ${e.toString()}")),
       );
@@ -257,29 +273,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                     );
                   },
-                  optionsViewBuilder: (context, onSelected, options) {
-                    return Align(
-                      alignment: Alignment.topLeft,
-                      child: Material(
-                        elevation: 4.0,
-                        child: Container(
-                          width: MediaQuery.of(context).size.width - 32,
-                          child: ListView.builder(
-                            padding: EdgeInsets.zero,
-                            shrinkWrap: true,
-                            itemCount: options.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              final String option = options.elementAt(index);
-                              return ListTile(
-                                title: Text(option),
-                                onTap: () => onSelected(option),
-                              );
-                            },
-                          ),
-                        ),
-                      ),
-                    );
-                  },
                 ),
                 const SizedBox(height: 12),
                 TextField(
@@ -318,19 +311,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: _submitForm,
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 14, horizontal: 20),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                    ),
-                    child: const Text(
-                      "Sign Up",
-                      style: TextStyle(fontSize: 16),
-                    ),
+                    child: const Text("Sign Up"),
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -340,9 +323,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
                 child: Container(
                   color: Colors.black.withOpacity(0.3),
-                  child: const Center(
-                    child: CircularProgressIndicator(),
-                  ),
+                  child: const Center(child: CircularProgressIndicator()),
                 ),
               ),
             ),

@@ -1,10 +1,10 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:kaar_e_kamal/routes/route_names.dart';
-import 'dart:convert';
-import 'dart:ui';
-import 'package:kaar_e_kamal/api/api_controller.dart';
-import 'package:shared_preferences/shared_preferences.dart'; // ADDED
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -20,6 +20,42 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _obscurePassword = true;
   bool _isLoading = false;
 
+  @override
+  void initState() {
+    super.initState();
+    _checkLoginStatus();
+  }
+
+  void _checkLoginStatus() async {
+    // Check if the user is already logged in
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      // Retrieve the user document from Firestore
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .get();
+
+      if (userDoc.exists) {
+        String role = userDoc['Role'] ?? '';
+        String routeName = _getRouteForRole(role);
+
+        // Navigate to the appropriate screen based on the role
+        if (routeName.isNotEmpty) {
+          Navigator.pushReplacementNamed(context, routeName);
+        } else {
+          // If the role is not found, stay on the login screen
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Role not found.")),
+          );
+        }
+      } else {
+        // User document not found, log out and stay on the login screen
+        await FirebaseAuth.instance.signOut();
+      }
+    }
+  }
+
   void _login() async {
     final String idOrEmail = _idOrEmailController.text.trim();
     final String password = _passwordController.text.trim();
@@ -32,76 +68,98 @@ class _LoginScreenState extends State<LoginScreen> {
       return;
     }
 
-    final loginData = {
-      'idOrEmail': idOrEmail,
-      'password': password,
-    };
-
     setState(() {
       _isLoading = true;
     });
 
     try {
-      final response = await ApiController.post('/auth/login', loginData);
+      // Sign in with Firebase Auth
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: idOrEmail,
+        password: password,
+      );
 
-      final data = jsonDecode(response.body);
-      print("Response type debug: ${data.runtimeType}");
-      print("Data keys: ${data.keys}");
-      print("Full data: $data");
+      User? user = userCredential.user;
+      if (user != null) {
+        String uid = user.uid;
 
-      if (response.statusCode == 200) {
-        final id = data['userId'];
-        final token = data['accessToken'];
+        // Store UID in SharedPreferences
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('uid', uid);
+        print("User id is " + uid);
 
-        if (id != null && id.length >= 2) {
-          // ✅ Save accessToken & userId in SharedPreferences
-          final prefs = await SharedPreferences.getInstance();
-          await prefs.setString('accessToken', token);
-          await prefs.setString('userId', id);
+        // Retrieve role from Firestore
+        DocumentSnapshot userDoc =
+            await FirebaseFirestore.instance.collection('users').doc(uid).get();
 
-          String prefix = id.substring(0, 2);
+        if (userDoc.exists) {
+          String role = userDoc['Role'] ?? '';
 
-          switch (prefix) {
-            case 'GE':
-              Navigator.pushReplacementNamed(
-                  context, RouteNames.UserHomeScreen2);
-              break;
-            case 'PR':
-              Navigator.pushReplacementNamed(
-                  context, RouteNames.PresidentDashboardScreen);
-              break;
-            case 'CL':
-              Navigator.pushReplacementNamed(
-                  context, RouteNames.ContentTeamLeaderDashboardScreen);
-              break;
-            default:
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text("Unknown ID prefix: $prefix")),
-              );
+          // Based on the role, route to the appropriate screen
+          String routeName = _getRouteForRole(role);
+
+          // Navigate to the correct screen based on the role
+          if (routeName.isNotEmpty) {
+            if (!mounted) return;
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text("Login successful!")),
+            );
+            Navigator.pushReplacementNamed(context, routeName);
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text("Role not found.")),
+            );
           }
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Invalid or missing ID")),
+            const SnackBar(content: Text("User document not found.")),
           );
         }
-      } else {
-        final error = jsonDecode(response.body)['message'] ?? "Login failed";
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(error)));
-        print(Text(" Error2: $error"));
       }
+    } on FirebaseAuthException catch (e) {
+      if (!mounted) return;
+      String errorMessage = "An error occurred.";
+      if (e.code == 'user-not-found') {
+        errorMessage = "No user found with this email.";
+      } else if (e.code == 'wrong-password') {
+        errorMessage = "Incorrect password.";
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(errorMessage)),
+      );
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Error: ${e.toString()}")),
       );
-      print(Text("Error2: ${e.toString()}"));
-    } finally {
-      if (mounted) {
-        setState(() {
-          _isLoading = false;
-        });
-      }
+    }
+
+    if (mounted) {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  String _getRouteForRole(String role) {
+    switch (role) {
+      case 'General User':
+        return RouteNames.UserHomeScreen2;
+      case 'Super Admin':
+        return RouteNames.dashboard;
+      case 'President':
+        return RouteNames.PresidentDashboardScreen;
+      case 'Content Team Leader':
+        return RouteNames.ContentTeamLeaderDashboardScreen;
+      case 'Content Team Volunteer':
+        return RouteNames.ContentTeamVolunteerDashboardScreen;
+      case 'Graphics Team Leader':
+        return RouteNames.GraphicsTeamLeaderDashboardScreen;
+      case 'Graphics Team Volunteer':
+        return RouteNames.GraphicsTeamVolunteerDashboardScreen;
+      default:
+        return ''; // Role not found
     }
   }
 
@@ -179,7 +237,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton.icon(
-                      onPressed: () {},
+                      onPressed: () {
+                        // Google Sign-in logic (can be added later)
+                      },
                       icon: const FaIcon(FontAwesomeIcons.google,
                           color: Colors.blue),
                       label: const Text("Sign in with Google"),
@@ -225,34 +285,5 @@ class _LoginScreenState extends State<LoginScreen> {
         ],
       ),
     );
-  }
-}
-
-// ✅ Check login status function (call this in main or splash screen)
-Future<void> checkLoginStatus(BuildContext context) async {
-  final prefs = await SharedPreferences.getInstance();
-  String? token = prefs.getString('accessToken');
-  String? userId = prefs.getString('userId');
-
-  if (token != null && token.isNotEmpty && userId != null) {
-    String prefix = userId.substring(0, 2);
-    switch (prefix) {
-      case 'GE':
-        Navigator.pushReplacementNamed(context, RouteNames.UserHomeScreen2);
-        break;
-      case 'PR':
-        Navigator.pushReplacementNamed(
-            context, RouteNames.PresidentDashboardScreen);
-        break;
-      case 'CL':
-        Navigator.pushReplacementNamed(
-            context, RouteNames.ContentTeamLeaderDashboardScreen);
-        break;
-      default:
-        // optional: logout or send to login if prefix is weird
-        break;
-    }
-  } else {
-    Navigator.pushReplacementNamed(context, RouteNames.LoginScreen);
   }
 }
