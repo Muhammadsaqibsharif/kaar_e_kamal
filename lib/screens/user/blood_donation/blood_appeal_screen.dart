@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kaar_e_kamal/routes/route_names.dart';
 import 'package:kaar_e_kamal/widgets/common/custom_input_field.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class BloodRequestScreen extends StatefulWidget {
   @override
@@ -12,6 +14,7 @@ class _BloodRequestScreenState extends State<BloodRequestScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _locationController = TextEditingController();
   final TextEditingController _contactController = TextEditingController();
+  final TextEditingController _statusController = TextEditingController();
 
   String? _selectedBloodGroup;
 
@@ -26,10 +29,73 @@ class _BloodRequestScreenState extends State<BloodRequestScreen> {
     'AB-'
   ];
 
-  void _submitForm() {
+  void _submitForm() async {
     if (_formKey.currentState!.validate()) {
-      // Handle form submission logic here
-      print("Blood request submitted");
+      // Show blur loader
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return Container(
+            color: Colors.black.withOpacity(0.3),
+            child: Center(child: CircularProgressIndicator()),
+          );
+        },
+      );
+
+      try {
+        User? user = FirebaseAuth.instance.currentUser;
+        if (user == null) {
+          Navigator.of(context).pop(); // Close loader
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("User not logged in")),
+          );
+          return;
+        }
+
+        // Fetch user data from Firestore
+        DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user.uid)
+            .get();
+
+        String firstName = userSnapshot['firstName'] ?? '';
+        String lastName = userSnapshot['lastName'] ?? '';
+
+        // Save blood case to Firestore
+        await FirebaseFirestore.instance.collection('blood_case').add({
+          'fullName': _nameController.text.trim(),
+          'address': _locationController.text.trim(),
+          'bloodGroup': _selectedBloodGroup,
+          'contactNumber': _contactController.text.trim(),
+          'submitted_by_uid': user.uid,
+          'submitted_by_firstName': firstName,
+          'submitted_by_lastName': lastName,
+          "status": "pending",
+          'timestamp': FieldValue.serverTimestamp(),
+        });
+
+        Navigator.of(context).pop(); // Close loader
+
+        // Show success Snackbar after slight delay
+        Future.delayed(Duration(milliseconds: 300), () {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Blood request submitted successfully")),
+          );
+
+          // Navigate back to UserHomeScreen2
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            RouteNames.UserHomeScreen2,
+            (route) => false,
+          );
+        });
+      } catch (e) {
+        Navigator.of(context).pop(); // Close loader
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Failed to submit request: $e")),
+        );
+      }
     }
   }
 
@@ -48,6 +114,7 @@ class _BloodRequestScreenState extends State<BloodRequestScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                SizedBox(height: 20),
                 // Name Input
                 CustomInputField(
                   label: "Full Name",
@@ -61,11 +128,11 @@ class _BloodRequestScreenState extends State<BloodRequestScreen> {
 
                 // Location Input
                 CustomInputField(
-                  label: "Location",
-                  hint: "Enter your location",
+                  label: "Address",
+                  hint: "Enter your Address",
                   controller: _locationController,
                   onSaved: (value) {
-                    // Handle saving location
+                    // Handle saving Address
                   },
                 ),
                 SizedBox(height: 20), // Added spacing between fields

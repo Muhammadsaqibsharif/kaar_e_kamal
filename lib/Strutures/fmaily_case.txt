@@ -1,0 +1,16 @@
+users (collection)
+ └── {uid} (document)
+      └── firstName: 'Ali'
+      └── lastName: 'Khan'
+
+family_cases (collection)
+ └── auto-generated-doc-id (document)
+      └── submitted_by_uid: 'uid123'
+      └── submitted_by_first_name: 'Ali'
+      └── submitted_by_last_name: 'Khan'
+      └── full_name: 'Ahmed Bhatti'
+      └── address: 'Lahore'
+      └── case_type_details: 'Medical Emergency'
+      └── id_card_number: '35201-1234567-9'
+      └── phone_number: '03001234567'
+      └── submitted_at: Timestamp

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kaar_e_kamal/routes/route_names.dart';
 import 'package:kaar_e_kamal/widgets/common/custom_input_field.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class BloodDonationRegistrationScreen extends StatefulWidget {
   @override
@@ -30,10 +32,66 @@ class _BloodDonationRegistrationScreenState
     'AB-'
   ];
 
-  void _submitForm() {
+  void _submitForm() async {
     if (_formKey.currentState!.validate()) {
-      // Handle form submission logic here
-      print("Form Submitted");
+      // Show blur with progress indicator
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+
+      try {
+        final user = FirebaseAuth.instance.currentUser;
+        if (user == null) {
+          Navigator.pop(context); // dismiss loader
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("User not logged in")),
+          );
+          return;
+        }
+
+        // Fetch user's name info (assuming stored in 'users' collection)
+        final userDoc = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user.uid)
+            .get();
+
+        final firstName = userDoc['firstName'] ?? '';
+        final lastName = userDoc['lastName'] ?? '';
+
+        // Store data in 'blood_donors'
+        await FirebaseFirestore.instance.collection('blood_donors').add({
+          'submitted_by_uid': user.uid,
+          'submitted_by_firstName': firstName,
+          'submitted_by_lastName': lastName,
+          'fullName': _nameController.text,
+          'age': _ageController.text,
+          'healthInfo': _healthInfoController.text,
+          'bloodGroup': _selectedBloodGroup,
+          'contactNumber': _contactNumberController.text,
+          'createdAt': DateTime.now(),
+        });
+
+        await Future.delayed(Duration(milliseconds: 500)); // small delay
+
+        Navigator.pop(context); // dismiss loader
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Successfully Registered as Blood Donor")),
+        );
+
+        // Navigate back to User Home
+        await Future.delayed(Duration(milliseconds: 500));
+        Navigator.pushReplacementNamed(context, RouteNames.UserHomeScreen2);
+      } catch (e) {
+        Navigator.pop(context); // dismiss loader
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Something went wrong: $e")),
+        );
+      }
     }
   }
 
@@ -41,7 +99,7 @@ class _BloodDonationRegistrationScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Blood Donation Registration"),
+        title: Text("Become Blood Donor"),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -52,6 +110,9 @@ class _BloodDonationRegistrationScreenState
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                SizedBox(
+                  height: 20,
+                ),
                 CustomInputField(
                   label: "Full Name",
                   hint: "Enter your full name",
