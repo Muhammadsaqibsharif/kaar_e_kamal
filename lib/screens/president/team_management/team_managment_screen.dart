@@ -1,36 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class TeamManagmentScreen extends StatefulWidget {
+class TeamManagementScreen extends StatefulWidget {
   @override
-  _TeamManagmentScreenState createState() => _TeamManagmentScreenState();
+  _TeamManagementScreenState createState() => _TeamManagementScreenState();
 }
 
-class _TeamManagmentScreenState extends State<TeamManagmentScreen> {
-  // Example list of users with associated teams
-  List<Map<String, dynamic>> users = [
-    {"id": 1, "name": "Ali", "role": "Team Member", "team": null},
-    {"id": 2, "name": "Saqib", "role": "Team Member", "team": null},
-    {"id": 3, "name": "Usama", "role": "Team Member", "team": null},
-    {"id": 4, "name": "Mashood", "role": "Team Leader", "team": "Media Team"},
-  ];
-
-  // Filtered list of users based on search and filter
+class _TeamManagementScreenState extends State<TeamManagementScreen> {
+  List<Map<String, dynamic>> users = [];
   List<Map<String, dynamic>> filteredUsers = [];
 
   final TextEditingController searchController = TextEditingController();
 
   final List<String> teams = [
     "Media Team",
-    "Induction team",
-    "Graphics team",
+    "Induction Team",
+    "Graphics Team",
     "Blood Donation Team",
     "Operational Team",
     "Finance Team",
-    "Content team",
+    "Content Team",
     "Sponsorship Team",
-    "Event Team ",
+    "Event Team",
     "Survey Team",
-    "Verification team",
+    "Verification Team",
     "Database Team",
     "PR Team",
     "Documentation Team",
@@ -38,142 +31,206 @@ class _TeamManagmentScreenState extends State<TeamManagmentScreen> {
   ];
 
   String? selectedTeam;
-  bool showLeadersOnly = false; // Filter flag for showing only leaders
+  String? selectedRoleType;
+  bool showLeadersOnly = false;
+  bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    filteredUsers = List.from(users);
+    _fetchUsers();
     searchController.addListener(_filterUsers);
+  }
+
+  Future<void> _fetchUsers() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    final querySnapshot =
+        await FirebaseFirestore.instance.collection('users').get();
+
+    users = querySnapshot.docs
+        .where((doc) =>
+            doc['Role'].toString().contains('Leader') ||
+            doc['Role'].toString().contains('Volunteer'))
+        .map((doc) {
+      return {
+        'id': doc.id,
+        '_id': doc['_id'],
+        'firstName': doc['firstName'],
+        'lastName': doc['lastName'],
+        'role': doc['Role'],
+        'team': _extractTeamFromRole(doc['Role']),
+      };
+    }).toList();
+
+    setState(() {
+      filteredUsers = List.from(users);
+      isLoading = false;
+    });
+  }
+
+  String? _extractTeamFromRole(String role) {
+    for (var team in teams) {
+      if (role.contains(team)) {
+        return team;
+      }
+    }
+    return null;
   }
 
   void _filterUsers() {
     String query = searchController.text.toLowerCase();
     setState(() {
-      filteredUsers = users
-          .where((user) =>
-              // Apply filtering based on search query, role, and team
-              (user["role"] == "Team Leader" && showLeadersOnly) ||
-              (user["name"].toLowerCase().contains(query) ||
-                  user["role"].toLowerCase().contains(query) ||
-                  user["id"].toString().contains(query) ||
-                  (user["team"] != null &&
-                      user["team"]!.toLowerCase().contains(query))))
-          .toList();
+      filteredUsers = users.where((user) {
+        final fullName =
+            "${user['firstName']} ${user['lastName']}".toLowerCase();
+        return fullName.contains(query) ||
+            user['_id'].toLowerCase().contains(query) ||
+            user['role'].toLowerCase().contains(query) ||
+            (user['team'] != null &&
+                user['team']!.toLowerCase().contains(query));
+      }).toList();
     });
   }
 
-  void _assignLeaderDialog(BuildContext context, Map<String, dynamic> user) {
-    selectedTeam = user['team']; // Pre-select the current team (if any)
+  void _assignRoleDialog(BuildContext context, Map<String, dynamic> user) {
+    selectedTeam = user['team'];
+    selectedRoleType = null;
 
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return StatefulBuilder(
-          builder: (context, setStateDialog) {
-            return Dialog(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
+        return StatefulBuilder(builder: (context, setStateDialog) {
+          return Dialog(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      "Assign Leader for ${user['name']} (ID: ${user['id']})",
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      "Assign Role to ${user['firstName']} ${user['lastName']} (${user['_id']})",
                       textAlign: TextAlign.center,
+                      style: const TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 16),
                     DropdownButtonFormField<String>(
-                      value: selectedTeam,
+                      value: selectedRoleType,
                       decoration: const InputDecoration(
-                        labelText: "Select Team",
+                        labelText: "Select Role Type",
                         border: OutlineInputBorder(),
                       ),
-                      items: teams.map((team) {
-                        return DropdownMenuItem(value: team, child: Text(team));
-                      }).toList(),
+                      items: ['Leader', 'Volunteer', 'General User']
+                          .map((roleType) => DropdownMenuItem(
+                                value: roleType,
+                                child: Text(roleType),
+                              ))
+                          .toList(),
                       onChanged: (value) {
                         setStateDialog(() {
-                          selectedTeam = value;
+                          selectedRoleType = value;
+                          if (value == 'General User') selectedTeam = null;
                         });
                       },
                     ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 16),
+                    if (selectedRoleType == 'Leader' ||
+                        selectedRoleType == 'Volunteer')
+                      DropdownButtonFormField<String>(
+                        value: selectedTeam,
+                        decoration: const InputDecoration(
+                          labelText: "Select Team",
+                          border: OutlineInputBorder(),
+                        ),
+                        items: teams
+                            .map((team) => DropdownMenuItem(
+                                  value: team,
+                                  child: Text(team),
+                                ))
+                            .toList(),
+                        onChanged: (value) {
+                          setStateDialog(() {
+                            selectedTeam = value;
+                          });
+                        },
+                      ),
+                    const SizedBox(height: 16),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         TextButton(
-                          child: const Text("Cancel"),
                           onPressed: () => Navigator.pop(context),
+                          child: const Text("Cancel"),
                         ),
                         ElevatedButton(
-                          onPressed: () {
-                            if (selectedTeam != null) {
-                              setState(() {
-                                // Here you would update the user's role/team as needed
-                                int userIndex = users
-                                    .indexWhere((u) => u["id"] == user["id"]);
-                                if (userIndex != -1) {
-                                  users[userIndex]["role"] = "Team Leader";
-                                  users[userIndex]["team"] = selectedTeam;
-                                }
+                          onPressed: () async {
+                            if (selectedRoleType != null) {
+                              String finalRole = 'Team Member';
 
-                                // Also update filteredUsers to reflect the changes immediately
-                                filteredUsers = List.from(users);
-                              });
+                              if (selectedRoleType == 'General User') {
+                                finalRole = 'Team Member';
+                              } else if (selectedTeam != null) {
+                                finalRole = '$selectedTeam $selectedRoleType';
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content: Text('Please select a team.')),
+                                );
+                                return;
+                              }
+
+                              await FirebaseFirestore.instance
+                                  .collection('users')
+                                  .doc(user['id'])
+                                  .update({'Role': finalRole});
+
+                              await _fetchUsers();
                               Navigator.pop(context);
                             }
                           },
-                          child: const Text("Assign Leader"),
+                          child: const Text("Save"),
                         ),
                       ],
                     ),
                   ],
                 ),
               ),
-            );
-          },
-        );
+            ),
+          );
+        });
       },
     );
   }
 
-  void _removeLeaderDialog(BuildContext context, Map<String, dynamic> user) {
+  void _removeRoleDialog(BuildContext context, Map<String, dynamic> user) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Remove Leader Role from ${user['name']}"),
-          content: Text(
-              "Are you sure you want to remove ${user['name']}'s leader role?"),
+          title:
+              Text("Remove Role from ${user['firstName']} ${user['lastName']}"),
+          content: const Text("Are you sure you want to remove this role?"),
           actions: [
             TextButton(
-              child: const Text("Cancel"),
               onPressed: () => Navigator.pop(context),
+              child: const Text("Cancel"),
             ),
             ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  // Remove the leader role by updating the user's role
-                  int userIndex =
-                      users.indexWhere((u) => u["id"] == user["id"]);
-                  if (userIndex != -1) {
-                    users[userIndex]["role"] = "Team Member";
-                    users[userIndex]["team"] = null; // Clear the team
-                  }
+              onPressed: () async {
+                await FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(user['id'])
+                    .update({'Role': 'Team Member'});
 
-                  // Also update filteredUsers to reflect the changes immediately
-                  filteredUsers = List.from(users);
-                });
+                await _fetchUsers();
                 Navigator.pop(context);
               },
-              child: const Text("Remove Leader"),
+              child: const Text("Remove"),
             ),
           ],
         );
@@ -184,69 +241,89 @@ class _TeamManagmentScreenState extends State<TeamManagmentScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Create and Manage Leaders")),
-      body: Column(
+      appBar: AppBar(
+        title: const Text("Team Management"),
+      ),
+      body: Stack(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: searchController,
-                    decoration: InputDecoration(
-                      labelText: "Search User (By Name, Role, or Team)",
-                      prefixIcon: const Icon(Icons.search),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
+          Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: searchController,
+                        decoration: InputDecoration(
+                          labelText: "Search (name, _id, team, role)",
+                          prefixIcon: const Icon(Icons.search),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8)),
+                        ),
                       ),
                     ),
-                  ),
+                    IconButton(
+                      icon: Icon(showLeadersOnly
+                          ? Icons.filter_alt_off
+                          : Icons.filter_alt),
+                      onPressed: () {
+                        setState(() {
+                          showLeadersOnly = !showLeadersOnly;
+                        });
+                        _filterUsers();
+                      },
+                    ),
+                  ],
                 ),
-                IconButton(
-                  icon: Icon(showLeadersOnly
-                      ? Icons.filter_alt_off
-                      : Icons.filter_alt),
-                  onPressed: () {
-                    setState(() {
-                      showLeadersOnly = !showLeadersOnly;
-                    });
-                    _filterUsers(); // Reapply filter when toggling
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: filteredUsers.length,
+                  itemBuilder: (context, index) {
+                    final user = filteredUsers[index];
+                    if (showLeadersOnly &&
+                        !user['role'].toString().contains('Leader')) {
+                      return const SizedBox.shrink();
+                    }
+                    return Card(
+                      child: ListTile(
+                        title: Text(
+                            "${user['firstName']} ${user['lastName']} (${user['_id']})"),
+                        subtitle: Text(
+                          "Role: ${user['role']}${user['team'] != null ? ' - Team: ${user['team']}' : ''}",
+                        ),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.edit),
+                              onPressed: () => _assignRoleDialog(context, user),
+                            ),
+                            if (user['role'] != 'Team Member')
+                              IconButton(
+                                icon: const Icon(Icons.remove_circle),
+                                onPressed: () =>
+                                    _removeRoleDialog(context, user),
+                              ),
+                          ],
+                        ),
+                      ),
+                    );
                   },
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: filteredUsers.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(
-                      "${filteredUsers[index]["name"]} (ID: ${filteredUsers[index]['id']})"),
-                  subtitle: Text(
-                    "Role: ${filteredUsers[index]['role']} ${filteredUsers[index]['team'] != null ? '- Team: ${filteredUsers[index]['team']}' : ''}",
-                  ),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.edit),
-                        onPressed: () =>
-                            _assignLeaderDialog(context, filteredUsers[index]),
-                      ),
-                      if (filteredUsers[index]['role'] == 'Team Leader')
-                        IconButton(
-                          icon: const Icon(Icons.remove_circle),
-                          onPressed: () => _removeLeaderDialog(
-                              context, filteredUsers[index]),
-                        ),
-                    ],
-                  ),
-                );
-              },
+
+          // Loader overlay
+          if (isLoading)
+            Container(
+              color: Colors.black.withOpacity(0.4),
+              child: const Center(
+                child: CircularProgressIndicator(),
+              ),
             ),
-          ),
         ],
       ),
     );

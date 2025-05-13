@@ -141,7 +141,7 @@ class AppRoutes {
       //president routes
       RouteNames.PresidentDashboardScreen: (context) =>
           PresidentDashboardScreen(),
-      RouteNames.TeamManagmentScreen: (context) => TeamManagmentScreen(),
+      RouteNames.TeamManagmentScreen: (context) => TeamManagementScreen(),
       RouteNames.ChapterPerformanceReportScreen: (context) =>
           ChapterPerformanceReportScreen(),
       RouteNames.DonationReportScreen: (context) => DonationReportScreen(),

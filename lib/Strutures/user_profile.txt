@@ -1,0 +1,9 @@
+Role"Graphics Team Volunteer" (string)
+username "GEGM9878" (string)
+city "Lahore" (string)
+createdAt May 11, 2025 at 11:46:35 PM UTC+5 (timestamp)
+email "gt@gmail.com" (string)
+firstName "Muhammad" (string)
+lastName "Saqib" (string)
+phone "03084075256" (string)
+profileImageString link here
