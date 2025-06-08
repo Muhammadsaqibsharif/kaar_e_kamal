@@ -16,7 +16,7 @@ import 'package:kaar_e_kamal/screens/common/auth/signup.dart';
 import 'package:kaar_e_kamal/screens/common/notifications/notifications_page.dart';
 import 'package:kaar_e_kamal/screens/common/profile/user_profile_screen.dart';
 import 'package:kaar_e_kamal/screens/drawer/mainDrawer.dart';
-import 'package:kaar_e_kamal/screens/leaders/content_team/add_remove_members/content_team_leader_add_remove_members.dart';
+import 'package:kaar_e_kamal/screens/common/add_remove_members/common_team_leader_add_remove_members.dart';
 import 'package:kaar_e_kamal/screens/leaders/content_team/communication/content_leader_communication_screen.dart';
 import 'package:kaar_e_kamal/screens/leaders/content_team/send_to_president/content_team_leader_approval_request_screen.dart';
 import 'package:kaar_e_kamal/screens/leaders/content_team/content_team_leader_dashboard_screen.dart';
@@ -185,8 +185,8 @@ class AppRoutes {
           ContentTeamLeaderContentEditorScreen(),
       RouteNames.ContentToPresidentRequestScreen: (context) =>
           ContentToPresidentRequestScreen(),
-      RouteNames.ContentTeamLeaderAddRemoveMembersScreen: (context) =>
-          ContentTeamLeaderAddRemoveMembersScreen(),
+      // RouteNames.ContentTeamLeaderAddRemoveMembersScreen: (context) =>
+      //     ContentTeamLeaderAddRemoveMembersScreen(),
       RouteNames.ContentTeamLeaderCommunicationScreen: (context) =>
           ContentTeamLeaderCommunicationScreen(),
       RouteNames.ContentTeamLeaderPerformanceScreen: (context) =>

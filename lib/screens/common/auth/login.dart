@@ -152,7 +152,7 @@ class _LoginScreenState extends State<LoginScreen> {
         return RouteNames.PresidentDashboardScreen;
       case 'Content Team Leader':
         return RouteNames.ContentTeamLeaderDashboardScreen;
-      case 'Content Team Volunteer':
+      case 'Documentation Team Volunteer':
         return RouteNames.ContentTeamVolunteerDashboardScreen;
       case 'Graphics Team Leader':
         return RouteNames.GraphicsTeamLeaderDashboardScreen;

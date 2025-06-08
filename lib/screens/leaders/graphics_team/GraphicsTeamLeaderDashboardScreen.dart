@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kaar_e_kamal/routes/route_names.dart';
+import 'package:kaar_e_kamal/screens/common/add_remove_members/common_team_leader_add_remove_members.dart';
 import 'package:kaar_e_kamal/screens/drawer/mainDrawer.dart';
 
 class GraphicsTeamLeaderDashboardScreen extends StatelessWidget {
@@ -99,8 +100,14 @@ class GraphicsTeamLeaderDashboardScreen extends StatelessWidget {
                     title: 'Request Approval',
                     icon: Icons.group_add,
                     onTap: () {
-                      Navigator.pushNamed(context,
-                          RouteNames.GraphicsTeamLeaderAddRemoveMembersScreen);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              const TeamLeaderAddRemoveMembersScreen(
+                                  teamName: 'Graphics Team'),
+                        ),
+                      );
                     },
                   ),
                   _buildFeatureTile(
