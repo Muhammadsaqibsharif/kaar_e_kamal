@@ -1,6 +1,6 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:kaar_e_kamal/widgets/user/chatbot/chat_input_field.dart';
-import 'package:kaar_e_kamal/widgets/user/chatbot/chatbot_message_bubble.dart';
+import 'package:http/http.dart' as http;
 
 class ChatbotInteractionScreen extends StatefulWidget {
   @override
@@ -9,44 +9,167 @@ class ChatbotInteractionScreen extends StatefulWidget {
 }
 
 class _ChatbotInteractionScreenState extends State<ChatbotInteractionScreen> {
-  // List to hold chat messages
-  List<String> messages = [
-    "Hello! How can I assist you today?",
+  final TextEditingController _controller = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
+  final String apiUrl = 'http://192.168.43.7:8000/ask';
+
+  List<Map<String, String>> chatHistory = [
+    {"role": "assistant", "content": "Hello! How can I assist you today?"},
   ];
 
-  final TextEditingController _controller = TextEditingController();
+  void _scrollToBottom() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      }
+    });
+  }
 
-  // Function to send a message
-  void _sendMessage() {
-    if (_controller.text.isNotEmpty) {
+  void _sendMessage() async {
+    final message = _controller.text.trim();
+    if (message.isEmpty) return;
+
+    setState(() {
+      chatHistory.add({"role": "user", "content": message});
+    });
+    _scrollToBottom();
+    _controller.clear();
+
+    try {
+      final response = await http.post(
+        Uri.parse(apiUrl),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          "query": message,
+          "chat_history": chatHistory,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        setState(() {
+          chatHistory.add({
+            "role": "assistant",
+            "content": (data['answer'] ?? 'No response received.').trim(),
+          });
+        });
+      } else {
+        setState(() {
+          chatHistory.add({
+            "role": "assistant",
+            "content":
+                "❌ Error: ${response.statusCode} ${response.reasonPhrase}"
+          });
+        });
+      }
+    } catch (e) {
       setState(() {
-        messages.add(_controller.text);
-        _controller.clear(); // Clear the input field after sending the message
+        chatHistory.add({
+          "role": "assistant",
+          "content": "❌ Error contacting server: $e",
+        });
       });
     }
+
+    _scrollToBottom();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Chatbot Interaction'),
+        title: const Text('Chatbot Interaction'),
+        backgroundColor: Theme.of(context).primaryColor,
+        foregroundColor: Colors.white,
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              itemCount: messages.length,
-              itemBuilder: (context, index) {
-                return ChatMessageBubble(message: messages[index]);
-              },
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            Expanded(
+              child: ListView.builder(
+                controller: _scrollController,
+                itemCount: chatHistory.length,
+                itemBuilder: (context, index) {
+                  final chat = chatHistory[index];
+                  final role = chat['role'];
+                  final content = chat['content'];
+
+                  return Align(
+                    alignment: role == 'user'
+                        ? Alignment.centerRight
+                        : Alignment.centerLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: role == 'user'
+                              ? const Color(0xFF859F3D) // Olive Green
+                              : Theme.of(context).primaryColor, // Dark Green
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: role == 'user'
+                              ? CrossAxisAlignment.end
+                              : CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              role == 'user' ? 'You' : 'Assistant',
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                            const SizedBox(height: 6),
+                            Text(
+                              content ?? '',
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
             ),
-          ),
-          ChatInputField(
-            controller: _controller,
-            onSendMessage: _sendMessage,
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: TextField(
+                controller: _controller,
+                style: const TextStyle(color: Colors.black),
+                decoration: InputDecoration(
+                  hintText: 'Type a message...',
+                  hintStyle: TextStyle(color: Colors.grey.shade500),
+                  filled: true,
+                  fillColor: Colors.grey.shade200,
+                  contentPadding:
+                      const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    borderSide: BorderSide.none,
+                  ),
+                  suffixIcon: IconButton(
+                    icon: const Icon(Icons.send),
+                    onPressed: _sendMessage,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

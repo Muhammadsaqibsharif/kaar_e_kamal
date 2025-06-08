@@ -170,10 +170,10 @@ class _TeamManagementScreenState extends State<TeamManagementScreen> {
                         ElevatedButton(
                           onPressed: () async {
                             if (selectedRoleType != null) {
-                              String finalRole = 'Team Member';
+                              String finalRole = 'General User';
 
                               if (selectedRoleType == 'General User') {
-                                finalRole = 'Team Member';
+                                finalRole = 'General User';
                               } else if (selectedTeam != null) {
                                 finalRole = '$selectedTeam $selectedRoleType';
                               } else {
@@ -225,7 +225,7 @@ class _TeamManagementScreenState extends State<TeamManagementScreen> {
                 await FirebaseFirestore.instance
                     .collection('users')
                     .doc(user['id'])
-                    .update({'Role': 'Team Member'});
+                    .update({'Role': 'General User'});
 
                 await _fetchUsers();
                 Navigator.pop(context);
@@ -256,7 +256,7 @@ class _TeamManagementScreenState extends State<TeamManagementScreen> {
                       child: TextField(
                         controller: searchController,
                         decoration: InputDecoration(
-                          labelText: "Search (name, _id, team, role)",
+                          labelText: "Search (name, id, team, role)",
                           prefixIcon: const Icon(Icons.search),
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8)),

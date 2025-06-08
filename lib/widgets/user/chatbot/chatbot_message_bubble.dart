@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class ChatMessageBubble extends StatelessWidget {
   final String message;
 
-  const ChatMessageBubble({required this.message});
+  const ChatMessageBubble({required this.message, required bool isUserMessage});
 
   @override
   Widget build(BuildContext context) {

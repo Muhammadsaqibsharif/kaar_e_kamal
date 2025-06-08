@@ -13,6 +13,7 @@ import 'package:kaar_e_kamal/screens/Teams_%20volunteers/graphics_team_%20Volunt
 import 'package:kaar_e_kamal/screens/Teams_%20volunteers/graphics_team_%20Volunteer/graphics_team_volunteer_task_screen/GraphicsTeamVolunteerTaskScreen.dart';
 import 'package:kaar_e_kamal/screens/common/auth/login.dart';
 import 'package:kaar_e_kamal/screens/common/auth/signup.dart';
+import 'package:kaar_e_kamal/screens/common/notifications/notifications_page.dart';
 import 'package:kaar_e_kamal/screens/common/profile/user_profile_screen.dart';
 import 'package:kaar_e_kamal/screens/drawer/mainDrawer.dart';
 import 'package:kaar_e_kamal/screens/leaders/content_team/add_remove_members/content_team_leader_add_remove_members.dart';
@@ -62,6 +63,7 @@ import 'package:kaar_e_kamal/screens/superAdmin/emergency_management/emergency_p
 import 'package:kaar_e_kamal/screens/superAdmin/events_campaigns/create_event_screen.dart';
 import 'package:kaar_e_kamal/screens/superAdmin/financial_oversight/financial_reports_screen.dart';
 import 'package:kaar_e_kamal/screens/superAdmin/reporting_analytics/reports_dashboard_screen.dart';
+import 'package:kaar_e_kamal/screens/user/become_volunteer/become_volunteer.dart';
 import 'package:kaar_e_kamal/screens/user/blood_donation/blood_appeal_screen.dart';
 import 'package:kaar_e_kamal/screens/user/blood_donation/blood_donation_history.dart';
 import 'package:kaar_e_kamal/screens/user/blood_donation/blood_donation_registration_screen.dart';
@@ -97,6 +99,10 @@ class AppRoutes {
       RouteNames.LoginScreen: (context) => const LoginScreen(),
       RouteNames.SignUpScreen: (context) => const SignUpScreen(),
 
+      // NotificationsPage
+      RouteNames.NotificationsPageRoute: (context) => const NotificationsPage(),
+
+
       //user
       RouteNames.userHome: (context) =>
           const UserHomeScreen(), // New route for UserHome
@@ -119,6 +125,7 @@ class AppRoutes {
       RouteNames.CaseDonationScreen: (context) => CaseDonationScreen(),
       //profile
       RouteNames.UserProfileScreen: (context) => UserProfileScreen(),
+      RouteNames.BecomeVolunteerScreen: (context) => BecomeVolunteerScreen(),
 
       //Super Admin Routes
       //Dashboard

@@ -1,8 +1,11 @@
 class RouteNames {
-  //auth 
+  //auth
   static const String LoginScreen = '/LoginScreen';
   static const String SignUpScreen = '/SignUpScreen';
-  //user 
+
+  // Notifications
+  static const String NotificationsPageRoute = '/NotificationsPage';
+  //user
   static const String home = '/';
   static const String UserHomeScreen2 = 'UserHomeScreen2';
   static const String themeSettings = '/themeSettings'; // Add this constant
@@ -21,6 +24,7 @@ class RouteNames {
   static const String TransparencyScreen = '/TransparencyScreen';
   static const String PostSharingScreen = '/PostSharingScreen';
   static const String CaseDonationScreen = '/CaseDonationScreen';
+  static const String BecomeVolunteerScreen = '/BecomeVolunteerScreen';
 
   //super admin routes
   static const String dashboard = '/dashboard';
@@ -96,34 +100,32 @@ class RouteNames {
   //graphics team leader routes
   static const String GraphicsTeamLeaderDashboardScreen =
       '/GraphicsTeamLeaderDashboardScreen';
-  static const String GraphicsTeamLeaderTaskDashboardScreen = '/GraphicsTeamLeaderTaskDashboardScreen';
+  static const String GraphicsTeamLeaderTaskDashboardScreen =
+      '/GraphicsTeamLeaderTaskDashboardScreen';
   static const String GraphicsTeamLeaderAssignTaskScreen =
-      '/GraphicsTeamLeaderAssignTaskScreen'; 
+      '/GraphicsTeamLeaderAssignTaskScreen';
   static const String GraphicsTeamLeaderMemberAvailabilityScreen =
       '/GraphicsTeamLeaderMemberAvailabilityScreen';
   static const String GraphicsTeamLeaderEditorScreen =
       '/GraphicsTeamLeaderEditorScreen';
   static const String GraphicsToPresidentRequestScreen =
       '/GraphicsToPresidentRequestScreen';
-  static const String  GraphicsTeamLeaderAddRemoveMembersScreen =
+  static const String GraphicsTeamLeaderAddRemoveMembersScreen =
       '/ GraphicsTeamLeaderAddRemoveMembersScreen';
-  static const String  GraphicsTeamLeaderCommunicationScreen =
+  static const String GraphicsTeamLeaderCommunicationScreen =
       '/ GraphicsTeamLeaderCommunicationScreen';
-  static const String  GraphicsTeamLeaderPerformanceScreen =
+  static const String GraphicsTeamLeaderPerformanceScreen =
       '/ GraphicsTeamLeaderPerformanceScreen';
 
   //graphics team volunteer routes
-  static const String  GraphicsTeamVolunteerDashboardScreen =
+  static const String GraphicsTeamVolunteerDashboardScreen =
       '/ GraphicsTeamVolunteerDashboardScreen';
-  static const String  GraphicsVolunteerCommunicationScreen =
-      '/ GraphicsVolunteerCommunicationScreen'; 
-  static const String  GraphicsVolunteerToLeaderRequestScreen =
-      '/ GraphicsVolunteerToLeaderRequestScreen'; 
-  static const String  GraphicsVolunteerLeaderboardScreen =
-      '/ GraphicsVolunteerLeaderboardScreen'; 
-  static const String  GraphicsTeamVolunteerTaskScreen =
-      '/ GraphicsTeamVolunteerTaskScreen'; 
-  
-
+  static const String GraphicsVolunteerCommunicationScreen =
+      '/ GraphicsVolunteerCommunicationScreen';
+  static const String GraphicsVolunteerToLeaderRequestScreen =
+      '/ GraphicsVolunteerToLeaderRequestScreen';
+  static const String GraphicsVolunteerLeaderboardScreen =
+      '/ GraphicsVolunteerLeaderboardScreen';
+  static const String GraphicsTeamVolunteerTaskScreen =
+      '/ GraphicsTeamVolunteerTaskScreen';
 }
-

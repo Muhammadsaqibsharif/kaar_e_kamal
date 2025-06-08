@@ -114,9 +114,8 @@ class _UserLeaderboardState extends State<UserLeaderboard> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              /// Header Row
+              // Header Row
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     'Leaderboard',
@@ -126,33 +125,43 @@ class _UserLeaderboardState extends State<UserLeaderboard> {
                       color: textColor,
                     ),
                   ),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color: theme.brightness == Brightness.dark
-                          ? Colors.grey[800]
-                          : Colors.grey[200],
-                    ),
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton<String>(
-                        value: selectedFilter,
-                        dropdownColor: theme.scaffoldBackgroundColor,
-                        icon: Icon(Icons.arrow_drop_down, color: textColor),
-                        onChanged: (newValue) {
-                          setState(() {
-                            selectedFilter = newValue!;
-                          });
-                        },
-                        items: ['Overall Organization', 'My Chapter']
-                            .map<DropdownMenuItem<String>>(
-                              (String value) => DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value,
-                                    style: TextStyle(color: textColor)),
-                              ),
-                            )
-                            .toList(),
+                  SizedBox(width: 12),
+                  Expanded(
+                    child: Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: theme.brightness == Brightness.dark
+                            ? Colors.grey[800]
+                            : Colors.grey[200],
+                      ),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton<String>(
+                          value: selectedFilter,
+                          isDense: true,
+                          isExpanded: true,
+                          dropdownColor: theme.scaffoldBackgroundColor,
+                          icon: Icon(Icons.arrow_drop_down, color: textColor),
+                          onChanged: (newValue) {
+                            setState(() {
+                              selectedFilter = newValue!;
+                            });
+                          },
+                          items: ['Overall Organization', 'My Chapter']
+                              .map(
+                                (value) => DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(
+                                    value,
+                                    style: TextStyle(
+                                        color: textColor, fontSize: 13),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              )
+                              .toList(),
+                        ),
                       ),
                     ),
                   ),
@@ -160,7 +169,7 @@ class _UserLeaderboardState extends State<UserLeaderboard> {
               ),
               SizedBox(height: 20),
 
-              /// Leaderboard Cards
+              // Leaderboard Cards
               ListView.builder(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),

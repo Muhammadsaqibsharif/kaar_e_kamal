@@ -25,6 +25,7 @@ class UserHomeScreen2 extends StatelessWidget {
             icon: Icon(Icons.notifications, color: Colors.white),
             onPressed: () {
               // Navigator.pushNamed(context, RouteNames.NotificationsScreen);
+              Navigator.pushNamed(context, RouteNames.NotificationsPageRoute);
             },
           ),
         ],
@@ -164,6 +165,12 @@ class UserHomeScreen2 extends StatelessWidget {
                       title: 'Live Cases',
                       icon: Icons.healing_sharp, onTap: () {
                     Navigator.pushNamed(context, RouteNames.CaseDonationScreen);
+                  }),
+                  _buildFeatureTile(context,
+                      title: 'Become volunteer',
+                      icon: Icons.volunteer_activism, onTap: () {
+                    Navigator.pushNamed(
+                        context, RouteNames.BecomeVolunteerScreen);
                   }),
                 ],
               ),

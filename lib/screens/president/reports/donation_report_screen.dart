@@ -1,3 +1,6 @@
+import 'dart:ui';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class DonationReportScreen extends StatefulWidget {
@@ -6,203 +9,220 @@ class DonationReportScreen extends StatefulWidget {
 }
 
 class _DonationReportScreenState extends State<DonationReportScreen> {
-  // Sample static data for donation statistics
-  final List<DonationData> donationData = [
-    DonationData('Jan', 5000),
-    DonationData('Feb', 3000),
-    DonationData('Mar', 8000),
-    DonationData('Apr', 7000),
-  ];
-
   String selectedDonationPeriod = '1 Day';
-  TextEditingController targetController =
-      TextEditingController(text: '10000'); // Default target
+  TextEditingController targetController = TextEditingController(text: '10000');
+  double totalDonation = 0.0;
+  bool isLoading = true;
 
-  double calculateDonationProgress(String period) {
-    int targetAmount = int.tryParse(targetController.text) ?? 10000;
-    int totalDonation = 0;
-
-    // Adjust donation calculation based on the selected period
-    if (period == '1 Day') {
-      totalDonation = donationData[0].amount;
-    } else if (period == '3 Days') {
-      totalDonation =
-          donationData.take(2).fold(0, (sum, data) => sum + data.amount);
-    } else if (period == '7 Days') {
-      totalDonation =
-          donationData.take(3).fold(0, (sum, data) => sum + data.amount);
-    } else if (period == '1 Month') {
-      totalDonation = donationData.fold(0, (sum, data) => sum + data.amount);
-    } else if (period == '1 Year') {
-      totalDonation = donationData.fold(0, (sum, data) => sum + data.amount);
-    }
-
-    // Prevent division by zero
-    if (targetAmount == 0) return 0.0;
-    return totalDonation / targetAmount;
+  @override
+  void initState() {
+    super.initState();
+    fetchDonationData();
   }
 
-  int getTotalDonation(String period) {
-    int totalDonation = 0;
+  void fetchDonationData() async {
+    setState(() {
+      isLoading = true;
+    });
 
-    if (period == '1 Day') {
-      totalDonation = donationData[0].amount;
-    } else if (period == '3 Days') {
-      totalDonation =
-          donationData.take(2).fold(0, (sum, data) => sum + data.amount);
-    } else if (period == '7 Days') {
-      totalDonation =
-          donationData.take(3).fold(0, (sum, data) => sum + data.amount);
-    } else if (period == '1 Month') {
-      totalDonation = donationData.fold(0, (sum, data) => sum + data.amount);
-    } else if (period == '1 Year') {
-      totalDonation = donationData.fold(0, (sum, data) => sum + data.amount);
+    double total = 0.0;
+    DateTime now = DateTime.now();
+    DateTime startDate;
+
+    // Set the start date based on selected period
+    switch (selectedDonationPeriod) {
+      case '1 Day':
+        startDate = now.subtract(Duration(days: 1));
+        break;
+      case '3 Days':
+        startDate = now.subtract(Duration(days: 3));
+        break;
+      case '7 Days':
+        startDate = now.subtract(Duration(days: 7));
+        break;
+      case '1 Month':
+        startDate = DateTime(now.year, now.month - 1, now.day);
+        break;
+      case '1 Year':
+        startDate = DateTime(now.year - 1, now.month, now.day);
+        break;
+      default:
+        startDate = now.subtract(Duration(days: 1));
     }
-    return totalDonation;
+
+    QuerySnapshot userSnapshot =
+        await FirebaseFirestore.instance.collection('users').get();
+
+    for (var userDoc in userSnapshot.docs) {
+      var donationRecords = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userDoc.id)
+          .collection('donation_records')
+          .where('date', isGreaterThanOrEqualTo: Timestamp.fromDate(startDate))
+          .get();
+
+      for (var record in donationRecords.docs) {
+        var amountStr = record['amount'] ?? '0';
+        double amount = double.tryParse(amountStr) ?? 0.0;
+        total += amount;
+      }
+    }
+
+    setState(() {
+      totalDonation = total;
+      isLoading = false;
+    });
+  }
+
+  double calculateDonationProgress() {
+    double targetAmount = double.tryParse(targetController.text) ?? 10000;
+    if (targetAmount == 0) return 0.0;
+    return totalDonation / targetAmount;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColor,
-        title: const Text(
+        title: Text(
           'Donation Report',
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Donation Statistics',
-              style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).brightness == Brightness.dark
-                        ? Colors.white
-                        : Colors.black87,
+      body: Stack(
+        children: [
+          SafeArea(
+            child: SingleChildScrollView(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Donation Statistics',
+                    style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
                   ),
-            ),
-            const SizedBox(height: 20),
-            Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.0),
-                      border: Border.all(color: Colors.grey.shade300),
-                    ),
-                    child: DropdownButton<String>(
-                      value: selectedDonationPeriod,
-                      isExpanded: true,
-                      underline: SizedBox(),
-                      icon: Icon(Icons.arrow_drop_down,
-                          color: Theme.of(context).primaryColor),
-                      items: <String>[
-                        '1 Day',
-                        '3 Days',
-                        '7 Days',
-                        '1 Month',
-                        '1 Year'
-                      ].map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(
-                            value,
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
+                  const SizedBox(height: 20),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8.0),
+                            border: Border.all(color: Colors.grey.shade300),
                           ),
-                        );
-                      }).toList(),
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          selectedDonationPeriod = newValue!;
-                        });
-                      },
+                          child: DropdownButton<String>(
+                            value: selectedDonationPeriod,
+                            isExpanded: true,
+                            underline: SizedBox(),
+                            icon: Icon(Icons.arrow_drop_down,
+                                color: Theme.of(context).primaryColor),
+                            items: <String>[
+                              '1 Day',
+                              '3 Days',
+                              '7 Days',
+                              '1 Month',
+                              '1 Year'
+                            ].map((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(
+                                  value,
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              );
+                            }).toList(),
+                            onChanged: (newValue) {
+                              setState(() {
+                                selectedDonationPeriod = newValue!;
+                              });
+                              fetchDonationData();
+                            },
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 20),
+                      Expanded(
+                        child: TextField(
+                          controller: targetController,
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            labelText: 'Enter Target (PKR)',
+                            border: OutlineInputBorder(),
+                          ),
+                          onChanged: (val) {
+                            setState(() {});
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 30),
+                  Center(
+                    child: Text(
+                      'Total Donations for $selectedDonationPeriod:\nR.s ${totalDonation.toStringAsFixed(0)}',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 30),
+                  Center(
+                    child: SizedBox(
+                      height: 150,
+                      width: 150,
+                      child: CircularProgressIndicator(
+                        value: calculateDonationProgress().clamp(0.0, 1.0),
+                        strokeWidth: 10.0,
+                        backgroundColor: Colors.grey[300],
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                          Theme.of(context).primaryColor,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Center(
+                    child: Text(
+                      'Donation Progress: ${(calculateDonationProgress() * 100).toStringAsFixed(2)}%',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          if (isLoading)
+            Positioned.fill(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+                child: Container(
+                  color: Colors.black.withOpacity(0.3),
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      strokeWidth: 6,
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        Theme.of(context).primaryColor,
+                      ),
                     ),
                   ),
                 ),
-                const SizedBox(width: 20),
-                Expanded(
-                  child: TextField(
-                    controller: targetController,
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      labelText: 'Enter Target (PKR)',
-                      labelStyle:
-                          TextStyle(color: Theme.of(context).primaryColor),
-                      border: OutlineInputBorder(),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Theme.of(context).primaryColor),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey.shade300),
-                      ),
-                    ),
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-
-            // Show Donation Amount for the Selected Period
-            Center(
-              child: Text(
-                'Donation Amount for ${selectedDonationPeriod}: R.s ${getTotalDonation(selectedDonationPeriod)}',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).brightness == Brightness.dark
-                      ? Colors.white
-                      : Colors.black,
-                ),
               ),
             ),
-            const SizedBox(height: 20),
-
-            // Circular Progress Indicator for Donation Progress
-            Center(
-              child: SizedBox(
-                height: 150, // Increase size of the progress indicator
-                width: 150, // Increase size of the progress indicator
-                child: CircularProgressIndicator(
-                  value: calculateDonationProgress(selectedDonationPeriod),
-                  strokeWidth: 8.0,
-                  backgroundColor: Colors.grey[300],
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                      Theme.of(context).primaryColor),
-                ),
-              ),
-            ),
-            const SizedBox(height: 20),
-            Center(
-              child: Text(
-                'Donation Progress: ${(calculateDonationProgress(selectedDonationPeriod) * 100).toStringAsFixed(2)}%',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).primaryColor,
-                ),
-              ),
-            ),
-          ],
-        ),
+        ],
       ),
     );
   }
-}
-
-// Data model class
-class DonationData {
-  final String month;
-  final int amount;
-
-  DonationData(this.month, this.amount);
 }
