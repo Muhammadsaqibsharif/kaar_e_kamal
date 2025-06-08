@@ -38,9 +38,11 @@ class NotificationDetailPage extends StatelessWidget {
             const SizedBox(height: 16),
             Text(
               subtitle,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 16,
-                color: Colors.black87,
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.white
+                    : Colors.black87,
               ),
             ),
             const Spacer(),
