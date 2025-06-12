@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-
 // Local imports
 import 'core/theme/app_theme.dart';
 import 'core/utils/shared_prefs.dart';

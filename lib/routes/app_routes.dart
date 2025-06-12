@@ -39,6 +39,7 @@ import 'package:kaar_e_kamal/screens/president/documentation_compliance/complian
 import 'package:kaar_e_kamal/screens/president/documentation_compliance/maintain_documentation_screen.dart';
 import 'package:kaar_e_kamal/screens/president/events_activity/president_event_managment_screen.dart';
 import 'package:kaar_e_kamal/screens/president/member_engagement/encourage_volunteers_screen.dart';
+import 'package:kaar_e_kamal/screens/president/post_page/PresidentPostPage.dart';
 import 'package:kaar_e_kamal/screens/president/president_dashboard_screen.dart';
 import 'package:kaar_e_kamal/screens/president/progress_monitoring/feedback_screen.dart';
 import 'package:kaar_e_kamal/screens/president/progress_monitoring/team_progress_screen.dart';
@@ -171,6 +172,7 @@ class AppRoutes {
       RouteNames.MaintainDocumentationScreen: (context) =>
           MaintainDocumentationScreen(),
       RouteNames.ComplianceScreen: (context) => ComplianceScreen(),
+      RouteNames.PresidentPostPageRoute: (context) => PresidentPostPage(),
 
       //Content Team Leader Routes
       RouteNames.ContentTeamLeaderDashboardScreen: (context) =>

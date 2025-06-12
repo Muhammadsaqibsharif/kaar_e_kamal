@@ -119,6 +119,11 @@ class PresidentDashboardScreen extends StatelessWidget {
                         title: 'Compliance', icon: Icons.policy, onTap: () {
                       Navigator.pushNamed(context, RouteNames.ComplianceScreen);
                     }),
+                    _buildFeatureTile(context,
+                        title: 'Post Now', icon: Icons.post_add, onTap: () {
+                      Navigator.pushNamed(
+                          context, RouteNames.PresidentPostPageRoute);
+                    }),
                   ],
                 ),
               ),

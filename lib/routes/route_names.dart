@@ -64,6 +64,9 @@ class RouteNames {
   static const String MaintainDocumentationScreen =
       '/MaintainDocumentationScreen';
   static const String ComplianceScreen = '/ComplianceScreen';
+  static const String PresidentPostPageRoute = '/PresidentPostPage';
+  
+
 
   //content team leader routes
   static const String ContentTeamLeaderDashboardScreen =
