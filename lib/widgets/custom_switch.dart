@@ -11,7 +11,7 @@ class CustomSwitch extends StatelessWidget {
     Key? key,
     required this.value,
     required this.onChanged,
-    this.activeColor = Colors.blue, // Default active color
+    this.activeColor = const Color(0xFF31511E), // Default active color
     this.inactiveThumbColor = Colors.grey,
     this.inactiveTrackColor = Colors.black26,
   }) : super(key: key);

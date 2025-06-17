@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kaar_e_kamal/routes/route_names.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class TaskManagementScreen extends StatefulWidget {
   @override
@@ -7,28 +9,7 @@ class TaskManagementScreen extends StatefulWidget {
 }
 
 class _TaskManagementScreenState extends State<TaskManagementScreen> {
-  List<Map<String, dynamic>> tasks = [
-    {
-      'taskName': 'Task 1',
-      'description': 'Complete the project documentation.',
-      'leaderName': 'Ali Raza',
-      'teamName': 'Documentation Team',
-      'status': 'Completed',
-      'deadline': DateTime.now().add(Duration(days: 2)),
-      'outputType': 'text',
-      'output': 'Documentation completed and uploaded to Drive.',
-    },
-    {
-      'taskName': 'Task 2',
-      'description': 'Design the application interface.',
-      'leaderName': 'Ayesha Khan',
-      'teamName': 'Graphics team',
-      'status': 'Completed',
-      'deadline': DateTime.now().add(Duration(days: 1)),
-      'outputType': 'image',
-      'output': 'assets/Images/3.jpg',
-    },
-  ];
+  List<Map<String, dynamic>> tasks = [];
 
   final List<String> teams = [
     'Media Team',
@@ -48,21 +29,14 @@ class _TaskManagementScreenState extends State<TaskManagementScreen> {
     'Documentation Team',
   ];
 
-  final List<String> leaders = [
-    'Ali Raza',
-    'Ayesha Khan',
-    'Ahmed Saeed',
-    'Fatima Noor',
-    'Bilal Tariq',
-    'Hina Shah',
-    'Usman Javed',
-    'Sana Zafar',
-  ];
-
   @override
   void initState() {
     super.initState();
-    _updateTaskStatus(); // Update task statuses on initialization
+    _loadTasks();
+  }
+
+  void _loadTasks() {
+    setState(() {});
   }
 
   void _updateTaskStatus() {
@@ -94,8 +68,7 @@ class _TaskManagementScreenState extends State<TaskManagementScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(task['description']),
-                  Text(
-                      'Leader: ${task['leaderName']} - Team: ${task['teamName']}'),
+                  Text('Team: ${task['teamName']}'),
                 ],
               ),
               trailing: Chip(
@@ -135,14 +108,13 @@ class _TaskManagementScreenState extends State<TaskManagementScreen> {
     final taskNameController = TextEditingController();
     final taskDetailController = TextEditingController();
     String? selectedTeam;
-    String? selectedLeader;
     DateTime selectedDate = DateTime.now();
 
     showDialog(
       context: context,
       builder: (context) {
         return StatefulBuilder(
-          builder: (context, setState) {
+          builder: (context, setStateDialog) {
             return AlertDialog(
               title: Text('Create New Task'),
               content: SingleChildScrollView(
@@ -165,18 +137,7 @@ class _TaskManagementScreenState extends State<TaskManagementScreen> {
                         );
                       }).toList(),
                       onChanged: (value) =>
-                          setState(() => selectedTeam = value),
-                    ),
-                    DropdownButtonFormField<String>(
-                      decoration: InputDecoration(labelText: 'Select Leader'),
-                      items: leaders.map((leader) {
-                        return DropdownMenuItem(
-                          value: leader,
-                          child: Text(leader),
-                        );
-                      }).toList(),
-                      onChanged: (value) =>
-                          setState(() => selectedLeader = value),
+                          setStateDialog(() => selectedTeam = value),
                     ),
                     SizedBox(height: 10),
                     ListTile(
@@ -191,7 +152,7 @@ class _TaskManagementScreenState extends State<TaskManagementScreen> {
                           lastDate: DateTime(2101),
                         );
                         if (picked != null) {
-                          setState(() {
+                          setStateDialog(() {
                             selectedDate = picked;
                           });
                         }
@@ -206,23 +167,47 @@ class _TaskManagementScreenState extends State<TaskManagementScreen> {
                   child: Text('Cancel'),
                 ),
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (taskNameController.text.isNotEmpty &&
                         taskDetailController.text.isNotEmpty &&
-                        selectedTeam != null &&
-                        selectedLeader != null) {
+                        selectedTeam != null) {
+                      final currentUser = FirebaseAuth.instance.currentUser;
+
+                      if (currentUser == null) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('User not logged in.')),
+                        );
+                        return;
+                      }
+
+                      final userDoc = await FirebaseFirestore.instance
+                          .collection('users')
+                          .doc(currentUser.uid)
+                          .get();
+
+                      final userCity = userDoc.data()?['city'] ?? 'Unknown';
+
+                      final newTask = {
+                        'taskName': taskNameController.text,
+                        'description': taskDetailController.text,
+                        'teamName': selectedTeam!,
+                        'status': 'Pending',
+                        'deadline': selectedDate,
+                        'outputType': 'text',
+                        'output': '',
+                        'createdBy': currentUser.uid,
+                        'city': userCity,
+                        'createdAt': FieldValue.serverTimestamp(),
+                      };
+
+                      await FirebaseFirestore.instance
+                          .collection('tasks')
+                          .add(newTask);
+
                       setState(() {
-                        tasks.add({
-                          'taskName': taskNameController.text,
-                          'description': taskDetailController.text,
-                          'leaderName': selectedLeader,
-                          'teamName': selectedTeam,
-                          'status': 'Pending',
-                          'deadline': selectedDate,
-                          'outputType': null,
-                          'output': null,
-                        });
+                        tasks.add(newTask);
                       });
+
                       Navigator.pop(context);
                     }
                   },
