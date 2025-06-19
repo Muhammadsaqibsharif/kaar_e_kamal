@@ -59,6 +59,10 @@ dependencies:
   cloud_firestore: ^5.5.0
   firebase_auth: ^5.3.3
   firebase_storage: ^12.4.5
+  # dropdown_search: ^6.0.2
+  dropdown_search: ^5.0.6
+  flutter_stripe: ^11.5.0
+
 
 
 

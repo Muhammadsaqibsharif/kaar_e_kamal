@@ -124,6 +124,12 @@ class PresidentDashboardScreen extends StatelessWidget {
                       Navigator.pushNamed(
                           context, RouteNames.PresidentPostPageRoute);
                     }),
+                    _buildFeatureTile(context,
+                        title: 'Predictions',
+                        icon: Icons.batch_prediction, onTap: () {
+                      Navigator.pushNamed(
+                          context, RouteNames.PredictionsScreenRoute);
+                    }),
                   ],
                 ),
               ),

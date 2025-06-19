@@ -11,7 +11,8 @@ class ChatbotInteractionScreen extends StatefulWidget {
 class _ChatbotInteractionScreenState extends State<ChatbotInteractionScreen> {
   final TextEditingController _controller = TextEditingController();
   final ScrollController _scrollController = ScrollController();
-  final String apiUrl = 'http://192.168.43.7:8000/ask';
+  // final String apiUrl = 'http://192.168.43.7:8000/ask';
+  final String apiUrl = 'http://192.168.0.106:8001/ask';
 
   List<Map<String, String>> chatHistory = [
     {"role": "assistant", "content": "Hello! How can I assist you today?"},

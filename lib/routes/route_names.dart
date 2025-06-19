@@ -65,6 +65,8 @@ class RouteNames {
       '/MaintainDocumentationScreen';
   static const String ComplianceScreen = '/ComplianceScreen';
   static const String PresidentPostPageRoute = '/PresidentPostPage';
+  static const String PredictionsScreenRoute = '/predictions';
+
   
 
 
