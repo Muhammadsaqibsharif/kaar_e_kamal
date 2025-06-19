@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:kaar_e_kamal/api/payment/payment.dart';
 import 'package:kaar_e_kamal/routes/route_names.dart';
 import 'package:kaar_e_kamal/screens/drawer/mainDrawer.dart';
 import 'package:kaar_e_kamal/screens/navbar/navbar.dart';
@@ -171,6 +172,13 @@ class UserHomeScreen2 extends StatelessWidget {
                       icon: Icons.volunteer_activism, onTap: () {
                     Navigator.pushNamed(
                         context, RouteNames.BecomeVolunteerScreen);
+                  }),
+                  _buildFeatureTile(context,
+                      title: 'Testing Payment', icon: Icons.payment, onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => PaymentPage()),
+                    );
                   }),
                 ],
               ),

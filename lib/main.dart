@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:kaar_e_kamal/api/payment/const.dart';
 // Local imports
 import 'core/theme/app_theme.dart';
 import 'core/utils/shared_prefs.dart';
@@ -8,6 +10,9 @@ import 'routes/route_names.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  //setup Stripe
+  await _setup();
 
   // Initialize SharedPreferences
   await SharedPrefs.init();
@@ -18,6 +23,12 @@ void main() async {
 
   // Run the app
   runApp(MyApp(isDarkMode: isDarkMode));
+}
+
+Future<void> _setup() async {
+  // WidgetsFlutterBinding.ensureInitialized();
+  Stripe.publishableKey = stripePublishableKey;
+  await Stripe.instance.applySettings();
 }
 
 class MyApp extends StatefulWidget {
