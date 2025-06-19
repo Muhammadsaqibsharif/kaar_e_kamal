@@ -59,6 +59,12 @@ class PresidentDashboardScreen extends StatelessWidget {
                   mainAxisSpacing: 12.0,
                   children: [
                     _buildFeatureTile(context,
+                        title: 'Predictions',
+                        icon: Icons.batch_prediction, onTap: () {
+                      Navigator.pushNamed(
+                          context, RouteNames.PredictionsScreenRoute);
+                    }),
+                    _buildFeatureTile(context,
                         title: 'Team Management',
                         icon: Icons.group_add, onTap: () {
                       Navigator.pushNamed(
@@ -123,12 +129,6 @@ class PresidentDashboardScreen extends StatelessWidget {
                         title: 'Post Now', icon: Icons.post_add, onTap: () {
                       Navigator.pushNamed(
                           context, RouteNames.PresidentPostPageRoute);
-                    }),
-                    _buildFeatureTile(context,
-                        title: 'Predictions',
-                        icon: Icons.batch_prediction, onTap: () {
-                      Navigator.pushNamed(
-                          context, RouteNames.PredictionsScreenRoute);
                     }),
                   ],
                 ),

@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:kaar_e_kamal/api/payment/payment.dart';
@@ -22,13 +24,56 @@ class UserHomeScreen2 extends StatelessWidget {
         ),
         centerTitle: true,
         actions: [
-          IconButton(
-            icon: Icon(Icons.notifications, color: Colors.white),
-            onPressed: () {
-              // Navigator.pushNamed(context, RouteNames.NotificationsScreen);
-              Navigator.pushNamed(context, RouteNames.NotificationsPageRoute);
-            },
-          ),
+          FirebaseAuth.instance.currentUser == null
+              ? IconButton(
+                  icon: const Icon(Icons.notifications, color: Colors.white),
+                  onPressed: () {
+                    Navigator.pushNamed(
+                        context, RouteNames.NotificationsPageRoute);
+                  },
+                )
+              : StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance
+                      .collection('users')
+                      .doc(FirebaseAuth.instance.currentUser!.uid)
+                      .collection('user_notifications')
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    bool hasUnread = false;
+
+                    if (snapshot.hasData) {
+                      for (var doc in snapshot.data!.docs) {
+                        final data = doc.data() as Map<String, dynamic>;
+                        if (data['isRead'] == false || data['isRead'] == null) {
+                          hasUnread = true;
+                          break;
+                        }
+                      }
+                    }
+
+                    return Stack(
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.notifications,
+                              color: Colors.white),
+                          onPressed: () {
+                            Navigator.pushNamed(
+                                context, RouteNames.NotificationsPageRoute);
+                          },
+                        ),
+                        if (hasUnread)
+                          const Positioned(
+                            right: 8,
+                            top: 8,
+                            child: CircleAvatar(
+                              radius: 6,
+                              backgroundColor: Colors.red,
+                            ),
+                          ),
+                      ],
+                    );
+                  },
+                ),
         ],
       ),
       body: SingleChildScrollView(
@@ -173,13 +218,13 @@ class UserHomeScreen2 extends StatelessWidget {
                     Navigator.pushNamed(
                         context, RouteNames.BecomeVolunteerScreen);
                   }),
-                  _buildFeatureTile(context,
-                      title: 'Testing Payment', icon: Icons.payment, onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => PaymentPage()),
-                    );
-                  }),
+                  // _buildFeatureTile(context,
+                  //     title: 'Testing Payment', icon: Icons.payment, onTap: () {
+                  //   Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(builder: (context) => PaymentPage()),
+                  //   );
+                  // }),
                 ],
               ),
             ),
