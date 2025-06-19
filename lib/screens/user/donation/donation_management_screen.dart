@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:kaar_e_kamal/api/services/stripe_service.dart';
 import '../../../widgets/user/donation/donation_list.dart';
 
 class DonationManagementScreen extends StatefulWidget {
@@ -13,53 +14,6 @@ class DonationManagementScreen extends StatefulWidget {
 
 class _DonationManagementScreenState extends State<DonationManagementScreen> {
   final TextEditingController _amountController = TextEditingController();
-  String? _selectedPaymentMethod;
-
-  Future<void> _makeDonation() async {
-    final user = FirebaseAuth.instance.currentUser;
-
-    if (user == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("You need to be logged in to donate.")),
-      );
-      return;
-    }
-
-    final amount = _amountController.text.trim();
-    if (amount.isEmpty || _selectedPaymentMethod == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content: Text("Please enter amount and select payment method.")),
-      );
-      return;
-    }
-
-    try {
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(user.uid)
-          .collection('donation_records')
-          .add({
-        'amount': amount,
-        'payment_method': _selectedPaymentMethod,
-        'date': DateTime.now(),
-      });
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Donated RS.$amount Successfully.")),
-      );
-
-      // Clear fields after donation
-      _amountController.clear();
-      setState(() {
-        _selectedPaymentMethod = null;
-      });
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error: $e")),
-      );
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +45,6 @@ class _DonationManagementScreenState extends State<DonationManagementScreen> {
                     Row(
                       children: [
                         Expanded(
-                          flex: 2,
                           child: TextField(
                             controller: _amountController,
                             keyboardType: TextInputType.number,
@@ -107,49 +60,70 @@ class _DonationManagementScreenState extends State<DonationManagementScreen> {
                             ),
                           ),
                         ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          flex: 3,
-                          child: DropdownButtonFormField<String>(
-                            value: _selectedPaymentMethod,
-                            items: const [
-                              DropdownMenuItem(
-                                value: 'Credit Card',
-                                child: Text('Credit Card'),
-                              ),
-                              DropdownMenuItem(
-                                value: 'Bank Transfer',
-                                child: Text('Bank Transfer'),
-                              ),
-                              DropdownMenuItem(
-                                value: 'Easypaisa',
-                                child: Text('Easypaisa'),
-                              ),
-                              DropdownMenuItem(
-                                value: 'JazzCash',
-                                child: Text('JazzCash'),
-                              ),
-                            ],
-                            onChanged: (value) {
-                              setState(() {
-                                _selectedPaymentMethod = value;
-                              });
-                            },
-                            decoration: InputDecoration(
-                              labelText: 'Payment Method',
-                              border: const OutlineInputBorder(),
-                              prefixIcon: Icon(Icons.payment,
-                                  color: theme.primaryColor),
-                            ),
-                          ),
-                        ),
                       ],
                     ),
                     const SizedBox(height: 16),
                     SizedBox(
                       width: constraints.maxWidth,
                       child: ElevatedButton(
-                        onPressed: _makeDonation,
+                        onPressed: () async {
+                          final user = FirebaseAuth.instance.currentUser;
+                          final amount = _amountController.text.trim();
+
+                          if (user == null) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text(
+                                      "You need to be logged in to donate.")),
+                            );
+                            return;
+                          }
+
+                          if (amount.isEmpty) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content:
+                                      Text("Please enter donation amount.")),
+                            );
+                            return;
+                          }
+
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('Processing Payment...')),
+                          );
+
+                          try {
+                            // Attempt payment
+                           
+                            await StripeService.instance.makePayment(amount);
+
+                            // If successful, store donation
+                            print("Storing donation in Firestore...");
+                            await FirebaseFirestore.instance
+                                .collection('users')
+                                .doc(user.uid)
+                                .collection('donation_records')
+                                .add({
+                              'amount': amount,
+                              'payment_method': 'Stripe',
+                              'date': DateTime.now(),
+                            });
+
+                            // Clear field & show success message
+                            _amountController.clear();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content:
+                                    Text("Donated RS.$amount Successfully."),
+                              ),
+                            );
+                          } catch (e) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('Payment failed: $e')),
+                            );
+                          }
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: theme.primaryColor,
                           foregroundColor: Colors.white,

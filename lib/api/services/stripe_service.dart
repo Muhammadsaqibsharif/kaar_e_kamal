@@ -14,21 +14,30 @@ class StripeService {
       String? paymentIntentClientSecret =
           await _createPaymentIntent(amount, "USD");
       if (paymentIntentClientSecret == null) {
-        return;
+        throw Exception('Failed to create payment intent');
       }
+
       await Stripe.instance.initPaymentSheet(
         paymentSheetParameters: SetupPaymentSheetParameters(
           paymentIntentClientSecret: paymentIntentClientSecret,
           merchantDisplayName: 'Kaar e Kamal',
         ),
       );
-      await _processPayment();
 
-      // await Stripe.instance.presentPaymentSheet();
+      await _processPayment(); // Will throw if cancelled or failed
       print('Payment successful');
     } catch (e) {
       print('Error making payment: $e');
       throw Exception('Payment failed');
+    }
+  }
+
+  Future<void> _processPayment() async {
+    try {
+      await Stripe.instance.presentPaymentSheet(); // Handles confirmation too
+    } catch (e) {
+      print("Error processing payment: $e");
+      throw Exception("Payment not completed");
     }
   }
 
@@ -49,29 +58,16 @@ class StripeService {
           }));
 
       if (response.data != null) {
-        // print(response.data);
         return response.data['client_secret'];
       }
       return null;
     } catch (e) {
       print('Error creating payment intent: $e');
-      // throw Exception('Failed to create payment intent');
-    }
-    return null;
-  }
-
-  Future<void> _processPayment() async {
-    try {
-      await Stripe.instance.presentPaymentSheet();
-      await Stripe.instance.confirmPaymentSheetPayment();
-    } catch (e) {
-      print("Error processing payment: $e");
+      return null;
     }
   }
 
   String _CalculateAmount(int amount) {
-    // Convert the amount to the smallest currency unit (e.g., cents for USD)
-    final calculatedAmount = amount * 100;
-    return calculatedAmount.toString(); // Return as a string
+    return (amount * 100).toString(); // Convert to cents
   }
 }
