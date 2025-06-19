@@ -41,7 +41,7 @@ class PresidentDashboardScreen extends StatelessWidget {
               const SizedBox(height: 16),
               const PresidentDashboardWidget(
                 cityName: 'Lahore',
-                totalUsers: 242,
+                totalUsers: 878,
                 donationPercent: 0.5, // 50% progress
                 donationsRaised: 250000,
                 targetDonation: 500000,
